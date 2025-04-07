@@ -31,3 +31,4 @@
 /Users/robertgardner/Desktop/NicheFilms/backend/NicheFilms.API/NicheFilms.API/obj/Debug/net8.0/NicheFilms.API.pdb
 /Users/robertgardner/Desktop/NicheFilms/backend/NicheFilms.API/NicheFilms.API/obj/Debug/net8.0/NicheFilms.API.genruntimeconfig.cache
 /Users/robertgardner/Desktop/NicheFilms/backend/NicheFilms.API/NicheFilms.API/obj/Debug/net8.0/ref/NicheFilms.API.dll
+/Users/robertgardner/Desktop/NicheFilms/backend/NicheFilms.API/NicheFilms.API/obj/Debug/net8.0/NicheFilms.API.sourcelink.json
