@@ -237,8 +237,9 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 1rem;
-    max-width: 1200px;
+    max-width: 600px;
     margin: 0 auto 1.5rem;
+    text-align: center;
   }
   
   .footer a {

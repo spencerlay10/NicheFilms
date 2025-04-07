@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import './Home.css';
+import Footer from '../components/Footer';
+
 
 const Home = () => {
   const movies = [
@@ -107,29 +109,8 @@ const Home = () => {
       </div>
 
       {/* Footer */}
-      <footer className="footer">
-        <div className="footer-grid">
-          {[
-            'FAQ', 'Help Center', 'Account', 'Media Center',
-            'Investor Relations', 'Jobs', 'Netflix Shop', 'Redeem Gift Cards',
-            'Buy Gift Cards', 'Ways to Watch', 'Terms of Use', 'Privacy',
-            'Cookie Preferences', 'Corporate Information', 'Contact Us', 'Ad Choices'
-          ].map((link, i) => (
-            <a key={i} href="#">{link}</a>
-          ))}
-        </div>
-        <div className="mt-6 text-center">
-          <p>
-            Questions? Call{' '}
-            <a href="tel:1-800-123-4567" className="underline">
-              1-800-123-4567
-            </a>
-          </p>
-          <button className="mt-2 px-4 py-2 border border-gray-500 rounded">
-            🌐 English
-          </button>
-        </div>
-      </footer>
+      <Footer />
+
     </div>
   );
 };
