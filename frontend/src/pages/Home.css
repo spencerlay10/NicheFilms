@@ -1,0 +1,162 @@
+/* Home.css */
+.hero {
+    background-image: url('/assets/netflix-background.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+  }
+  
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 0;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  
+  .hero h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .hero-input {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+  
+  .hero input {
+    padding: 0.75rem;
+    width: 280px;
+    border-radius: 6px;
+    border: none;
+  }
+  
+  .hero button {
+    background-color: #e50914;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .hero button:hover {
+    background-color: #f40612;
+  }
+  
+  .trending-now {
+    padding: 3rem 1rem;
+    color: white;
+  }
+  
+  .trending-now h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .trending-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  .trending-carousel img {
+    border-radius: 0.5rem;
+    width: 160px;
+    height: 240px;
+    object-fit: cover;
+  }
+  
+  .features {
+    background-color: #111;
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .feature-card {
+    background-color: #222;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  .faq {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .faq-item {
+    background-color: #222;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .footer {
+    background-color: black;
+    color: #888;
+    padding: 2rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .footer a {
+    color: #888;
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  
