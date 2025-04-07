@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // ✅ added useNavigate
 import './Header.css';
 
 interface HeaderProps {
@@ -8,6 +8,12 @@ interface HeaderProps {
 
 const Header = ({ username }: HeaderProps) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate(); // ✅ used for logout routing
+
+  const handleLogout = () => {
+    // Optionally clear auth/token/etc. here
+    navigate('/'); // ✅ route to home page
+  };
 
   return (
     <header className="header">
@@ -24,7 +30,7 @@ const Header = ({ username }: HeaderProps) => {
         {isDropdownOpen && (
           <div className="dropdown-menu">
             <Link to="/account-settings">Account Settings</Link>
-            <button onClick={() => alert('Logging out...')}>Logout</button>
+            <button onClick={handleLogout}>Logout</button>
           </div>
         )}
       </div>
@@ -33,5 +39,3 @@ const Header = ({ username }: HeaderProps) => {
 };
 
 export default Header;
-
-

@@ -18,6 +18,7 @@ const ProductDetail: React.FC = () => {
   ];
 
   return (
+    
     <div style={{ padding: "40px", fontFamily: "Arial, sans-serif", color: "#fff", backgroundColor: "#000", minHeight: "100vh" }}>
       {/* Main Movie Section */}
       <div style={{ display: "flex", marginBottom: "50px" }}>
