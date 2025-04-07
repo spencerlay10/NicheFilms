@@ -1,15 +1,81 @@
-/* Home.css */
-.hero {
+/* Prevent anything from overflowing horizontally */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body, html {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+/* General Page Styling */
+.home {
+    background-color: black;
+    color: white;
+    width: 100vw;
+    overflow-x: hidden;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  
+  /* Top Nav */
+  
+ 
+  .top-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 50;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  
+  
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #e50914;
+    letter-spacing: 1px;
+  }
+  
+  .sign-in-btn {
+    padding: 0.5rem 1.2rem;
+    background-color: white;
+    color: black;
+    border-radius: 9999px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  
+  .sign-in-btn:hover {
+    background-color: #e5e5e5;
+  }
+  
+  /* Hero Section */
+  .hero {
+    width: 100vw;
+    min-height: 100vh;
     background-image: url('/assets/netflix-background.jpg');
     background-size: cover;
     background-position: center;
-    position: relative;
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: white;
+    position: relative;
   }
   
   .hero::before {
@@ -24,6 +90,7 @@
     position: relative;
     z-index: 1;
     max-width: 700px;
+    padding: 0 1rem;
   }
   
   .hero h1 {
@@ -73,9 +140,41 @@
     background-color: #f40612;
   }
   
+  /* Features Section */
+  .features {
+    width: 100vw;
+    background-color: #111;
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  
+  .features h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .feature-card {
+    background-color: #222;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  /* Trending Now */
   .trending-now {
     padding: 3rem 1rem;
     color: white;
+    max-width: 1200px;
+    margin: 0 auto;
   }
   
   .trending-now h2 {
@@ -98,31 +197,19 @@
     object-fit: cover;
   }
   
-  .features {
-    background-color: #111;
-    color: white;
-    padding: 2rem 1rem;
-    text-align: center;
-  }
-  
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  
-  .feature-card {
-    background-color: #222;
-    padding: 1rem;
-    border-radius: 8px;
-  }
-  
+  /* FAQ Section */
   .faq {
-    max-width: 600px;
-    margin: 0 auto;
+    background-color: black;
+    width: 100vw;
     padding: 2rem 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .faq h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
   }
   
   .faq-item {
@@ -136,27 +223,51 @@
     align-items: center;
   }
   
+  /* Footer */
   .footer {
     background-color: black;
     color: #888;
     padding: 2rem 1rem;
     font-size: 0.875rem;
+    width: 100vw;
+    text-align: center;
   }
   
   .footer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 1rem;
-    max-width: 1000px;
-    margin: 0 auto;
+    max-width: 1200px;
+    margin: 0 auto 1.5rem;
   }
   
   .footer a {
     color: #888;
     text-decoration: none;
+    display: block;
   }
   
   .footer a:hover {
     text-decoration: underline;
   }
+
+/* Get started buttons */
+  .get-started-btn {
+    display: inline-block;
+    background-color: #e50914;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    text-decoration: none; /* removes underline */
+  }
+  
+  .get-started-btn:hover {
+    background-color: #f40612;
+  }
+  
   
