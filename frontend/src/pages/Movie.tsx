@@ -81,7 +81,7 @@ const Movie: React.FC = () => {
   const [rowsVisible, setRowsVisible] = useState(1);
   const [animatedRows, setAnimatedRows] = useState<number[]>([]);
   const navigate = useNavigate();
-  const moviesPerRow = 5;
+  const moviesPerRow = 6;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -170,7 +170,9 @@ const Movie: React.FC = () => {
               className={animatedRows.includes(rowIndex) ? "fade-in" : ""}
               style={{
                 display: "flex",
-                gap: "16px",
+                gap: "20px",
+                flexWrap: "wrap",
+                justifyContent: "flex-start",
                 marginBottom: "20px",
               }}
             >
@@ -179,14 +181,15 @@ const Movie: React.FC = () => {
                   key={movie.id}
                   onClick={() => navigate("/productDetail")}
                   style={{
-                    width: "150px",
-                    height: "220px",
+                    width: "200px",
+                    height: "300px",
                     backgroundImage: `url(${movie.img})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    borderRadius: "6px",
+                    borderRadius: "8px",
                     position: "relative",
                     cursor: "pointer",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.4)",
                   }}
                 >
                   <div
@@ -196,10 +199,10 @@ const Movie: React.FC = () => {
                       width: "100%",
                       background: "rgba(0,0,0,0.6)",
                       color: "#fff",
-                      fontSize: "0.75rem",
-                      padding: "4px",
-                      borderBottomLeftRadius: "6px",
-                      borderBottomRightRadius: "6px",
+                      fontSize: "0.8rem",
+                      padding: "6px",
+                      borderBottomLeftRadius: "8px",
+                      borderBottomRightRadius: "8px",
                       textAlign: "center",
                     }}
                   >
