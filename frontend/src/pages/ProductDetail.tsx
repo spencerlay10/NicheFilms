@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import AuthorizeView from "../components/AuthorizeView";
 
 const ProductDetail: React.FC = () => {
-  const [rating, setRating] = useState(0);       // Current selected rating
-  const [hover, setHover] = useState(0);         // Star being hovered
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
 
   const mainMovie = {
     title: "The Great Adventure",
@@ -22,7 +23,7 @@ const ProductDetail: React.FC = () => {
   ];
 
   return (
-    <>
+    <AuthorizeView>
       <Header username="Rex" />
 
       <div
@@ -80,7 +81,7 @@ const ProductDetail: React.FC = () => {
         </div>
 
         {/* Recommended Section */}
-        <h2 style={{ marginBottom: "20px" }}>Recommended for You</h2>
+        <h2 style={{ marginBottom: "20px" }}>Recommended Movies</h2>
         <div style={{ display: "flex", gap: "20px", overflowX: "auto" }}>
           {recommended.map((movie, index) => (
             <div key={index} style={{ textAlign: "center" }}>
@@ -101,7 +102,7 @@ const ProductDetail: React.FC = () => {
 
         <Footer />
       </div>
-    </>
+    </AuthorizeView>
   );
 };
 

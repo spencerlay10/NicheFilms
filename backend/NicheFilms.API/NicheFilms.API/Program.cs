@@ -32,6 +32,15 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.Name = ".AspNetCore.Identity.Application";
+    options.LoginPath = "/login";
+    options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+});
+
 
 builder.Services.AddCors(options =>
 {
