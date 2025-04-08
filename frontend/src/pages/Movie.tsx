@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import AuthorizeView from "../components/AuthorizeView";
+// import AuthorizeView from "../components/AuthorizeView";
 
 // Dummy data: 40 movies
 const dummyMovies = Array.from({ length: 40 }, (_, i) => ({
   id: i + 1,
   title: `Movie ${i + 1}`,
-  img: `https://via.placeholder.com/300x450?text=Movie+${i + 1}`,
+  img: "https://nichefilmposters.blob.core.windows.net/posters/default.jpg",
 }));
 
 const MovieRow = ({
@@ -86,7 +86,7 @@ const Movie: React.FC = () => {
   const [rowsVisible, setRowsVisible] = useState(1);
   const [animatedRows, setAnimatedRows] = useState<number[]>([]);
   const navigate = useNavigate();
-  const moviesPerRow = 6;
+  const moviesPerRow = 5;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -111,7 +111,7 @@ const Movie: React.FC = () => {
   }, [animatedRows]);
 
   return (
-    <AuthorizeView>
+    
       <div
         style={{
           backgroundColor: "#141414",
@@ -216,7 +216,7 @@ const Movie: React.FC = () => {
 
         <Footer />
       </div>
-    </AuthorizeView>
+    
   );
 };
 
