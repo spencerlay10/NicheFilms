@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Logout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -15,13 +16,19 @@ const Logout = ({ children }: { children: React.ReactNode }) => {
         },
       });
 
+      // Regardless of success/failure, we want to route the user back to login
       if (response.ok) {
-        navigate('/login');
+        // Optional: Clear frontend auth state here if you have context/state
+        // Example: setAuthUser(null)
+
+        navigate('/login', { replace: true }); // ensure clean history stack
       } else {
         console.error('Logout failed:', response.status);
+        navigate('/login', { replace: true }); // Still route back
       }
     } catch (error) {
       console.error('Logout error:', error);
+      navigate('/login', { replace: true });
     }
   };
 

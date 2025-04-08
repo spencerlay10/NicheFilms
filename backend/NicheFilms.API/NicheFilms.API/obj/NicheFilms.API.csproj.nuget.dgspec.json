@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sklay\\OneDrive\\IS414\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj": {}
+    "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sklay\\OneDrive\\IS414\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj": {
+    "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sklay\\OneDrive\\IS414\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj",
+        "projectUniqueName": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj",
         "projectName": "NicheFilms.API",
-        "projectPath": "C:\\Users\\sklay\\OneDrive\\IS414\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj",
-        "packagesPath": "C:\\Users\\sklay\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sklay\\OneDrive\\IS414\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\obj\\",
+        "projectPath": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj",
+        "packagesPath": "C:\\Users\\trexo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\sklay\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\trexo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -43,8 +43,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -106,7 +105,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.407/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
