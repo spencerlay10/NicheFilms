@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NicheFilms.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f79f29082d71ca7c9a994cab88de3e5c34303a12")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f500a8a71d6f2ae0c307cd5317f67cb113f8f105")]
 [assembly: System.Reflection.AssemblyProductAttribute("NicheFilms.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NicheFilms.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
