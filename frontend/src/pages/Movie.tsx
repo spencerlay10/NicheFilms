@@ -140,16 +140,10 @@ const Movie: React.FC = () => {
 
         <Header username="Rex" />
 
-        <MovieRow title="For You" movies={dummyMovies.slice(0, 5)} cardSize="large" />
-        <MovieRow title="Previously Watched" movies={dummyMovies.slice(5, 12)} cardSize="small" />
-        {Array.from({ length: 5 }).map((_, i) => (
-          <MovieRow
-            key={i}
-            title={`Recommended Row ${i + 1}`}
-            movies={dummyMovies.slice(i * 5 + 12, i * 5 + 17)}
-            cardSize="small"
-          />
-        ))}
+      <MovieRow title="For You" movies={dummyMovies.slice(0, 5)} cardSize="large" />
+      <MovieRow title="Movies We Think You'll Like" movies={dummyMovies.slice(5, 11)} cardSize="small" />
+      <MovieRow title="Shows We Think You'll Like" movies={dummyMovies.slice(11, 17)} cardSize="small" />
+      <MovieRow title="Niche Movies You'll Love" movies={dummyMovies.slice(17, 23)} cardSize="small" />
 
         {/* Filter + All Movies */}
         <div style={{ padding: "20px" }}>
@@ -163,12 +157,11 @@ const Movie: React.FC = () => {
             </select>
           </div>
 
-          {/* Infinite rows with fade-in class */}
-          {Array.from({ length: rowsVisible }).map((_, rowIndex) => {
-            const rowMovies = dummyMovies.slice(
-              rowIndex * moviesPerRow,
-              (rowIndex + 1) * moviesPerRow
-            );
+        {Array.from({ length: rowsVisible }).map((_, rowIndex) => {
+          const rowMovies = dummyMovies.slice(
+            rowIndex * moviesPerRow,
+            (rowIndex + 1) * moviesPerRow
+          );
 
             return (
               <div
