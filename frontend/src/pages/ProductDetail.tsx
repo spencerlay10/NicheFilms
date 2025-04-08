@@ -80,7 +80,7 @@ const ProductDetail: React.FC = () => {
         </div>
 
         {/* Recommended Section */}
-        <h2 style={{ marginBottom: "20px" }}>Recommended for You</h2>
+        <h2 style={{ marginBottom: "20px" }}>Recommended Movies</h2>
         <div style={{ display: "flex", gap: "20px", overflowX: "auto" }}>
           {recommended.map((movie, index) => (
             <div key={index} style={{ textAlign: "center" }}>
