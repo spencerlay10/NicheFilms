@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/Users/robertgardner/Desktop/NicheFilms/backend/NicheFilms.API/NicheFilms.API/NicheFilms.API.csproj": {}
+    "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj": {}
   },
   "projects": {
-    "/Users/robertgardner/Desktop/NicheFilms/backend/NicheFilms.API/NicheFilms.API/NicheFilms.API.csproj": {
+    "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/robertgardner/Desktop/NicheFilms/backend/NicheFilms.API/NicheFilms.API/NicheFilms.API.csproj",
+        "projectUniqueName": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj",
         "projectName": "NicheFilms.API",
-        "projectPath": "/Users/robertgardner/Desktop/NicheFilms/backend/NicheFilms.API/NicheFilms.API/NicheFilms.API.csproj",
-        "packagesPath": "/Users/robertgardner/.nuget/packages/",
-        "outputPath": "/Users/robertgardner/Desktop/NicheFilms/backend/NicheFilms.API/NicheFilms.API/obj/",
+        "projectPath": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\NicheFilms.API.csproj",
+        "packagesPath": "C:\\Users\\trexo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\INTEX_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/robertgardner/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\trexo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,9 +49,37 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.3.1, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.14, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.14, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.14, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.14, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.7, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -71,7 +105,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.406/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.407/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
