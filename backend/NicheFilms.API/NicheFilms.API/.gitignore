@@ -12,3 +12,4 @@ obj/
 *.log
 *.tlog
 **/AssemblyInfo.cs
+appsettings.json
