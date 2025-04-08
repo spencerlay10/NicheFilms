@@ -43,5 +43,7 @@ export interface Movie {
     thrillers: boolean;
     genres: string;
     posterUrl: string;
+    averageRating: number;
+    ratingCount: number;
   }
   

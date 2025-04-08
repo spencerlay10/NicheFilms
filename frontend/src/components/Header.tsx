@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // ✅ added useNavigate
 import './Header.css';
 import Logout from './Logout';
+import logo from '../assets/CNICHE.png'; // ✅ added logo import
 
 interface HeaderProps {
   username: string;
@@ -18,7 +19,7 @@ const Header = ({ username }: HeaderProps) => {
 
   return (
     <header className="header">
-      <Link to="/movies" className="logo">CINENICHE</Link>
+      <Link to="/movies" className="logo"><img src={logo} alt="App Logo" className="logo-image" /></Link>
 
       <div
         className="account-section"

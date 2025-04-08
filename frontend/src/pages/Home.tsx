@@ -1,19 +1,19 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 import Footer from '../components/Footer';
 
+// Define the Movie interface based on backend response
+interface Movie {
+  showId: string;
+  title: string;
+  posterUrl: string;
+  averageRating: number;
+  ratingCount: number;
+}
 
 const Home = () => {
-  const movies = [
-    { id: 1, title: 'Beauty in Black', image: '/assets/beauty-in-black.jpg' },
-    { id: 2, title: 'The Life List', image: '/assets/the-life-list.jpg' },
-    { id: 3, title: 'Devil May Cry', image: '/assets/devil-may-cry.jpg' },
-    { id: 4, title: 'Adolescence', image: '/assets/adolescence.jpg' },
-    { id: 5, title: 'The Electric State', image: '/assets/the-electric-state.jpg' },
-    { id: 6, title: 'Squid Game', image: '/assets/squid-game.jpg' },
-    { id: 7, title: 'The Twister', image: '/assets/the-twister.jpg' },
-    { id: 8, title: 'Counterattack', image: '/assets/counterattack.jpg' }
-  ];
+  const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
 
   const features = [
     'Cancel or switch plans anytime',
@@ -31,20 +31,30 @@ const Home = () => {
     'Is CineNiche good for kids?'
   ];
 
+  useEffect(() => {
+    const fetchTrendingMovies = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/Home/top-rated'); // Update with your real API base URL
+        if (!response.ok) throw new Error('Failed to fetch trending movies');
+        const data = await response.json();
+        setTrendingMovies(data);
+      } catch (err) {
+        console.error('Error fetching trending movies:', err);
+      }
+    };
+
+    fetchTrendingMovies();
+  }, []);
+
   return (
-    
-    
     <div className="home font-sans">
-    {/* Top Nav */}
-    <div className="top-nav">
-      <div className="logo">CINENICHE</div>
-      <div className="nav-actions">
-        {/* Optional: Language dropdown could go here */}
-        <Link to="/login" className="sign-in-btn">Sign In</Link>
+      {/* Top Nav */}
+      <div className="top-nav">
+        <div className="logo">CINENICHE</div>
+        <div className="nav-actions">
+          <Link to="/login" className="sign-in-btn">Sign In</Link>
+        </div>
       </div>
-    </div>
-    
-    
 
       {/* Hero Section */}
       <div className="hero">
@@ -55,9 +65,8 @@ const Home = () => {
           <div className="hero-input">
             <input type="email" placeholder="Email address" />
             <Link to="/createAccount" className="get-started-btn">
-                Get Started →
+              Get Started →
             </Link>
-
           </div>
         </div>
       </div>
@@ -67,9 +76,7 @@ const Home = () => {
         <h2>More Reasons to Join</h2>
         <div className="features-grid">
           {features.map((text, i) => (
-            <div key={i} className="feature-card">
-              {text}
-            </div>
+            <div key={i} className="feature-card">{text}</div>
           ))}
         </div>
       </div>
@@ -78,12 +85,19 @@ const Home = () => {
       <div className="trending-now">
         <h2>Trending Now</h2>
         <div className="trending-carousel">
-          {movies.map((movie) => (
-            <div key={movie.id}>
-              <img src={movie.image} alt={movie.title} />
-              <p className="text-center mt-2">{movie.title}</p>
-            </div>
-          ))}
+          {trendingMovies.length > 0 ? (
+            trendingMovies.map((movie) => (
+              <div key={movie.showId} className="trending-item">
+                <img src={movie.posterUrl} alt={movie.title} />
+                <p className="text-center mt-2 font-semibold">{movie.title}</p>
+                <p className="text-sm text-gray-400 text-center">
+                  ⭐ {movie.averageRating.toFixed(1)} ({movie.ratingCount} ratings)
+                </p>
+              </div>
+            ))
+          ) : (
+            <p>Loading trending movies...</p>
+          )}
         </div>
       </div>
 
@@ -103,16 +117,14 @@ const Home = () => {
           <div className="hero-input">
             <input type="email" placeholder="Email address" />
             <Link to="/createAccount" className="get-started-btn">
-                Get Started →
+              Get Started →
             </Link>
-
           </div>
         </div>
       </div>
 
       {/* Footer */}
       <Footer />
-
     </div>
   );
 };
