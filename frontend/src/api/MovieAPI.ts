@@ -2,7 +2,7 @@ import { Movie } from "../types/Movie";
 
 export const fetchMovies = async (): Promise<Movie[]> => {
   try {
-    const response = await fetch("https://localhost:5000/api/Movie");
+    const response = await fetch("http://localhost:5000/api/Movie");
 
     if (!response.ok) {
       throw new Error("Failed to fetch movies");
