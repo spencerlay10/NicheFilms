@@ -46,7 +46,7 @@
   .logo {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #e50914;
+    color: #8e3bfc;
     letter-spacing: 1px;
   }
   
@@ -126,7 +126,7 @@
   }
   
   .hero button {
-    background-color: #e50914;
+    background-color: #8e3bfc;
     color: white;
     padding: 0.75rem 1.5rem;
     border: none;
@@ -137,7 +137,7 @@
   }
   
   .hero button:hover {
-    background-color: #f40612;
+    background-color: #8e3bfc;
   }
   
   /* Features Section */
@@ -255,7 +255,7 @@
 /* Get started buttons */
   .get-started-btn {
     display: inline-block;
-    background-color: #e50914;
+    background-color: #8e3bfc;
     color: white;
     padding: 0.75rem 1.5rem;
     border: none;
@@ -268,7 +268,27 @@
   }
   
   .get-started-btn:hover {
-    background-color: #f40612;
+    background-color: #ffffff;
   }
   
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    color: white;
+    padding: .5rem 2rem; /* Increased padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  }
   
+  /* Logo Styling */
+  .logo-image {
+    height: 60px; /* Increased logo size */
+    width: auto;
+    display: block;
+  }
