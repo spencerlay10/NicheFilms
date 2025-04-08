@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -61,9 +64,7 @@ const Login: React.FC = () => {
               color: "#fff",
             }}
           />
-          <span style={{ color: "#e87c03", fontSize: "0.85rem", marginBottom: "10px", display: "block" }}>
-            
-          </span>
+          <span style={{ color: "#e87c03", fontSize: "0.85rem", marginBottom: "10px", display: "block" }}></span>
           <input
             type="password"
             placeholder="Password"
@@ -100,6 +101,23 @@ const Login: React.FC = () => {
             Remember me
           </label>
         </form>
+
+        {/* Back Button */}
+        <button
+          onClick={() => navigate('/')}
+          style={{
+            marginTop: "20px",
+            width: "100%",
+            padding: "10px",
+            backgroundColor: "#444",
+            color: "#fff",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          ← Back
+        </button>
       </div>
 
       {/* Footer positioned after spacing */}
@@ -111,6 +129,5 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-
 
 

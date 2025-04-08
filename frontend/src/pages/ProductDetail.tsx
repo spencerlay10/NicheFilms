@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../components/Footer";
-import Header from "../components/Header"; // ✅ Import it
+import Header from "../components/Header";
 
 const ProductDetail: React.FC = () => {
+  const [rating, setRating] = useState(0);       // Current selected rating
+  const [hover, setHover] = useState(0);         // Star being hovered
+
   const mainMovie = {
     title: "The Great Adventure",
     description:
@@ -20,12 +23,12 @@ const ProductDetail: React.FC = () => {
 
   return (
     <>
-      <Header username="Rex" /> {/* ✅ Add Header here */}
+      <Header username="Rex" />
 
       <div
         style={{
           padding: "40px",
-          marginTop: "80px", // ✅ Make room for fixed header
+          marginTop: "80px",
           fontFamily: "Arial, sans-serif",
           color: "#fff",
           backgroundColor: "#000",
@@ -47,6 +50,32 @@ const ProductDetail: React.FC = () => {
           <div>
             <h1 style={{ marginBottom: "20px" }}>{mainMovie.title}</h1>
             <p style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>{mainMovie.description}</p>
+
+            {/* ⭐ Star Rating Section */}
+            <div style={{ marginTop: "20px" }}>
+              <strong>Rate this movie:</strong>
+              <div style={{ fontSize: "1.5rem", marginTop: "10px" }}>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    style={{
+                      cursor: "pointer",
+                      color: (hover || rating) >= star ? "#f5c518" : "#555",
+                      transition: "color 0.2s",
+                      marginRight: "5px",
+                    }}
+                    onClick={() => setRating(star)}
+                    onMouseEnter={() => setHover(star)}
+                    onMouseLeave={() => setHover(0)}
+                  >
+                    ★
+                  </span>
+                ))}
+                <span style={{ fontSize: "1rem", marginLeft: "10px" }}>
+                  {rating > 0 ? `You rated this ${rating}/5` : ""}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -69,6 +98,7 @@ const ProductDetail: React.FC = () => {
             </div>
           ))}
         </div>
+
         <Footer />
       </div>
     </>

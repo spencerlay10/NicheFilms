@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 
 const CreateAccount: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -106,13 +109,30 @@ const CreateAccount: React.FC = () => {
             Sign Up
           </button>
 
-          <div style={{ fontSize: "0.9rem" }}>
+          <div style={{ fontSize: "0.9rem", marginBottom: "10px" }}>
             Already have an account?{" "}
             <a href="/login" style={{ color: "#fff", fontWeight: "bold", textDecoration: "none" }}>
               Sign in now
             </a>
             .
           </div>
+
+          {/* Back to Home Button */}
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            style={{
+              width: "100%",
+              padding: "10px",
+              backgroundColor: "#444",
+              color: "#fff",
+              border: "1px solid #666",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            ← Back
+          </button>
         </form>
       </div>
 

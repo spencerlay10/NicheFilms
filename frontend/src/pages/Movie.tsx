@@ -1,41 +1,196 @@
-import { Link } from 'react-router-dom';
-import Footer from '../components/Footer';
-import Header from '../components/Header'; // ✅ added
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
-const Movie = () => {
-  
+// Dummy data: 40 movies
+const dummyMovies = Array.from({ length: 40 }, (_, i) => ({
+  id: i + 1,
+  title: `Movie ${i + 1}`,
+  img: `https://via.placeholder.com/300x450?text=Movie+${i + 1}`,
+}));
+
+const MovieRow = ({
+  title,
+  movies,
+  cardSize,
+}: {
+  title: string;
+  movies: typeof dummyMovies;
+  cardSize: "large" | "small";
+}) => {
+  const navigate = useNavigate();
+  const heightMap = { large: "300px", small: "160px" };
+  const widthMap = { large: "200px", small: "110px" };
+
   return (
-    <>
-      <Header username="Rex" /> {/* ✅ inserted Header for testing */}
-
-      <div className="home font-sans">
-
-
-
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    <h1>Movie Stuff</h1>
-    
-
-
-
-        {/* Footer */}
-        <Footer />
+    <div style={{ marginBottom: "40px" }}>
+      <h2 style={{ color: "#fff", marginLeft: "20px" }}>{title}</h2>
+      <div
+        style={{
+          display: "flex",
+          overflowX: "auto",
+          padding: "20px",
+          gap: "16px",
+        }}
+      >
+        {movies.map((movie) => (
+          <div
+            key={movie.id}
+            onClick={() => navigate("/productDetail")}
+            style={{
+              flex: "0 0 auto",
+              width: widthMap[cardSize],
+              height: heightMap[cardSize],
+              backgroundImage: `url(${movie.img})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              borderRadius: "8px",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.4)",
+              position: "relative",
+              cursor: "pointer",
+              transition: "transform 0.2s ease-in-out",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+          >
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                width: "100%",
+                background: "rgba(0,0,0,0.6)",
+                color: "#fff",
+                fontSize: "0.75rem",
+                padding: "4px",
+                borderBottomLeftRadius: "8px",
+                borderBottomRightRadius: "8px",
+                textAlign: "center",
+              }}
+            >
+              {movie.title}
+            </div>
+          </div>
+        ))}
       </div>
-    </>
+    </div>
+  );
+};
+
+const Movie: React.FC = () => {
+  const [rowsVisible, setRowsVisible] = useState(1);
+  const navigate = useNavigate();
+  const moviesPerRow = 5;
+
+  // Scroll logic
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      if (scrollY + windowHeight >= docHeight - 50) {
+        setRowsVisible((prev) => {
+          const totalRows = Math.ceil(dummyMovies.length / moviesPerRow);
+          return prev < totalRows ? prev + 1 : prev;
+        });
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div
+      style={{
+        backgroundColor: "#141414",
+        minHeight: "100vh",
+        fontFamily: "Arial, sans-serif",
+        paddingTop: "80px",
+        color: "#fff",
+      }}
+    >
+      <Header username="Rex" />
+
+      <MovieRow title="For You" movies={dummyMovies.slice(0, 5)} cardSize="large" />
+      <MovieRow title="Previously Watched" movies={dummyMovies.slice(5, 12)} cardSize="small" />
+      {Array.from({ length: 5 }).map((_, i) => (
+        <MovieRow
+          key={i}
+          title={`Recommended Row ${i + 1}`}
+          movies={dummyMovies.slice(i * 5 + 12, i * 5 + 17)}
+          cardSize="small"
+        />
+      ))}
+
+      {/* Filter + All Movies */}
+      <div style={{ padding: "20px" }}>
+        <h2>Filter All Movies</h2>
+        <div style={{ marginBottom: "20px", display: "flex", gap: "10px" }}>
+          <select style={{ padding: "8px", borderRadius: "4px" }}>
+            <option>Type</option>
+          </select>
+          <select style={{ padding: "8px", borderRadius: "4px" }}>
+            <option>Category</option>
+          </select>
+        </div>
+
+        {/* Infinite rows */}
+        {Array.from({ length: rowsVisible }).map((_, rowIndex) => {
+          const rowMovies = dummyMovies.slice(
+            rowIndex * moviesPerRow,
+            (rowIndex + 1) * moviesPerRow
+          );
+          return (
+            <div
+              key={rowIndex}
+              style={{
+                display: "flex",
+                gap: "16px",
+                marginBottom: "20px",
+              }}
+            >
+              {rowMovies.map((movie) => (
+                <div
+                  key={movie.id}
+                  onClick={() => navigate("/productDetail")}
+                  style={{
+                    width: "150px",
+                    height: "220px",
+                    backgroundImage: `url(${movie.img})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    borderRadius: "6px",
+                    position: "relative",
+                    cursor: "pointer",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      width: "100%",
+                      background: "rgba(0,0,0,0.6)",
+                      color: "#fff",
+                      fontSize: "0.75rem",
+                      padding: "4px",
+                      borderBottomLeftRadius: "6px",
+                      borderBottomRightRadius: "6px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {movie.title}
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
+
+      <Footer />
+    </div>
   );
 };
 
