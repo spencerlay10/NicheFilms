@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // ✅ added useNavigate
 import './Header.css';
 import Logout from './Logout';
-import logo from '../assets/cnLogo.png'; // ✅ added logo import
+import logo from '../assets/CNICHE.png'; // ✅ added logo import
 
 interface HeaderProps {
   username: string;
