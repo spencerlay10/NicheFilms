@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import AuthorizeView from "../components/AuthorizeView";
 
 const Admin: React.FC = () => {
   const navigate = useNavigate();
@@ -159,9 +160,34 @@ const Admin: React.FC = () => {
         </div>
       </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </AuthorizeView>
   );
+};
+
+const tdStyle = {
+  padding: "10px",
+  borderBottom: "1px solid #ddd",
+};
+
+const editBtnStyle = {
+  marginRight: "10px",
+  padding: "6px 12px",
+  backgroundColor: "#333",
+  color: "#fff",
+  border: "1px solid #555",
+  borderRadius: "4px",
+  cursor: "pointer",
+};
+
+const deleteBtnStyle = {
+  padding: "6px 12px",
+  backgroundColor: "#aa0000",
+  color: "#fff",
+  border: "1px solid #800000",
+  borderRadius: "4px",
+  cursor: "pointer",
 };
 
 const tdStyle = {
