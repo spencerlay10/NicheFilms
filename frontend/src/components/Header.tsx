@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // ✅ added useNavigate
 import './Header.css';
+import Logout from './Logout';
 
 interface HeaderProps {
   username: string;
@@ -30,7 +31,7 @@ const Header = ({ username }: HeaderProps) => {
         {isDropdownOpen && (
           <div className="dropdown-menu">
             <Link to="/account-settings">Account Settings</Link>
-            <button onClick={handleLogout}>Logout</button>
+            <Logout>Logout</Logout>
           </div>
         )}
       </div>
