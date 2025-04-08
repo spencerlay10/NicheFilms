@@ -44,6 +44,7 @@ const Admin: React.FC = () => {
                 <th style={{ borderBottom: "2px solid #444", padding: "12px", textAlign: "left" }}>Title</th>
                 <th style={{ borderBottom: "2px solid #444", padding: "12px", textAlign: "left" }}>Director</th>
                 <th style={{ borderBottom: "2px solid #444", padding: "12px", textAlign: "left" }}>Year</th>
+                <th style={{ borderBottom: "2px solid #444", padding: "12px", textAlign: "left" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -53,6 +54,35 @@ const Admin: React.FC = () => {
                   <td style={{ padding: "10px", borderBottom: "1px solid #333" }}>{movie.title}</td>
                   <td style={{ padding: "10px", borderBottom: "1px solid #333" }}>{movie.director}</td>
                   <td style={{ padding: "10px", borderBottom: "1px solid #333" }}>{movie.year}</td>
+                  <td style={{ padding: "10px", borderBottom: "1px solid #333" }}>
+                    <button
+                      style={{
+                        marginRight: "10px",
+                        padding: "6px 12px",
+                        backgroundColor: "#333",
+                        color: "#fff",
+                        border: "1px solid #555",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => alert(`Edit movie with ID ${movie.id}`)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      style={{
+                        padding: "6px 12px",
+                        backgroundColor: "#aa0000",
+                        color: "#fff",
+                        border: "1px solid #800000",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => alert(`Delete movie with ID ${movie.id}`)}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -66,3 +96,4 @@ const Admin: React.FC = () => {
 };
 
 export default Admin;
+

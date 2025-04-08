@@ -79,10 +79,10 @@ const MovieRow = ({
 
 const Movie: React.FC = () => {
   const [rowsVisible, setRowsVisible] = useState(1);
+  const [animatedRows, setAnimatedRows] = useState<number[]>([]);
   const navigate = useNavigate();
   const moviesPerRow = 5;
 
-  // Scroll logic
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -92,14 +92,18 @@ const Movie: React.FC = () => {
       if (scrollY + windowHeight >= docHeight - 50) {
         setRowsVisible((prev) => {
           const totalRows = Math.ceil(dummyMovies.length / moviesPerRow);
-          return prev < totalRows ? prev + 1 : prev;
+          const next = prev < totalRows ? prev + 1 : prev;
+          if (!animatedRows.includes(next - 1)) {
+            setAnimatedRows((prevAnimated) => [...prevAnimated, next - 1]);
+          }
+          return next;
         });
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [animatedRows]);
 
   return (
     <div
@@ -111,6 +115,23 @@ const Movie: React.FC = () => {
         color: "#fff",
       }}
     >
+      {/* Inline CSS animation definition */}
+      <style>{`
+        .fade-in {
+          animation: fadeInUp 0.5s ease-out;
+        }
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+
       <Header username="Rex" />
 
       <MovieRow title="For You" movies={dummyMovies.slice(0, 5)} cardSize="large" />
@@ -136,15 +157,17 @@ const Movie: React.FC = () => {
           </select>
         </div>
 
-        {/* Infinite rows */}
+        {/* Infinite rows with fade-in class */}
         {Array.from({ length: rowsVisible }).map((_, rowIndex) => {
           const rowMovies = dummyMovies.slice(
             rowIndex * moviesPerRow,
             (rowIndex + 1) * moviesPerRow
           );
+
           return (
             <div
               key={rowIndex}
+              className={animatedRows.includes(rowIndex) ? "fade-in" : ""}
               style={{
                 display: "flex",
                 gap: "16px",
