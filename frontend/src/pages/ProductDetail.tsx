@@ -11,7 +11,7 @@ const ProductDetail: React.FC = () => {
     title: "The Great Adventure",
     description:
       "An epic tale of friendship and courage in a world of wonder and danger. Follow our heroes as they battle through unimaginable odds.",
-    poster: "https://via.placeholder.com/220x330?text=Main+Movie",
+    poster: "https://nichefilmposters.blob.core.windows.net/posters/122.jpg",
   };
 
   const recommended = [
