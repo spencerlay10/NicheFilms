@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import AuthorizeView from "../components/AuthorizeView";
+import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView";
 
 const Admin: React.FC = () => {
   const navigate = useNavigate();
@@ -11,8 +11,11 @@ const Admin: React.FC = () => {
   const [categoryFilter, setCategoryFilter] = useState("All");
 
   const dummyMovies = [
-    // ... your movie list remains unchanged ...
-    { id: 50, title: "Ex Machina", director: "Alex Garland", year: 2014, type: "Sci-Fi", rating: "R", category: "Thriller", avgRating: 4.4, numRatings: 2800 },
+    { id: 1, title: "The Matrix", director: "The Wachowskis", year: 1999, type: "Sci-Fi", rating: "R", category: "Action", avgRating: 4.7, numRatings: 2000 },
+    { id: 2, title: "Inception", director: "Christopher Nolan", year: 2010, type: "Sci-Fi", rating: "PG-13", category: "Thriller", avgRating: 4.8, numRatings: 3000 },
+    { id: 3, title: "Parasite", director: "Bong Joon-ho", year: 2019, type: "Drama", rating: "R", category: "Thriller", avgRating: 4.6, numRatings: 2500 },
+    { id: 4, title: "The Godfather", director: "Francis Ford Coppola", year: 1972, type: "Crime", rating: "R", category: "Classic", avgRating: 4.9, numRatings: 5000 },
+    // ... Add more as needed ...
   ];
 
   const filteredMovies = dummyMovies.filter((movie) => {
@@ -26,7 +29,7 @@ const Admin: React.FC = () => {
   return (
     <AuthorizeView>
       <div style={{ backgroundColor: "#f4f4f4", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
-        <Header username="User" />
+        <Header username={<AuthorizedUser value="email" />} />
 
         <main style={{ padding: "40px", paddingTop: "100px", color: "#000" }}>
           <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#444" }}>Add/Edit Movies</h2>
