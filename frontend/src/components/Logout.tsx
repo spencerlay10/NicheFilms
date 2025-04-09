@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 const Logout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -8,24 +7,22 @@ const Logout = ({ children }: { children: React.ReactNode }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://localhost:5000/logout', {
+      const response = await fetch('https://localhost:5001/logout', {
         method: 'POST',
-        credentials: 'include',
+        credentials: 'include', // important: ensures cookies are sent
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      // Regardless of success/failure, we want to route the user back to login
+      // Whether it succeeds or not, route to login
       if (response.ok) {
-        // Optional: Clear frontend auth state here if you have context/state
-        // Example: setAuthUser(null)
-
-        navigate('/login', { replace: true }); // ensure clean history stack
+        console.log('Logged out successfully');
       } else {
-        console.error('Logout failed:', response.status);
-        navigate('/login', { replace: true }); // Still route back
+        console.warn('Logout may have failed:', response.status);
       }
+
+      navigate('/login', { replace: true });
     } catch (error) {
       console.error('Logout error:', error);
       navigate('/login', { replace: true });

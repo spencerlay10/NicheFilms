@@ -16,8 +16,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")));
 
 // Identity with minimal endpoints
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+
 
 // Required to add the Email claim for user
 builder.Services.Configure<IdentityOptions>(options =>
@@ -44,7 +47,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
+        policy.WithOrigins("http://localhost:3000", "https://localhost:5000", "https://localhost:5001")
             .AllowCredentials()
             .AllowAnyMethod()
             .AllowAnyHeader();
@@ -52,6 +55,9 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddSingleton<IEmailSender<IdentityUser>, NoOpEmailSender<IdentityUser>>();
+
 
 var app = builder.Build();
 
@@ -80,7 +86,7 @@ app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> s
 }).RequireAuthorization();
 
 // Auth check endpoint for frontend
-app.MapGet("/pingauth", (ClaimsPrincipal user) =>
+app.MapGet("/pingauth", async (ClaimsPrincipal user, UserManager<IdentityUser> userManager) =>
 {
     if (!user.Identity?.IsAuthenticated ?? false)
     {
@@ -88,7 +94,11 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
     }
 
     var email = user.FindFirstValue(ClaimTypes.Email) ?? "unknown@example.com";
-    return Results.Json(new { email });
+    var userObj = await userManager.GetUserAsync(user);
+    var roles = await userManager.GetRolesAsync(userObj);
+
+    return Results.Json(new { email, roles });
 }).RequireAuthorization();
+
 
 app.Run();

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-// import AuthorizeView from "../components/AuthorizeView";
+import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView";
 
 // Dummy data: 40 movies
 const dummyMovies = Array.from({ length: 40 }, (_, i) => ({
@@ -111,7 +111,7 @@ const Movie: React.FC = () => {
   }, [animatedRows]);
 
   return (
-    
+    <AuthorizeView>
       <div
         style={{
           backgroundColor: "#141414",
@@ -121,7 +121,6 @@ const Movie: React.FC = () => {
           color: "#fff",
         }}
       >
-        {/* Inline CSS animation definition */}
         <style>{`
           .fade-in {
             animation: fadeInUp 0.5s ease-out;
@@ -138,12 +137,12 @@ const Movie: React.FC = () => {
           }
         `}</style>
 
-        <Header username="Rex" />
+        <Header username={<AuthorizedUser value="email" />} />
 
-      <MovieRow title="For You" movies={dummyMovies.slice(0, 5)} cardSize="large" />
-      <MovieRow title="Movies We Think You'll Like" movies={dummyMovies.slice(5, 11)} cardSize="small" />
-      <MovieRow title="Shows We Think You'll Like" movies={dummyMovies.slice(11, 17)} cardSize="small" />
-      <MovieRow title="Niche Movies You'll Love" movies={dummyMovies.slice(17, 23)} cardSize="small" />
+        <MovieRow title="For You" movies={dummyMovies.slice(0, 5)} cardSize="large" />
+        <MovieRow title="Movies We Think You'll Like" movies={dummyMovies.slice(5, 11)} cardSize="small" />
+        <MovieRow title="Shows We Think You'll Like" movies={dummyMovies.slice(11, 17)} cardSize="small" />
+        <MovieRow title="Niche Movies You'll Love" movies={dummyMovies.slice(17, 23)} cardSize="small" />
 
         {/* Filter + All Movies */}
         <div style={{ padding: "20px" }}>
@@ -157,11 +156,11 @@ const Movie: React.FC = () => {
             </select>
           </div>
 
-        {Array.from({ length: rowsVisible }).map((_, rowIndex) => {
-          const rowMovies = dummyMovies.slice(
-            rowIndex * moviesPerRow,
-            (rowIndex + 1) * moviesPerRow
-          );
+          {Array.from({ length: rowsVisible }).map((_, rowIndex) => {
+            const rowMovies = dummyMovies.slice(
+              rowIndex * moviesPerRow,
+              (rowIndex + 1) * moviesPerRow
+            );
 
             return (
               <div
@@ -216,7 +215,7 @@ const Movie: React.FC = () => {
 
         <Footer />
       </div>
-    
+    </AuthorizeView>
   );
 };
 

@@ -1,8 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView";
+
+// Authorization component
+const AuthorizeView = ({ children, requiredRole }: { children: React.ReactNode; requiredRole?: string }) => {
+  const [authorized, setAuthorized] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    fetch("https://localhost:5001/pingauth", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
+      })
+      .then((data) => {
+        if (!requiredRole || data.roles?.includes(requiredRole)) {
+          setAuthorized(true);
+        } else {
+          setAuthorized(false);
+        }
+      })
+      .catch(() => setAuthorized(false));
+  }, [requiredRole]);
+
+  if (authorized === null) return <div>Loading authorization...</div>;
+  if (!authorized) return <div>You are not authorized to view this page.</div>;
+
+  return <>{children}</>;
+};
+
+// Display user email
+export const AuthorizedUser = ({ value }: { value: string }) => {
+  const [email, setEmail] = useState<string>("unknown@example.com");
+
+  useEffect(() => {
+    fetch("https://localhost:5001/pingauth", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setEmail(data.email);
+      });
+  }, []);
+
+  return <>{value === "email" ? email : ""}</>;
+};
 
 const Admin: React.FC = () => {
   const navigate = useNavigate();
@@ -15,7 +59,6 @@ const Admin: React.FC = () => {
     { id: 2, title: "Inception", director: "Christopher Nolan", year: 2010, type: "Sci-Fi", rating: "PG-13", category: "Thriller", avgRating: 4.8, numRatings: 3000 },
     { id: 3, title: "Parasite", director: "Bong Joon-ho", year: 2019, type: "Drama", rating: "R", category: "Thriller", avgRating: 4.6, numRatings: 2500 },
     { id: 4, title: "The Godfather", director: "Francis Ford Coppola", year: 1972, type: "Crime", rating: "R", category: "Classic", avgRating: 4.9, numRatings: 5000 },
-    // ... Add more as needed ...
   ];
 
   const filteredMovies = dummyMovies.filter((movie) => {
@@ -27,14 +70,13 @@ const Admin: React.FC = () => {
   const uniqueCategories = ["All", ...new Set(dummyMovies.map((m) => m.category))];
 
   return (
-    <AuthorizeView>
+    <AuthorizeView requiredRole="Administrator">
       <div style={{ backgroundColor: "#f4f4f4", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
         <Header username={<AuthorizedUser value="email" />} />
 
         <main style={{ padding: "40px", paddingTop: "100px", color: "#000" }}>
           <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#444" }}>Add/Edit Movies</h2>
 
-          {/* Controls */}
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
             <input
               type="text"
@@ -69,21 +111,18 @@ const Admin: React.FC = () => {
             </button>
           </div>
 
-          {/* Table */}
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", backgroundColor: "#fff" }}>
               <thead>
                 <tr>
-                  {["ID", "Title", "Year", "Director", "Type", "Rating", "Category(s)", "Avg Rating", "# of Ratings", "Actions"].map(
-                    (header) => (
-                      <th
-                        key={header}
-                        style={{ borderBottom: "2px solid #ccc", padding: "12px", textAlign: "left", backgroundColor: "#eee" }}
-                      >
-                        {header}
-                      </th>
-                    )
-                  )}
+                  {["ID", "Title", "Year", "Director", "Type", "Rating", "Category(s)", "Avg Rating", "# of Ratings", "Actions"].map((header) => (
+                    <th
+                      key={header}
+                      style={{ borderBottom: "2px solid #ccc", padding: "12px", textAlign: "left", backgroundColor: "#eee" }}
+                    >
+                      {header}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
@@ -99,12 +138,8 @@ const Admin: React.FC = () => {
                     <td style={tdStyle}>{movie.avgRating}</td>
                     <td style={tdStyle}>{movie.numRatings}</td>
                     <td style={tdStyle}>
-                      <button style={editBtnStyle} onClick={() => alert(`Edit movie with ID ${movie.id}`)}>
-                        Edit
-                      </button>
-                      <button style={deleteBtnStyle} onClick={() => alert(`Delete movie with ID ${movie.id}`)}>
-                        Delete
-                      </button>
+                      <button style={editBtnStyle} onClick={() => alert(`Edit movie with ID ${movie.id}`)}>Edit</button>
+                      <button style={deleteBtnStyle} onClick={() => alert(`Delete movie with ID ${movie.id}`)}>Delete</button>
                     </td>
                   </tr>
                 ))}

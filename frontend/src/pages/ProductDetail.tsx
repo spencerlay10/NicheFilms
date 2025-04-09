@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import AuthorizeView from "../components/AuthorizeView";
+import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView";
 
 const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState(0);
@@ -24,8 +24,6 @@ const ProductDetail: React.FC = () => {
 
   return (
     <AuthorizeView>
-      <Header username="Rex" />
-
       <div
         style={{
           padding: "40px",
@@ -36,6 +34,8 @@ const ProductDetail: React.FC = () => {
           minHeight: "100vh",
         }}
       >
+        <Header username={<AuthorizedUser value="email" />} />
+
         {/* Main Movie Section */}
         <div style={{ display: "flex", marginBottom: "50px" }}>
           <img
