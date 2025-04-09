@@ -13,17 +13,38 @@ const Movie: React.FC = () => {
   const numericUserId = parseInt(userId || "1");
 
   const [movies, setMovies] = useState<MovieType[]>([]);
+  const [skip, setSkip] = useState(0);
+  const take = 100;
+
   const [recs, setRecs] = useState<RecommenderRow | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [rowsVisible, setRowsVisible] = useState(1);
   const [animatedRows, setAnimatedRows] = useState<number[]>([]);
+  const [hasMoreMovies, setHasMoreMovies] = useState(true);
+
   const navigate = useNavigate();
   const moviesPerRow = 5;
 
+  const loadMoreMovies = () => {
+    if (!hasMoreMovies) return;
+
+    fetchMovies(skip, take)
+      .then((newMovies) => {
+        if (newMovies.length === 0) {
+          setHasMoreMovies(false);
+          return;
+        }
+        setMovies((prev) => [...prev, ...newMovies]);
+        setSkip((prev) => prev + take);
+      })
+      .catch((err) => {
+        console.error("Failed to load movies:", err);
+        setHasMoreMovies(false);
+      });
+  };
+
   useEffect(() => {
-    fetchMovies()
-      .then((data) => setMovies(data || []))
-      .catch((err) => console.error("Failed to load movies:", err));
+    loadMoreMovies(); // load initial chunk
 
     fetchRecommenderRows(numericUserId)
       .then(setRecs)
@@ -50,9 +71,10 @@ const Movie: React.FC = () => {
       const docHeight = document.documentElement.scrollHeight;
 
       if (scrollY + windowHeight >= docHeight - 50) {
+        loadMoreMovies();
         setRowsVisible((prev) => {
           const totalRows = Math.ceil(filteredMovies.length / moviesPerRow);
-          const next = prev < totalRows ? prev + 1 : prev;
+          const next = prev + 1;
           if (!animatedRows.includes(next - 1)) {
             setAnimatedRows((prevAnimated) => [...prevAnimated, next - 1]);
           }
@@ -63,7 +85,7 @@ const Movie: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [animatedRows, filteredMovies]);
+  }, [animatedRows, filteredMovies, hasMoreMovies]);
 
   return (
     <div
@@ -105,7 +127,7 @@ const Movie: React.FC = () => {
       {recs && (
         <>
           <RecommenderRows
-          title="For You"
+            title="For You"
             showIds={extractIds(
               "rec1", "rec2", "rec3", "rec4", "rec5",
               "rec6", "rec7", "rec8", "rec9", "rec10",
@@ -114,8 +136,7 @@ const Movie: React.FC = () => {
             )}
             movies={movies}
             cardSize="large"
-                    />
-
+          />
           <RecommenderRows
             title="Movies We Think You'll Like"
             showIds={extractIds(
