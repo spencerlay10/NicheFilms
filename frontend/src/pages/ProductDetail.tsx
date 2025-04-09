@@ -48,7 +48,7 @@ const ProductDetail: React.FC = () => {
     return <div style={{ color: "white", padding: "40px" }}>Loading...</div>;
 
   return (
-   <AuthorizeView>
+   // <AuthorizeView>
     <>
       <Header username="Rex" />
       <div
@@ -132,7 +132,7 @@ const ProductDetail: React.FC = () => {
         <Footer />
       </div>
     </>
-   </AuthorizeView>
+   // </AuthorizeView>
   );
 };
 
