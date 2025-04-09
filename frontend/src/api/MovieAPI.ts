@@ -2,7 +2,7 @@ import { RecommenderRow } from "../types/RecommenderRows";
 import { Movie } from "../types/Movie";
 import { RatingResponse } from "../types/Rating";
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/api/api";
 
 // 📽 Fetch all movies
 export const fetchMovies = async (): Promise<Movie[]> => {
