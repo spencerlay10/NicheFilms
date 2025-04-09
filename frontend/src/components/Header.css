@@ -127,3 +127,13 @@ button:focus-visible {
 .dropdown-menu button:hover {
   background-color: #444;
 }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-container input {
+  font-size: 14px;
+}

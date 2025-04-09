@@ -1,0 +1,44 @@
+export interface RecommenderRow {
+    userId: number;
+    rec1: string | null;
+    rec2: string | null;
+    rec3: string | null;
+    rec4: string | null;
+    rec5: string | null;
+    rec6: string | null;
+    rec7: string | null;
+    rec8: string | null;
+    rec9: string | null;
+    rec10: string | null;
+    tvRec1: string | null;
+    tvRec2: string | null;
+    tvRec3: string | null;
+    tvRec4: string | null;
+    tvRec5: string | null;
+    tvRec6: string | null;
+    tvRec7: string | null;
+    tvRec8: string | null;
+    tvRec9: string | null;
+    tvRec10: string | null;
+    movieRec1: string | null;
+    movieRec2: string | null;
+    movieRec3: string | null;
+    movieRec4: string | null;
+    movieRec5: string | null;
+    movieRec6: string | null;
+    movieRec7: string | null;
+    movieRec8: string | null;
+    movieRec9: string | null;
+    movieRec10: string | null;
+    nicheRec1: string | null;
+    nicheRec2: string | null;
+    nicheRec3: string | null;
+    nicheRec4: string | null;
+    nicheRec5: string | null;
+    nicheRec6: string | null;
+    nicheRec7: string | null;
+    nicheRec8: string | null;
+    nicheRec9: string | null;
+    nicheRec10: string | null;
+  }
+  

@@ -14,7 +14,6 @@ const initialVisibleGenres = [
 const GenreFilter: React.FC<Props> = ({ selectedGenres, onChange }) => {
   const [showAll, setShowAll] = useState(false);
 
-  const visibleGenres = showAll ? GENRES : initialVisibleGenres;
   const hiddenGenres = GENRES.filter((g) => !initialVisibleGenres.includes(g));
 
   const handleToggle = (genre: string) => {
@@ -27,9 +26,9 @@ const GenreFilter: React.FC<Props> = ({ selectedGenres, onChange }) => {
 
   return (
     <div style={{ marginBottom: "20px" }}>
-      {/* Always show initial (or all if expanded) */}
+      {/* Always show initial genres */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "10px" }}>
-        {visibleGenres.map((genre) => (
+        {initialVisibleGenres.map((genre) => (
           <button
             key={genre}
             onClick={() => handleToggle(genre)}
@@ -47,7 +46,7 @@ const GenreFilter: React.FC<Props> = ({ selectedGenres, onChange }) => {
         ))}
       </div>
 
-      {/* Extra genres appear in a new line ONLY when expanded */}
+      {/* Extra genres only when expanded */}
       {showAll && (
         <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "10px" }}>
           {hiddenGenres.map((genre) => (
@@ -90,4 +89,3 @@ const GenreFilter: React.FC<Props> = ({ selectedGenres, onChange }) => {
 };
 
 export default GenreFilter;
-
