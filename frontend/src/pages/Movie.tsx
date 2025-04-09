@@ -79,6 +79,7 @@ const Movie: React.FC = () => {
         .fade-in {
           animation: fadeInUp 0.5s ease-out;
         }
+
         @keyframes fadeInUp {
           from {
             opacity: 0;
@@ -88,6 +89,14 @@ const Movie: React.FC = () => {
             opacity: 1;
             transform: translateY(0);
           }
+        }
+
+        .hover-expand {
+          transition: transform 0.2s ease-in-out;
+        }
+
+        .hover-expand:hover {
+          transform: scale(1.05);
         }
       `}</style>
 
@@ -124,7 +133,7 @@ const Movie: React.FC = () => {
             cardSize="small"
           />
           <RecommenderRows
-            title="Niche Movies You'll Love"
+            title="Niche Content You'll Love"
             showIds={extractIds(
               "nicheRec1", "nicheRec2", "nicheRec3", "nicheRec4", "nicheRec5",
               "nicheRec6", "nicheRec7", "nicheRec8", "nicheRec9", "nicheRec10"
@@ -174,6 +183,7 @@ const Movie: React.FC = () => {
                 {rowMovies.map((movie, index) => (
                   <div
                     key={index}
+                    className="hover-expand"
                     onClick={() => navigate(`/productDetail/${movie.showId}`)}
                     style={{
                       width: "200px",

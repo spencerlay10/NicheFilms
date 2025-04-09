@@ -22,12 +22,17 @@ const RecommenderRows: React.FC<Props> = ({ title, showIds, movies, cardSize }) 
   return (
     <div style={{ marginBottom: "40px" }}>
       <h2 style={{ color: "#fff", marginLeft: "20px" }}>{title}</h2>
-      <div style={{
-        display: "flex",
-        overflowX: "auto",
-        padding: "20px",
-        gap: "16px",
-      }}>
+      <div
+        style={{
+          display: "flex",
+          overflowX: "auto",
+          padding: "20px",
+          gap: "16px",
+          scrollbarWidth: "none",         // Firefox
+          msOverflowStyle: "none",        // IE/Edge
+        }}
+        className="hide-scrollbar"
+      >
         {matchedMovies.map((movie) => (
           <div
             key={movie.showId}
@@ -45,8 +50,8 @@ const RecommenderRows: React.FC<Props> = ({ title, showIds, movies, cardSize }) 
               cursor: "pointer",
               transition: "transform 0.2s ease-in-out",
             }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-            onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
             <div
               style={{
@@ -67,6 +72,13 @@ const RecommenderRows: React.FC<Props> = ({ title, showIds, movies, cardSize }) 
           </div>
         ))}
       </div>
+
+      {/* Inline style block or move to a CSS file */}
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 };
