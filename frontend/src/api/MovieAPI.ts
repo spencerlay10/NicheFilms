@@ -1,3 +1,4 @@
+import { RecommenderRow } from "../types/RecommenderRows";
 import { Movie } from "../types/Movie";
 
 export const fetchMovies = async (): Promise<Movie[]> => {
@@ -41,3 +42,18 @@ export const fetchRecommendedMovies = async (
     return [];
   }
 };
+
+export const fetchRecommenderRows = async (
+    userId: number
+  ): Promise<RecommenderRow | null> => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/recommenders/${userId}`);
+      if (!response.ok) throw new Error("Failed to fetch user recommendations");
+      const data: RecommenderRow = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching recommender rows:", error);
+      return null;
+    }
+  };
+  
