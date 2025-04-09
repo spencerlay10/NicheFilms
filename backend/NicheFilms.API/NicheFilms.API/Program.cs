@@ -15,6 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")));
 
+builder.Services.AddDbContext<NicheFilmsDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("NicheFilmsDb")));
+    
 // Identity with minimal endpoints
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()

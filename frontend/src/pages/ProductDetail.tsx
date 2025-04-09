@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView";
@@ -6,24 +7,30 @@ import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView";
 const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
+  const [mainMovie, setMainMovie] = useState<MovieType | null>(null);
+  const [recommended, setRecommended] = useState<MovieType[]>([]);
+  const { showId } = useParams<{ showId: string }>();
 
-  const mainMovie = {
-    title: "The Great Adventure",
-    description:
-      "An epic tale of friendship and courage in a world of wonder and danger. Follow our heroes as they battle through unimaginable odds.",
-    poster: "https://nichefilmposters.blob.core.windows.net/posters/122.jpg",
-  };
+  useEffect(() => {
+    if (!showId) return;
 
-  const recommended = [
-    { title: "Skyfall", poster: "https://via.placeholder.com/150x220?text=Skyfall" },
-    { title: "Inception", poster: "https://via.placeholder.com/150x220?text=Inception" },
-    { title: "Interstellar", poster: "https://via.placeholder.com/150x220?text=Interstellar" },
-    { title: "Tenet", poster: "https://via.placeholder.com/150x220?text=Tenet" },
-    { title: "The Batman", poster: "https://via.placeholder.com/150x220?text=Batman" },
-  ];
+    const loadMovieData = async () => {
+      const main = await fetchMainMovie(showId);
+      const recs = await fetchRecommendedMovies(showId);
+      setMainMovie(main);
+      setRecommended(recs);
+    };
+
+    loadMovieData();
+  }, [showId]);
+
+  if (!mainMovie)
+    return <div style={{ color: "white", padding: "40px" }}>Loading...</div>;
 
   return (
     <AuthorizeView>
+      <Header username="Rex" />
+
       <div
         style={{
           padding: "40px",
@@ -39,7 +46,7 @@ const ProductDetail: React.FC = () => {
         {/* Main Movie Section */}
         <div style={{ display: "flex", marginBottom: "50px" }}>
           <img
-            src={mainMovie.poster}
+            src={mainMovie.posterUrl}
             alt="Main Movie Poster"
             style={{
               width: "220px",
@@ -50,7 +57,9 @@ const ProductDetail: React.FC = () => {
           />
           <div>
             <h1 style={{ marginBottom: "20px" }}>{mainMovie.title}</h1>
-            <p style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>{mainMovie.description}</p>
+            <p style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>
+              {mainMovie.description}
+            </p>
 
             {/* ⭐ Star Rating Section */}
             <div style={{ marginTop: "20px" }}>
@@ -86,7 +95,7 @@ const ProductDetail: React.FC = () => {
           {recommended.map((movie, index) => (
             <div key={index} style={{ textAlign: "center" }}>
               <img
-                src={movie.poster}
+                src={movie.posterUrl}
                 alt={`${movie.title} Poster`}
                 style={{
                   width: "150px",
@@ -95,7 +104,9 @@ const ProductDetail: React.FC = () => {
                   marginBottom: "10px",
                 }}
               />
-              <div style={{ fontSize: "0.9rem", color: "#ccc" }}>{movie.title}</div>
+              <div style={{ fontSize: "0.9rem", color: "#ccc" }}>
+                {movie.title}
+              </div>
             </div>
           ))}
         </div>
