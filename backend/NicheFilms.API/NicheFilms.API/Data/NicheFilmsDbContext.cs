@@ -27,12 +27,16 @@ public partial class NicheFilmsDbContext : DbContext
                 .HasMaxLength(20)
                 .HasColumnName("show_id");
 
-            for (int i = 1; i <= 10; i++)
-            {
-                entity.Property<string>($"Rec{i}")
-                      .HasColumnType("text")
-                      .HasColumnName($"rec_{i}");
-            }
+            entity.Property(e => e.Rec1).HasColumnType("text").HasColumnName("rec_1");
+            entity.Property(e => e.Rec2).HasColumnType("text").HasColumnName("rec_2");
+            entity.Property(e => e.Rec3).HasColumnType("text").HasColumnName("rec_3");
+            entity.Property(e => e.Rec4).HasColumnType("text").HasColumnName("rec_4");
+            entity.Property(e => e.Rec5).HasColumnType("text").HasColumnName("rec_5");
+            entity.Property(e => e.Rec6).HasColumnType("text").HasColumnName("rec_6");
+            entity.Property(e => e.Rec7).HasColumnType("text").HasColumnName("rec_7");
+            entity.Property(e => e.Rec8).HasColumnType("text").HasColumnName("rec_8");
+            entity.Property(e => e.Rec9).HasColumnType("text").HasColumnName("rec_9");
+            entity.Property(e => e.Rec10).HasColumnType("text").HasColumnName("rec_10");
         });
 
         modelBuilder.Entity<MoviesRating>(entity =>
@@ -67,7 +71,7 @@ public partial class NicheFilmsDbContext : DbContext
             entity.Property(e => e.Duration).HasColumnType("text").HasColumnName("duration");
             entity.Property(e => e.Genres).HasColumnType("text").HasColumnName("genres");
 
-            // Boolean genre columns (example)
+            // Genre booleans
             entity.Property(e => e.AnimeSeriesInternationalTvShows).HasColumnName("Anime Series International TV Shows");
             entity.Property(e => e.BritishTvShowsDocuseriesInternationalTvShows).HasColumnName("British TV Shows Docuseries International TV Shows");
             entity.Property(e => e.ComediesDramasInternationalMovies).HasColumnName("Comedies Dramas International Movies");
@@ -120,18 +124,21 @@ public partial class NicheFilmsDbContext : DbContext
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            foreach (var prefix in new[] { "rec", "tv_rec", "movie_rec", "niche_rec" })
-            {
-                for (int i = 1; i <= 20; i++)
-                {
-                    entity.Property<string>($"{Capitalize(prefix)}{i}")
-                          .HasColumnType("text")
-                          .HasColumnName($"{prefix}_{i}");
-                }
-            }
+            // Rec fields
+            for (int i = 1; i <= 20; i++)
+                entity.Property<string>($"Rec{i}").HasColumnType("text").HasColumnName($"rec_{i}");
 
-            static string Capitalize(string input) =>
-                char.ToUpper(input[0]) + input.Substring(1);
+            // TvRec fields
+            for (int i = 1; i <= 20; i++)
+                entity.Property<string>($"TvRec{i}").HasColumnType("text").HasColumnName($"tv_rec_{i}");
+
+            // MovieRec fields
+            for (int i = 1; i <= 20; i++)
+                entity.Property<string>($"MovieRec{i}").HasColumnType("text").HasColumnName($"movie_rec_{i}");
+
+            // NicheRec fields
+            for (int i = 1; i <= 20; i++)
+                entity.Property<string>($"NicheRec{i}").HasColumnType("text").HasColumnName($"niche_rec_{i}");
         });
 
         OnModelCreatingPartial(modelBuilder);
@@ -139,3 +146,4 @@ public partial class NicheFilmsDbContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
+
