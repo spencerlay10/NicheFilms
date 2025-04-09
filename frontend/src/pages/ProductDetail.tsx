@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView";
+import AuthorizeView from "../components/AuthorizeView";
+import { fetchMainMovie, fetchRecommendedMovies } from "../api/MovieAPI";
+import { Movie as MovieType } from "../types/Movie";
 
 const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState(0);
@@ -29,8 +31,6 @@ const ProductDetail: React.FC = () => {
 
   return (
     <AuthorizeView>
-      <Header username="Rex" />
-
       <div
         style={{
           padding: "40px",
