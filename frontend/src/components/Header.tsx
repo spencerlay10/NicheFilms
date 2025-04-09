@@ -4,7 +4,7 @@ import './Header.css';
 import Logout from './Logout';
 import logo from '../assets/CNICHE.png';
 import { Movie } from '../types/Movie';
-import { fetchMovies } from '../api/MovieAPI';
+import { fetchUserMovies } from '../api/MovieAPI';
 
 interface HeaderProps {
   username: string;
@@ -19,7 +19,7 @@ const Header = ({ username }: HeaderProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchMovies()
+    fetchUserMovies()
       .then((data) => setAllMovies(data || []))
       .catch((err) => console.error("Error loading movie list:", err));
   }, []);

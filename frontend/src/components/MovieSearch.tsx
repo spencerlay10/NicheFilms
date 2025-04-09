@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Movie } from "../types/Movie";
-import { fetchMovies } from "../api/MovieAPI";
+import { fetchUserMovies } from "../api/MovieAPI";
 import { Search } from "lucide-react";
 
 const MovieSearch: React.FC = () => {
@@ -12,7 +12,7 @@ const MovieSearch: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchMovies().then(setMovies).catch(console.error);
+    fetchUserMovies().then(setMovies).catch(console.error);
   }, []);
 
   useEffect(() => {
