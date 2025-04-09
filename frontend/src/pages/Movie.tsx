@@ -105,14 +105,17 @@ const Movie: React.FC = () => {
       {recs && (
         <>
           <RecommenderRows
-            title="For You"
+          title="For You"
             showIds={extractIds(
               "rec1", "rec2", "rec3", "rec4", "rec5",
-              "rec6", "rec7", "rec8", "rec9", "rec10"
+              "rec6", "rec7", "rec8", "rec9", "rec10",
+              "rec11", "rec12", "rec13", "rec14", "rec15",
+              "rec16", "rec17", "rec18", "rec19", "rec20"
             )}
             movies={movies}
             cardSize="large"
-          />
+                    />
+
           <RecommenderRows
             title="Movies We Think You'll Like"
             showIds={extractIds(
