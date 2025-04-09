@@ -44,7 +44,7 @@ const Login = () => {
         throw new Error(data?.message || "Invalid email or password.");
       }
 
-      navigate(`/movies/${data.user_id}`);
+      navigate("/movies");
     } catch (error: any) {
       setError(error.message || "Error logging in.");
     }
