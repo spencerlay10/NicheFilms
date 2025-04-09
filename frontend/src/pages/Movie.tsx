@@ -13,17 +13,38 @@ const Movie: React.FC = () => {
   const numericUserId = parseInt(userId || "1");
 
   const [movies, setMovies] = useState<MovieType[]>([]);
+  const [skip, setSkip] = useState(0);
+  const take = 100;
+
   const [recs, setRecs] = useState<RecommenderRow | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [rowsVisible, setRowsVisible] = useState(1);
   const [animatedRows, setAnimatedRows] = useState<number[]>([]);
+  const [hasMoreMovies, setHasMoreMovies] = useState(true);
+
   const navigate = useNavigate();
   const moviesPerRow = 5;
 
+  const loadMoreMovies = () => {
+    if (!hasMoreMovies) return;
+
+    fetchMovies(skip, take)
+      .then((newMovies) => {
+        if (newMovies.length === 0) {
+          setHasMoreMovies(false);
+          return;
+        }
+        setMovies((prev) => [...prev, ...newMovies]);
+        setSkip((prev) => prev + take);
+      })
+      .catch((err) => {
+        console.error("Failed to load movies:", err);
+        setHasMoreMovies(false);
+      });
+  };
+
   useEffect(() => {
-    fetchMovies()
-      .then((data) => setMovies(data || []))
-      .catch((err) => console.error("Failed to load movies:", err));
+    loadMoreMovies(); // load initial chunk
 
     fetchRecommenderRows(numericUserId)
       .then(setRecs)
@@ -50,9 +71,10 @@ const Movie: React.FC = () => {
       const docHeight = document.documentElement.scrollHeight;
 
       if (scrollY + windowHeight >= docHeight - 50) {
+        loadMoreMovies();
         setRowsVisible((prev) => {
           const totalRows = Math.ceil(filteredMovies.length / moviesPerRow);
-          const next = prev < totalRows ? prev + 1 : prev;
+          const next = prev + 1;
           if (!animatedRows.includes(next - 1)) {
             setAnimatedRows((prevAnimated) => [...prevAnimated, next - 1]);
           }
@@ -63,7 +85,7 @@ const Movie: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [animatedRows, filteredMovies]);
+  }, [animatedRows, filteredMovies, hasMoreMovies]);
 
   return (
     <div
@@ -102,14 +124,15 @@ const Movie: React.FC = () => {
 
       <Header username="Rex" />
 
-      {/* ✅ Recommender Rows */}
       {recs && (
         <>
           <RecommenderRows
             title="For You"
             showIds={extractIds(
               "rec1", "rec2", "rec3", "rec4", "rec5",
-              "rec6", "rec7", "rec8", "rec9", "rec10"
+              "rec6", "rec7", "rec8", "rec9", "rec10",
+              "rec11", "rec12", "rec13", "rec14", "rec15",
+              "rec16", "rec17", "rec18", "rec19", "rec20"
             )}
             movies={movies}
             cardSize="large"
@@ -117,8 +140,7 @@ const Movie: React.FC = () => {
           <RecommenderRows
             title="Movies We Think You'll Like"
             showIds={extractIds(
-              "movieRec1", "movieRec2", "movieRec3", "movieRec4", "movieRec5",
-              "movieRec6", "movieRec7", "movieRec8", "movieRec9", "movieRec10"
+              ...Array.from({ length: 20 }, (_, i) => `movieRec${i + 1}`) as (keyof RecommenderRow)[]
             )}
             movies={movies}
             cardSize="small"
@@ -126,8 +148,7 @@ const Movie: React.FC = () => {
           <RecommenderRows
             title="Shows We Think You'll Like"
             showIds={extractIds(
-              "tvRec1", "tvRec2", "tvRec3", "tvRec4", "tvRec5",
-              "tvRec6", "tvRec7", "tvRec8", "tvRec9", "tvRec10"
+              ...Array.from({ length: 20 }, (_, i) => `tvRec${i + 1}`) as (keyof RecommenderRow)[]
             )}
             movies={movies}
             cardSize="small"
@@ -135,8 +156,7 @@ const Movie: React.FC = () => {
           <RecommenderRows
             title="Niche Content You'll Love"
             showIds={extractIds(
-              "nicheRec1", "nicheRec2", "nicheRec3", "nicheRec4", "nicheRec5",
-              "nicheRec6", "nicheRec7", "nicheRec8", "nicheRec9", "nicheRec10"
+              ...Array.from({ length: 20 }, (_, i) => `nicheRec${i + 1}`) as (keyof RecommenderRow)[]
             )}
             movies={movies}
             cardSize="small"
@@ -144,7 +164,6 @@ const Movie: React.FC = () => {
         </>
       )}
 
-      {/* ✅ Genre Filter + All Movies */}
       <div style={{ padding: "20px" }}>
         <h2>Filter by Genre</h2>
 
@@ -155,9 +174,7 @@ const Movie: React.FC = () => {
 
         <div style={{ marginTop: "30px" }}>
           {filteredMovies.length === 0 && (
-            <p
-              style={{ color: "#ccc", textAlign: "center", marginTop: "30px" }}
-            >
+            <p style={{ color: "#ccc", textAlign: "center", marginTop: "30px" }}>
               No movies match your selected genres.
             </p>
           )}
@@ -184,7 +201,7 @@ const Movie: React.FC = () => {
                   <div
                     key={index}
                     className="hover-expand"
-                    onClick={() => navigate(`/productDetail/${movie.showId}`)}
+                    onClick={() => navigate(`/productDetail/${numericUserId}/${movie.showId}`)}
                     style={{
                       width: "200px",
                       height: "300px",

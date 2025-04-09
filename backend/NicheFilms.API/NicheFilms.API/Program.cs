@@ -17,7 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDbContext<NicheFilmsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NicheFilmsDb")));
-    
+
 // Identity with minimal endpoints
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -92,6 +92,18 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
 
     var email = user.FindFirstValue(ClaimTypes.Email) ?? "unknown@example.com";
     return Results.Json(new { email });
+}).RequireAuthorization();
+
+// Get current user's ID and email after login
+app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal user) =>
+{
+    var currentUser = await userManager.GetUserAsync(user);
+    if (currentUser == null) return Results.Unauthorized();
+
+    return Results.Ok(new {
+        userId = currentUser.Id,
+        email = currentUser.Email
+    });
 }).RequireAuthorization();
 
 app.Run();
