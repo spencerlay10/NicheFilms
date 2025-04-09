@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 import Footer from '../components/Footer';
 import logo from '../assets/CNICHE.png';
+import { API_BASE_URL } from '../api/config';
 
-const API_URL = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/api";
 
 // Define the Movie interface based on backend response
 interface Movie {
@@ -37,7 +37,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTrendingMovies = async () => {
       try {
-        const response = await fetch(`${API_URL}/Home/top-rated`); // Update with your real API base URL
+        const response = await fetch(`${API_BASE_URL}/Home/top-rated`); // Update with your real API base URL
         if (!response.ok) throw new Error('Failed to fetch trending movies');
         const data = await response.json();
         setTrendingMovies(data);
