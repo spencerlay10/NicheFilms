@@ -57,6 +57,26 @@ namespace NicheFilms.API.Controllers
 
             return Ok(recommendedMovies);
         }
-    }
+
+        [HttpPut("rating/{userId}/{showId}")]
+        
+        public IActionResult UpdateMovieRating(int userId, string showId, [FromBody] MoviesRating updatedRating)
+        {
+            var existingRating = _context.MoviesRatings.Find(userId, showId);
+        
+            if (existingRating == null)
+            {
+                return NotFound("Rating not found for this user and movie.");
+            }
+        
+            existingRating.Rating = updatedRating.Rating;
+        
+            _context.MoviesRatings.Update(existingRating);
+            _context.SaveChanges();
+        
+            return Ok(existingRating);
 }
 
+        
+    }
+}

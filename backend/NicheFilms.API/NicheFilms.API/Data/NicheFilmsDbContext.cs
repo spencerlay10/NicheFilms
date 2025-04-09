@@ -55,17 +55,17 @@ public partial class NicheFilmsDbContext : DbContext
         });
 
         modelBuilder.Entity<MoviesRating>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("movies_ratings");
-
-            entity.Property(e => e.Rating).HasColumnName("rating");
-            entity.Property(e => e.ShowId)
-                .HasMaxLength(20)
-                .HasColumnName("show_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-        });
+            {
+                entity.HasKey(e => new { e.UserId, e.ShowId });
+            
+                entity.ToTable("movies_ratings");
+            
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.ShowId)
+                      .HasMaxLength(20)
+                      .HasColumnName("show_id");
+                entity.Property(e => e.Rating).HasColumnName("rating");
+            });
 
         modelBuilder.Entity<MoviesTitle>(entity =>
         {
