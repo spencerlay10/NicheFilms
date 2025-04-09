@@ -102,23 +102,24 @@ const Movie: React.FC = () => {
 
       <Header username="Rex" />
 
-      {/* ✅ Recommender Rows */}
       {recs && (
         <>
           <RecommenderRows
-            title="For You"
+          title="For You"
             showIds={extractIds(
               "rec1", "rec2", "rec3", "rec4", "rec5",
-              "rec6", "rec7", "rec8", "rec9", "rec10"
+              "rec6", "rec7", "rec8", "rec9", "rec10",
+              "rec11", "rec12", "rec13", "rec14", "rec15",
+              "rec16", "rec17", "rec18", "rec19", "rec20"
             )}
             movies={movies}
             cardSize="large"
-          />
+                    />
+
           <RecommenderRows
             title="Movies We Think You'll Like"
             showIds={extractIds(
-              "movieRec1", "movieRec2", "movieRec3", "movieRec4", "movieRec5",
-              "movieRec6", "movieRec7", "movieRec8", "movieRec9", "movieRec10"
+              ...Array.from({ length: 20 }, (_, i) => `movieRec${i + 1}`) as (keyof RecommenderRow)[]
             )}
             movies={movies}
             cardSize="small"
@@ -126,8 +127,7 @@ const Movie: React.FC = () => {
           <RecommenderRows
             title="Shows We Think You'll Like"
             showIds={extractIds(
-              "tvRec1", "tvRec2", "tvRec3", "tvRec4", "tvRec5",
-              "tvRec6", "tvRec7", "tvRec8", "tvRec9", "tvRec10"
+              ...Array.from({ length: 20 }, (_, i) => `tvRec${i + 1}`) as (keyof RecommenderRow)[]
             )}
             movies={movies}
             cardSize="small"
@@ -135,8 +135,7 @@ const Movie: React.FC = () => {
           <RecommenderRows
             title="Niche Content You'll Love"
             showIds={extractIds(
-              "nicheRec1", "nicheRec2", "nicheRec3", "nicheRec4", "nicheRec5",
-              "nicheRec6", "nicheRec7", "nicheRec8", "nicheRec9", "nicheRec10"
+              ...Array.from({ length: 20 }, (_, i) => `nicheRec${i + 1}`) as (keyof RecommenderRow)[]
             )}
             movies={movies}
             cardSize="small"
@@ -144,7 +143,6 @@ const Movie: React.FC = () => {
         </>
       )}
 
-      {/* ✅ Genre Filter + All Movies */}
       <div style={{ padding: "20px" }}>
         <h2>Filter by Genre</h2>
 
@@ -155,9 +153,7 @@ const Movie: React.FC = () => {
 
         <div style={{ marginTop: "30px" }}>
           {filteredMovies.length === 0 && (
-            <p
-              style={{ color: "#ccc", textAlign: "center", marginTop: "30px" }}
-            >
+            <p style={{ color: "#ccc", textAlign: "center", marginTop: "30px" }}>
               No movies match your selected genres.
             </p>
           )}
