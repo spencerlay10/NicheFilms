@@ -102,7 +102,6 @@ const Movie: React.FC = () => {
 
       <Header username="Rex" />
 
-      {/* ✅ Recommender Rows */}
       {recs && (
         <>
           <RecommenderRows
@@ -117,8 +116,7 @@ const Movie: React.FC = () => {
           <RecommenderRows
             title="Movies We Think You'll Like"
             showIds={extractIds(
-              "movieRec1", "movieRec2", "movieRec3", "movieRec4", "movieRec5",
-              "movieRec6", "movieRec7", "movieRec8", "movieRec9", "movieRec10"
+              ...Array.from({ length: 20 }, (_, i) => `movieRec${i + 1}`) as (keyof RecommenderRow)[]
             )}
             movies={movies}
             cardSize="small"
@@ -126,8 +124,7 @@ const Movie: React.FC = () => {
           <RecommenderRows
             title="Shows We Think You'll Like"
             showIds={extractIds(
-              "tvRec1", "tvRec2", "tvRec3", "tvRec4", "tvRec5",
-              "tvRec6", "tvRec7", "tvRec8", "tvRec9", "tvRec10"
+              ...Array.from({ length: 20 }, (_, i) => `tvRec${i + 1}`) as (keyof RecommenderRow)[]
             )}
             movies={movies}
             cardSize="small"
@@ -135,8 +132,7 @@ const Movie: React.FC = () => {
           <RecommenderRows
             title="Niche Content You'll Love"
             showIds={extractIds(
-              "nicheRec1", "nicheRec2", "nicheRec3", "nicheRec4", "nicheRec5",
-              "nicheRec6", "nicheRec7", "nicheRec8", "nicheRec9", "nicheRec10"
+              ...Array.from({ length: 20 }, (_, i) => `nicheRec${i + 1}`) as (keyof RecommenderRow)[]
             )}
             movies={movies}
             cardSize="small"
@@ -144,7 +140,6 @@ const Movie: React.FC = () => {
         </>
       )}
 
-      {/* ✅ Genre Filter + All Movies */}
       <div style={{ padding: "20px" }}>
         <h2>Filter by Genre</h2>
 
@@ -155,9 +150,7 @@ const Movie: React.FC = () => {
 
         <div style={{ marginTop: "30px" }}>
           {filteredMovies.length === 0 && (
-            <p
-              style={{ color: "#ccc", textAlign: "center", marginTop: "30px" }}
-            >
+            <p style={{ color: "#ccc", textAlign: "center", marginTop: "30px" }}>
               No movies match your selected genres.
             </p>
           )}
