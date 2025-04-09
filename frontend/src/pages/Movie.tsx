@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Movie as MovieType } from "../types/Movie";
-import { fetchMovies, fetchRecommenderRows } from "../api/MovieAPI";
 import GenreFilter from "../components/GenreFilter";
 import RecommenderRows from "../components/RecommenderRows";
 import { RecommenderRow } from "../types/RecommenderRows";
+import { fetchUserMovies } from '../api/MovieAPI';
+import { fetchRecommenderRowsForCurrentUser } from '../api/MovieAPI';
 
 const Movie: React.FC = () => {
-  const { userId } = useParams();
-  const numericUserId = parseInt(userId || "1");
 
   const [movies, setMovies] = useState<MovieType[]>([]);
   const [recs, setRecs] = useState<RecommenderRow | null>(null);
@@ -21,14 +20,14 @@ const Movie: React.FC = () => {
   const moviesPerRow = 5;
 
   useEffect(() => {
-    fetchMovies()
+    fetchUserMovies()
       .then((data) => setMovies(data || []))
       .catch((err) => console.error("Failed to load movies:", err));
-
-    fetchRecommenderRows(numericUserId)
+  
+    fetchRecommenderRowsForCurrentUser()
       .then(setRecs)
       .catch((err) => console.error("Failed to load recommendations:", err));
-  }, [numericUserId]);
+  }, []);
 
   const extractIds = (...keys: (keyof RecommenderRow)[]): string[] => {
     if (!recs) return [];
