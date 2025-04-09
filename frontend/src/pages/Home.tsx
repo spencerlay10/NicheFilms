@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 import Footer from '../components/Footer';
+import logo from '../assets/CNICHE.png';
 
 const API_URL = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/api";
 
@@ -52,7 +53,7 @@ const Home = () => {
     <div className="home font-sans">
       {/* Top Nav */}
       <div className="top-nav">
-        <div className="logo">CINENICHE</div>
+        <div className="logo"><img src={logo} alt="App Logo" className="logo-image" /></div>
         <div className="nav-actions">
           <Link to="/login" className="sign-in-btn">Sign In</Link>
         </div>
