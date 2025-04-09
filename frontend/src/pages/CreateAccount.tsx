@@ -30,7 +30,7 @@ const CreateAccount: React.FC = () => {
     } else {
       setError('');
       try {
-        const response = await fetch('https://localhost:5000/register', {
+        const response = await fetch('https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
