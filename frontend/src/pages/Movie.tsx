@@ -184,7 +184,7 @@ const Movie: React.FC = () => {
                   <div
                     key={index}
                     className="hover-expand"
-                    onClick={() => navigate(`/productDetail/${movie.showId}`)}
+                    onClick={() => navigate(`/productDetail/${numericUserId}/${movie.showId}`)}
                     style={{
                       width: "200px",
                       height: "300px",
