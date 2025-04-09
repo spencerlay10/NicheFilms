@@ -10,7 +10,7 @@ import {
   updateMovieRating,
 } from "../api/MovieAPI";
 import { Movie as MovieType } from "../types/Movie";
-import AuthorizeView from "../components/AuthorizeView";
+// import AuthorizeView from "../components/AuthorizeView";
 
 const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState(0);
