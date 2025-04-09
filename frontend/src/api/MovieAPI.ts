@@ -5,7 +5,9 @@ import { RatingResponse } from "../types/Rating";
 
 export const fetchMovies = async (): Promise<Movie[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/Movie`);
+    const response = await fetch(`${API_BASE_URL}/movie`, {
+      credentials: "include", // 👈 Must include this for auth
+    });
     if (!response.ok) throw new Error("Failed to fetch movies");
     const data: Movie[] = await response.json();
     return data;
@@ -19,7 +21,9 @@ export const fetchMovies = async (): Promise<Movie[]> => {
 export const fetchMainMovie = async (showId: string): Promise<Movie | null> => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/product/main/${showId}`
+      `${API_BASE_URL}/product/main/${showId}`, {
+        credentials: "include", // 👈 Must include this for auth
+      }
     );
     if (!response.ok) throw new Error("Failed to fetch main movie");
     const data: Movie = await response.json();
