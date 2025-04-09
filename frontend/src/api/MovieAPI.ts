@@ -2,12 +2,12 @@ import { RecommenderRow } from "../types/RecommenderRows";
 import { Movie } from "../types/Movie";
 import { RatingResponse } from "../types/Rating";
 
-const API_BASE = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/api/api";
+const API_BASE = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/api";
 
 // 📽 Fetch all movies
 export const fetchMovies = async (): Promise<Movie[]> => {
   try {
-    const response = await fetch(`${API_BASE}/Movie`, {
+    const response = await fetch(`${API_BASE}/movie`, {
       credentials: "include", // 👈 Include cookies/session
     });
     if (!response.ok) throw new Error("Failed to fetch movies");
