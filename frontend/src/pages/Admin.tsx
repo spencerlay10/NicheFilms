@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView";
+import AuthorizeView from "../components/AuthorizeView";
 
 const Admin: React.FC = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
@@ -29,7 +29,7 @@ const Admin: React.FC = () => {
   return (
     <AuthorizeView>
       <div style={{ backgroundColor: "#f4f4f4", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
-        <Header username={<AuthorizedUser value="email" />} />
+        <Header username="Spencer" />
 
         <main style={{ padding: "40px", paddingTop: "100px", color: "#000" }}>
           <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#444" }}>Add/Edit Movies</h2>

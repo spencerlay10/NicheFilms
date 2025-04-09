@@ -31,9 +31,9 @@ const Header = ({ username }: HeaderProps) => {
     setFilteredResults(filtered);
   }, [searchTerm, allMovies]);
 
-  const handleLogout = () => {
-    navigate('/');
-  };
+  // const handleLogout = () => {
+  //   navigate('/');
+  // };
 
   const handleSearchClick = () => {
     setSearchVisible(true);
