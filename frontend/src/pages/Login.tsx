@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 
+const WEB_URL = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net";
+
 const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -20,8 +22,8 @@ const Login = () => {
     }
 
     const loginUrl = rememberMe
-      ? 'http://localhost:5000/login?useCookies=true'
-      : 'http://localhost:5000/login?useSessionCookies=true';
+      ? `${WEB_URL}/login?useCookies=true`
+      : `${WEB_URL}/login?useSessionCookies=true`;
 
     try {
       const response = await fetch(loginUrl, {
