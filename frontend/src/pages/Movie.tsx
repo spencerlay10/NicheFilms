@@ -33,7 +33,7 @@ const MovieRow = ({
         {movies.map((movie, index) => (
           <div
             key={index}
-            onClick={() => navigate("/productDetail")}
+            onClick={() => navigate(`/productDetail/${movie.showId}`)}
             style={{
               flex: "0 0 auto",
               width: widthMap[cardSize],
@@ -50,9 +50,7 @@ const MovieRow = ({
             onMouseEnter={(e) =>
               (e.currentTarget.style.transform = "scale(1.05)")
             }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.transform = "scale(1)")
-            }
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
             <div
               style={{
@@ -168,9 +166,21 @@ const Movie: React.FC = () => {
 
       {/* Recommender rows (static) */}
       <MovieRow title="For You" movies={movies.slice(0, 5)} cardSize="large" />
-      <MovieRow title="Movies We Think You'll Like" movies={movies.slice(5, 11)} cardSize="small" />
-      <MovieRow title="Shows We Think You'll Like" movies={movies.slice(11, 17)} cardSize="small" />
-      <MovieRow title="Niche Movies You'll Love" movies={movies.slice(17, 23)} cardSize="small" />
+      <MovieRow
+        title="Movies We Think You'll Like"
+        movies={movies.slice(5, 11)}
+        cardSize="small"
+      />
+      <MovieRow
+        title="Shows We Think You'll Like"
+        movies={movies.slice(11, 17)}
+        cardSize="small"
+      />
+      <MovieRow
+        title="Niche Movies You'll Love"
+        movies={movies.slice(17, 23)}
+        cardSize="small"
+      />
 
       {/* Genre Filter + Filtered Movies */}
       <div style={{ padding: "20px" }}>
@@ -183,7 +193,9 @@ const Movie: React.FC = () => {
 
         <div style={{ marginTop: "30px" }}>
           {filteredMovies.length === 0 && (
-            <p style={{ color: "#ccc", textAlign: "center", marginTop: "30px" }}>
+            <p
+              style={{ color: "#ccc", textAlign: "center", marginTop: "30px" }}
+            >
               No movies match your selected genres.
             </p>
           )}
@@ -209,7 +221,7 @@ const Movie: React.FC = () => {
                 {rowMovies.map((movie, index) => (
                   <div
                     key={index}
-                    onClick={() => navigate("/productDetail")}
+                    onClick={() => navigate(`/productDetail/${movie.showId}`)}
                     style={{
                       width: "200px",
                       height: "300px",
