@@ -7,7 +7,7 @@ const Logout = ({ children }: { children: React.ReactNode }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/logout', {
+      const response = await fetch('https://testingnichemovies-backend-d0hddhcqchftczgu.eastus-01.azurewebsites.net/logout', {
         method: 'POST',
         credentials: 'include',
         headers: {

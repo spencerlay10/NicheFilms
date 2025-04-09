@@ -1,7 +1,7 @@
 import { RecommenderRow } from "../types/RecommenderRows";
 import { Movie } from "../types/Movie";
 
-const API_URL = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/api";
+const API_URL = "https://testingnichemovies-backend-d0hddhcqchftczgu.eastus-01.azurewebsites.net/api";
 
 // ✅ Fetches only movies for the logged-in user
 export const fetchUserMovies = async (): Promise<Movie[]> => {

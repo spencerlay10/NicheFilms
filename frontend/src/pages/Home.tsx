@@ -4,7 +4,7 @@ import './Home.css';
 import Footer from '../components/Footer';
 import logo from '../assets/CNICHE.png';
 
-const API_URL = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/api";
+const API_URL = "https://testingnichemovies-backend-d0hddhcqchftczgu.eastus-01.azurewebsites.net/api";
 
 // Define the Movie interface based on backend response
 interface Movie {
