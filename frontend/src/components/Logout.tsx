@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 const Logout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();

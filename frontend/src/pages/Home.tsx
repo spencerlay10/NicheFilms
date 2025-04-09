@@ -4,6 +4,8 @@ import './Home.css';
 import Footer from '../components/Footer';
 import logo from '../assets/CNICHE.png';
 
+const API_URL = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/api";
+
 // Define the Movie interface based on backend response
 interface Movie {
   showId: string;
@@ -35,7 +37,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTrendingMovies = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/Home/top-rated'); // Update with your real API base URL
+        const response = await fetch(`${API_URL}/Home/top-rated`); // Update with your real API base URL
         if (!response.ok) throw new Error('Failed to fetch trending movies');
         const data = await response.json();
         setTrendingMovies(data);
