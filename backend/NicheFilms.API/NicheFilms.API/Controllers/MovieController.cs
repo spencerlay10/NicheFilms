@@ -14,15 +14,15 @@ namespace NicheFilms.API.Controllers
             _context = context;
         }
         // GET: api/movie
-        [HttpGet]
-        public IActionResult GetAllMovies()
-        {
-            var movies = _context.MoviesTitles.ToList();
-            if (movies == null || movies.Count == 0)
+       [HttpGet]
+        public IActionResult GetAllMovies([FromQuery] int skip = 0, [FromQuery] int take = 100)
             {
-                return NotFound("No movie titles found.");
-            }
+            var movies = _context.MoviesTitles
+                .Skip(skip)
+                .Take(take)
+                .ToList();
+
             return Ok(movies);
         }
+
     }
-}

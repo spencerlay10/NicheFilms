@@ -44,7 +44,21 @@ const Login = () => {
         throw new Error(data?.message || "Invalid email or password.");
       }
 
-      navigate("/movies");
+      // ✅ Fetch current user info
+      const meResponse = await fetch(`${WEB_URL}/me`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (meResponse.ok) {
+        const user = await meResponse.json();
+        console.log("User info:", user);
+
+        const userId = user.userId;
+        navigate(`/movies/${userId}`);
+      } else {
+        throw new Error("Could not fetch user info.");
+      }
     } catch (error: any) {
       setError(error.message || "Error logging in.");
     }
