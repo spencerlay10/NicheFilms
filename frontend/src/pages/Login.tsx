@@ -129,7 +129,7 @@ const Login = () => {
             style={{
               width: '100%',
               padding: '10px',
-              backgroundColor: '#e50914',
+              backgroundColor: '#2B373B',
               color: '#fff',
               fontWeight: 'bold',
               border: 'none',
