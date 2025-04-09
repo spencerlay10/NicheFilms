@@ -14,7 +14,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net",
+      "applicationUrl": "https://testingnichemovies-backend-d0hddhcqchftczgu.eastus-01.azurewebsites.net",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -24,7 +24,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net;",
+      "applicationUrl": "https://testingnichemovies-backend-d0hddhcqchftczgu.eastus-01.azurewebsites.net;",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
