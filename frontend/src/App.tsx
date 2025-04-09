@@ -7,6 +7,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import CookieConsent from "react-cookie-consent";
+import MovieForm from "./pages/MovieForm";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/productDetail/:showId" element={<ProductDetail />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/add" element={<MovieForm />} />
+        <Route path="/admin/edit/:id" element={<MovieForm />} />
       </Routes>
 
       {/* GDPR Cookie Consent Banner */}
