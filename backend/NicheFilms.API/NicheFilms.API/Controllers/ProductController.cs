@@ -59,24 +59,29 @@ namespace NicheFilms.API.Controllers
         }
 
         [HttpPut("rating/{userId}/{showId}")]
-        
-        public IActionResult UpdateMovieRating(int userId, string showId, [FromBody] MoviesRating updatedRating)
+public IActionResult UpdateMovieRating(int userId, string showId, [FromBody] MoviesRating updatedRating)
+{
+    var existingRating = _context.MoviesRatings.Find(userId, showId);
+
+    if (existingRating == null)
+    {
+        // Create a new rating
+        var newRating = new MoviesRating
         {
-            var existingRating = _context.MoviesRatings.Find(userId, showId);
-        
-            if (existingRating == null)
-            {
-                return NotFound("Rating not found for this user and movie.");
-            }
-        
-            existingRating.Rating = updatedRating.Rating;
-        
-            _context.MoviesRatings.Update(existingRating);
-            _context.SaveChanges();
-        
-            return Ok(existingRating);
+            UserId = userId,
+            ShowId = showId,
+            Rating = updatedRating.Rating
+        };
+
+        _context.MoviesRatings.Add(newRating);
+        _context.SaveChanges();
+        return Ok(newRating);
+    }
+
+    // Update existing rating
+    existingRating.Rating = updatedRating.Rating;
+    _context.SaveChanges();
+    return Ok(existingRating);
 }
 
-        
-    }
 }
