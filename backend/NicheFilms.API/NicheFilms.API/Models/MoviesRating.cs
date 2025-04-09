@@ -10,5 +10,5 @@ public partial class MoviesRating
     [Key]
     public string ShowId { get; set; } = string.Empty;
 
-    public int Rating { get; set; }
+    public int? Rating { get; set; }
 }
