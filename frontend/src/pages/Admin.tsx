@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 // import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { API_BASE_URL } from "../api/config";
-import Header from "../components/Header";
 import Header_admin from "../components/Header_admin";
 
 interface Movie {

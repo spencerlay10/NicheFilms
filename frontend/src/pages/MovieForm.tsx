@@ -48,7 +48,7 @@ const MovieForm = () => {
     if (type === 'checkbox' && e.target instanceof HTMLInputElement) {
       setMovie((prevState) => ({
         ...prevState,
-        [name]: e.target.checked,
+        [name]: (e.target as HTMLInputElement).checked,
       }));
     } else if (type === 'select-multiple' && e.target instanceof HTMLSelectElement) {
       const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
