@@ -25,7 +25,7 @@ const Admin: React.FC = () => {
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const [totalMovies, setTotalMovies] = useState(8000); // You can replace with a real value
+  const [totalMovies, setTotalMovies] = useState(8000);
   const [goToPage, setGoToPage] = useState(1);
 
   const totalPages = Math.ceil(totalMovies / pageSize);
@@ -55,7 +55,7 @@ const Admin: React.FC = () => {
         }
         const data = await res.json();
         setMovies(data.movies);
-        setTotalMovies(data.totalMovies); // Assuming the API returns total movies count
+        setTotalMovies(data.totalMovies);
       } catch (error) {
         console.error("Fetch error:", error);
       }
@@ -90,29 +90,11 @@ const Admin: React.FC = () => {
   ].filter(Boolean);
 
   return (
-    <div
-      style={{
-        backgroundColor: "#f4f4f4",
-        minHeight: "100vh",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      {/* <Header username="Spencer" userId={numericUserId}/> */}
-
+    <div style={{ backgroundColor: "#f4f4f4", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
       <main style={{ padding: "40px", paddingTop: "100px", color: "#000" }}>
-        <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#444" }}>
-          Add/Edit Movies
-        </h2>
+        <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#444" }}>Add/Edit Movies</h2>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "20px",
-            gap: "1rem",
-            flexWrap: "wrap",
-          }}
-        >
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px", gap: "1rem", flexWrap: "wrap" }}>
           <input
             type="text"
             placeholder="Search"
@@ -121,12 +103,7 @@ const Admin: React.FC = () => {
               setSearchTerm(e.target.value);
               setPage(1);
             }}
-            style={{
-              padding: "10px",
-              width: "200px",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            style={{ padding: "10px", width: "200px", borderRadius: "4px", border: "1px solid #ccc" }}
           />
           <select
             value={categoryFilter}
@@ -134,65 +111,26 @@ const Admin: React.FC = () => {
               setCategoryFilter(e.target.value);
               setPage(1);
             }}
-            style={{
-              padding: "10px",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            style={{ padding: "10px", borderRadius: "4px", border: "1px solid #ccc" }}
           >
             {uniqueCategories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
+              <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
           <button
             onClick={() => navigate("/admin/add")}
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#007BFF",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
+            style={{ padding: "10px 20px", backgroundColor: "#007BFF", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
           >
             Add Movie
           </button>
         </div>
 
         <div style={{ overflowX: "auto" }}>
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              backgroundColor: "#fff",
-            }}
-          >
+          <table style={{ width: "100%", borderCollapse: "collapse", backgroundColor: "#fff" }}>
             <thead>
               <tr>
-                {[
-                  "Title",
-                  "Year",
-                  "Director",
-                  "Type",
-                  "Rating",
-                  "Genres",
-                  "Avg Rating",
-                  "# of Ratings",
-                  "Actions",
-                ].map((header) => (
-                  <th
-                    key={header}
-                    style={{
-                      borderBottom: "2px solid #ccc",
-                      padding: "12px",
-                      textAlign: "left",
-                      backgroundColor: "#eee",
-                    }}
-                  >
-                    {header}
-                  </th>
+                {["Title", "Year", "Director", "Type", "Rating", "Genres", "Avg Rating", "# of Ratings", "Actions"].map((header) => (
+                  <th key={header} style={{ borderBottom: "2px solid #ccc", padding: "12px", textAlign: "left", backgroundColor: "#eee" }}>{header}</th>
                 ))}
               </tr>
             </thead>
@@ -205,57 +143,33 @@ const Admin: React.FC = () => {
                   <td style={tdStyle}>{movie.type}</td>
                   <td style={tdStyle}>{movie.rating}</td>
                   <td style={tdStyle}>{movie.genres}</td>
-                  <td style={tdStyle}>
-                    {typeof movie.averageRating === "number"
-                      ? movie.averageRating.toFixed(1)
-                      : "N/A"}
-                  </td>
+                  <td style={tdStyle}>{typeof movie.averageRating === "number" ? movie.averageRating.toFixed(1) : "N/A"}</td>
                   <td style={tdStyle}>{movie.ratingCount}</td>
                   <td style={{ ...tdStyle, textAlign: "center" }}>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
-                      <button
-                      style={editBtnStyle}
-                      onClick={() => navigate(`/admin/edit/${movie.showId}`)}
-                    >
-                      Edit
-                    </button>
-                      <button
-                      style={deleteBtnStyle}
-                      onClick={() => handleDelete(movie.showId, movie.title)}
-                    >
-                      Delete
-                    </button>
+                      <button style={editBtnStyle} onClick={() => navigate(`/admin/edit/${movie.showId}`)}>Edit</button>
+                      <button style={deleteBtnStyle} onClick={() => handleDelete(movie.showId, movie.title)}>Delete</button>
                     </div>
                   </td>
-
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        <div
-          style={{
-            marginTop: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "16px",
-            flexWrap: "wrap",
-          }}
-        >
+        <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
+            style={{ ...navBtnStyle, opacity: page === 1 ? 0.5 : 1, cursor: page === 1 ? "not-allowed" : "pointer" }}
           >
             Previous
           </button>
-          <span>
-            Page {page} of {totalPages}
-          </span>
+          <span>Page {page} of {totalPages}</span>
           <button
             disabled={page === totalPages}
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            style={{ ...navBtnStyle, opacity: page === totalPages ? 0.5 : 1, cursor: page === totalPages ? "not-allowed" : "pointer" }}
           >
             Next
           </button>
@@ -268,16 +182,10 @@ const Admin: React.FC = () => {
                 setPageSize(Number(e.target.value));
                 setPage(1);
               }}
-              style={{
-                padding: "6px",
-                borderRadius: "4px",
-                border: "1px solid #ccc",
-              }}
+              style={{ padding: "6px", borderRadius: "4px", border: "1px solid #ccc" }}
             >
               {[5, 10, 25, 50].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
+                <option key={size} value={size}>{size}</option>
               ))}
             </select>
             per page
@@ -291,12 +199,7 @@ const Admin: React.FC = () => {
               max={totalPages}
               value={goToPage}
               onChange={(e) => setGoToPage(Number(e.target.value))}
-              style={{
-                width: "60px",
-                padding: "6px",
-                borderRadius: "4px",
-                border: "1px solid #ccc",
-              }}
+              style={{ width: "60px", padding: "6px", borderRadius: "4px", border: "1px solid #ccc" }}
             />
             <button
               onClick={() => {
@@ -304,20 +207,13 @@ const Admin: React.FC = () => {
                   setPage(goToPage);
                 }
               }}
-              style={{
-                padding: "6px 12px",
-                borderRadius: "4px",
-                border: "1px solid #ccc",
-                backgroundColor: "#eee",
-                cursor: "pointer",
-              }}
+              style={{ padding: "6px 12px", borderRadius: "4px", border: "1px solid #ccc", backgroundColor: "#eee", cursor: "pointer" }}
             >
               Go
             </button>
           </label>
         </div>
       </main>
-
       <Footer />
     </div>
   );
@@ -329,7 +225,6 @@ const tdStyle = {
 };
 
 const editBtnStyle = {
-  marginRight: "10px",
   padding: "6px 12px",
   backgroundColor: "#333",
   color: "#fff",
@@ -357,11 +252,6 @@ const navBtnStyle = {
   minWidth: "90px",
   opacity: 1,
   transition: "opacity 0.3s ease",
-  disabled: {
-    opacity: 0.6,
-    cursor: "not-allowed",
-  },
 };
-
 
 export default Admin;
