@@ -54,7 +54,8 @@ const Admin: React.FC = () => {
           return;
         }
         const data = await res.json();
-        setMovies(data);
+        setMovies(data.movies);
+        setTotalMovies(data.totalMovies); // Assuming the API returns total movies count
       } catch (error) {
         console.error("Fetch error:", error);
       }
@@ -89,13 +90,29 @@ const Admin: React.FC = () => {
   ].filter(Boolean);
 
   return (
-    <div style={{ backgroundColor: "#f4f4f4", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
-      <Header username="Spencer" />
+    <div
+      style={{
+        backgroundColor: "#f4f4f4",
+        minHeight: "100vh",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      {/* <Header username="Spencer" userId={numericUserId}/> */}
 
       <main style={{ padding: "40px", paddingTop: "100px", color: "#000" }}>
-        <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#444" }}>Add/Edit Movies</h2>
+        <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#444" }}>
+          Add/Edit Movies
+        </h2>
 
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px", gap: "1rem", flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "20px",
+            gap: "1rem",
+            flexWrap: "wrap",
+          }}
+        >
           <input
             type="text"
             placeholder="Search"
@@ -104,7 +121,12 @@ const Admin: React.FC = () => {
               setSearchTerm(e.target.value);
               setPage(1);
             }}
-            style={{ padding: "10px", width: "200px", borderRadius: "4px", border: "1px solid #ccc" }}
+            style={{
+              padding: "10px",
+              width: "200px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+            }}
           />
           <select
             value={categoryFilter}
@@ -112,10 +134,16 @@ const Admin: React.FC = () => {
               setCategoryFilter(e.target.value);
               setPage(1);
             }}
-            style={{ padding: "10px", borderRadius: "4px", border: "1px solid #ccc" }}
+            style={{
+              padding: "10px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+            }}
           >
             {uniqueCategories.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
             ))}
           </select>
           <button
@@ -134,13 +162,34 @@ const Admin: React.FC = () => {
         </div>
 
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", backgroundColor: "#fff" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              backgroundColor: "#fff",
+            }}
+          >
             <thead>
               <tr>
-                {["Title", "Year", "Director", "Type", "Rating", "Genres", "Avg Rating", "# of Ratings", "Actions"].map((header) => (
+                {[
+                  "Title",
+                  "Year",
+                  "Director",
+                  "Type",
+                  "Rating",
+                  "Genres",
+                  "Avg Rating",
+                  "# of Ratings",
+                  "Actions",
+                ].map((header) => (
                   <th
                     key={header}
-                    style={{ borderBottom: "2px solid #ccc", padding: "12px", textAlign: "left", backgroundColor: "#eee" }}
+                    style={{
+                      borderBottom: "2px solid #ccc",
+                      padding: "12px",
+                      textAlign: "left",
+                      backgroundColor: "#eee",
+                    }}
                   >
                     {header}
                   </th>
@@ -156,11 +205,25 @@ const Admin: React.FC = () => {
                   <td style={tdStyle}>{movie.type}</td>
                   <td style={tdStyle}>{movie.rating}</td>
                   <td style={tdStyle}>{movie.genres}</td>
-                  <td style={tdStyle}>{typeof movie.averageRating === "number" ? movie.averageRating.toFixed(1) : "N/A"}</td>
+                  <td style={tdStyle}>
+                    {typeof movie.averageRating === "number"
+                      ? movie.averageRating.toFixed(1)
+                      : "N/A"}
+                  </td>
                   <td style={tdStyle}>{movie.ratingCount}</td>
                   <td style={tdStyle}>
-                    <button style={editBtnStyle} onClick={() => navigate(`/admin/edit/${movie.showId}`)}>Edit</button>
-                    <button style={deleteBtnStyle} onClick={() => handleDelete(movie.showId, movie.title)}>Delete</button>
+                    <button
+                      style={editBtnStyle}
+                      onClick={() => navigate(`/admin/edit/${movie.showId}`)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      style={deleteBtnStyle}
+                      onClick={() => handleDelete(movie.showId, movie.title)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -168,10 +231,31 @@ const Admin: React.FC = () => {
           </table>
         </div>
 
-        <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
-          <button disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Previous</button>
-          <span>Page {page} of {totalPages}</span>
-          <button disabled={page === totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Next</button>
+        <div
+          style={{
+            marginTop: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "16px",
+            flexWrap: "wrap",
+          }}
+        >
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+          >
+            Next
+          </button>
 
           <label style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             Show:
@@ -181,10 +265,16 @@ const Admin: React.FC = () => {
                 setPageSize(Number(e.target.value));
                 setPage(1);
               }}
-              style={{ padding: "6px", borderRadius: "4px", border: "1px solid #ccc" }}
+              style={{
+                padding: "6px",
+                borderRadius: "4px",
+                border: "1px solid #ccc",
+              }}
             >
               {[5, 10, 25, 50].map((size) => (
-                <option key={size} value={size}>{size}</option>
+                <option key={size} value={size}>
+                  {size}
+                </option>
               ))}
             </select>
             per page
@@ -198,7 +288,12 @@ const Admin: React.FC = () => {
               max={totalPages}
               value={goToPage}
               onChange={(e) => setGoToPage(Number(e.target.value))}
-              style={{ width: "60px", padding: "6px", borderRadius: "4px", border: "1px solid #ccc" }}
+              style={{
+                width: "60px",
+                padding: "6px",
+                borderRadius: "4px",
+                border: "1px solid #ccc",
+              }}
             />
             <button
               onClick={() => {
@@ -206,7 +301,13 @@ const Admin: React.FC = () => {
                   setPage(goToPage);
                 }
               }}
-              style={{ padding: "6px 12px", borderRadius: "4px", border: "1px solid #ccc", backgroundColor: "#eee", cursor: "pointer" }}
+              style={{
+                padding: "6px 12px",
+                borderRadius: "4px",
+                border: "1px solid #ccc",
+                backgroundColor: "#eee",
+                cursor: "pointer",
+              }}
             >
               Go
             </button>
