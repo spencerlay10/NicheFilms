@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
 import { API_BASE_URL } from "../api/config";
+import Footer_Privacy_Policy_Homepage from "../components/Footer_Privacy_Policy_Homepage";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -196,7 +196,7 @@ const Login = () => {
       </div>
 
       <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
-        <Footer />
+        <Footer_Privacy_Policy_Homepage />
       </div>
     </div>
   );

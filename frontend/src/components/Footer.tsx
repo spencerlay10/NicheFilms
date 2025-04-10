@@ -11,8 +11,8 @@ const Footer = () => {
     <footer className={`footer ${isLoginPage ? 'fixed-footer' : ''}`}>
       <div className="footer-grid">
         <Link to="/privacy">Privacy</Link>
-        <a href="#">Terms of Use</a>
-        <a href="#">Cookie Preferences</a>
+        <a href="/privacy">Terms of Use</a>
+        <a href="/privacy">Cookie Preferences</a>
         <Link to="/login">Login</Link>
       </div>
       <div className="mt-6 text-center">
