@@ -5,6 +5,7 @@ import Logout from "./Logout";
 import logo from "../assets/CNICHE.png";
 import { Movie } from "../types/Movie";
 import { fetchMovies } from "../api/MovieAPI";
+import { FaSearch } from "react-icons/fa";
 
 interface HeaderProps {
   username: string;
@@ -114,11 +115,14 @@ const Header = ({ username, userId }: HeaderProps) => {
                 color: "#fff",
                 fontSize: "18px",
                 cursor: "pointer",
-                marginRight: "16px",
+                marginRight: "0px",
+                padding: "4px",
+                position: "relative",
+                top: "3px", // move it down slightly
               }}
               title="Search"
             >
-              🔍
+              <FaSearch />
             </button>
           )}
         </div>
@@ -133,7 +137,6 @@ const Header = ({ username, userId }: HeaderProps) => {
 
           {isDropdownOpen && (
             <div className="dropdown-menu">
-              <a href="/account-settings">Account Settings</a>
               <Logout>Logout</Logout>
             </div>
           )}
