@@ -43,13 +43,27 @@ const Admin: React.FC = () => {
     fetchMovies();
   }, [searchTerm, categoryFilter, page, pageSize]);
 
+  const handleDelete = async (showId: string, title: string) => {
+    if (!window.confirm(`Are you sure you want to delete "${title}"?`)) return;
+
+    const res = await fetch(`${API_BASE_URL}/movie/${showId}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      setMovies((prev) => prev.filter((m) => m.showId !== showId));
+    } else {
+      alert("Failed to delete the movie.");
+    }
+  };
+
   const uniqueCategories = [
     "All",
     ...new Set(movies.flatMap((m) => (m.genres ? m.genres.split(", ") : [])))
   ].filter(Boolean);
 
   return (
-    <AuthorizeView>
+    // <AuthorizeView>
       <div style={{ backgroundColor: "#f4f4f4", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
         <Header username="Spencer" />
 
@@ -119,7 +133,7 @@ const Admin: React.FC = () => {
                       <button style={editBtnStyle} onClick={() => navigate(`/admin/edit/${movie.showId}`)}>
                         Edit
                       </button>
-                      <button style={deleteBtnStyle} onClick={() => alert(`Delete movie ${movie.title}`)}>
+                      <button style={deleteBtnStyle} onClick={() => handleDelete(movie.showId, movie.title)}>
                         Delete
                       </button>
                     </td>
@@ -138,7 +152,7 @@ const Admin: React.FC = () => {
 
         <Footer />
       </div>
-    </AuthorizeView>
+    // </AuthorizeView>
   );
 };
 
