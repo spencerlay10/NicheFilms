@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import { API_BASE_URL } from "../api/config";
 
 const CreateAccount: React.FC = () => {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ const CreateAccount: React.FC = () => {
       setSuccess("");
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:5050/register", {
+        const response = await fetch(`${API_BASE_URL}/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),

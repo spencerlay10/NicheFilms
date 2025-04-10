@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-
-const WEB_URL = "http://localhost:5050";
-// "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net";
+import { API_BASE_URL } from "../api/config";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -23,8 +21,8 @@ const Login = () => {
     }
 
     const loginUrl = rememberMe
-      ? `${WEB_URL}/login?useCookies=true`
-      : `${WEB_URL}/login?useSessionCookies=true`;
+      ? `${API_BASE_URL}/login?useCookies=true`
+      : `${API_BASE_URL}/login?useSessionCookies=true`;
 
     try {
       const response = await fetch(loginUrl, {
@@ -45,7 +43,7 @@ const Login = () => {
       }
 
       // ✅ Fetch current user info
-      const meResponse = await fetch(`${WEB_URL}/me`, {
+      const meResponse = await fetch(`${API_BASE_URL}/me`, {
         method: "GET",
         credentials: "include",
       });
