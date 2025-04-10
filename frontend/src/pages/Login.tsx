@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 
-const WEB_URL = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net";
+const WEB_URL = "http://http://localhost:5050"
+  //"https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net";
 
 const Login = () => {
   const [email, setEmail] = useState<string>('');
