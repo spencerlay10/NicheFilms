@@ -100,7 +100,7 @@ const Movie: React.FC = () => {
         }
       `}</style>
 
-      <Header username="Rex" userId={numericUserId} />
+      <Header username="Welcome" userId={numericUserId} />
 
       {recs && (
         <>
@@ -202,7 +202,7 @@ const Movie: React.FC = () => {
                   display: "flex",
                   gap: "20px",
                   flexWrap: "wrap",
-                  justifyContent: "center",  // Centering the row
+                  justifyContent: "center", // Centering the row
                   marginBottom: "20px",
                 }}
               >
