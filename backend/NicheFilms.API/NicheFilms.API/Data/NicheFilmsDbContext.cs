@@ -54,7 +54,9 @@ namespace NicheFilms.API.Data
 
             modelBuilder.Entity<MoviesTitle>(entity =>
             {
-                entity.HasNoKey().ToTable("movies_titles");
+                entity.ToTable("movies_titles");
+
+                entity.HasKey(e => e.ShowId); // ✅ Set primary key here
 
                 entity.Property(e => e.AnimeSeriesInternationalTvShows).HasColumnName("Anime Series International TV Shows");
                 entity.Property(e => e.BritishTvShowsDocuseriesInternationalTvShows).HasColumnName("British TV Shows Docuseries International TV Shows");
