@@ -183,10 +183,9 @@ const Home = () => {
 
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
           <p style={{ marginBottom: '1rem' }}>
-            Ready to watch? Enter your email to create or restart your membership.
+            Ready to watch? Create or restart your membership.
           </p>
           <div className="hero-input" style={{ justifyContent: 'center' }}>
-            <input type="email" placeholder="Email address" />
             <Link to="/createAccount" className="get-started-btn">
               Get Started →
             </Link>

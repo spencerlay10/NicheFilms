@@ -19,7 +19,7 @@ const Movie: React.FC = () => {
   const [animatedRows, setAnimatedRows] = useState<number[]>([]);
 
   const navigate = useNavigate();
-  const moviesPerRow = 5;
+  const moviesPerRow = 6;
 
   useEffect(() => {
     fetchMovies()
@@ -202,7 +202,7 @@ const Movie: React.FC = () => {
                   display: "flex",
                   gap: "20px",
                   flexWrap: "wrap",
-                  justifyContent: "flex-start",
+                  justifyContent: "center",  // Centering the row
                   marginBottom: "20px",
                 }}
               >
