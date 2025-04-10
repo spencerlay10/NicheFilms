@@ -1,11 +1,19 @@
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useParams } from "react-router-dom";
 
 const Privacy: React.FC = () => {
+  // Pass userId dynamically from context, cookies, or another source
+   // Set this dynamically if needed
+
+  const { userId } = useParams();
+  const numericUserId = parseInt(userId || "1");
+
   return (
     <>
-      <Header username="Rex" />
+      {/* Passing userId dynamically to Header */}
+      <Header username="" userId={numericUserId} />
 
       <div
         style={{
