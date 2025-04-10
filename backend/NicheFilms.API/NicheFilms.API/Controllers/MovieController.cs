@@ -65,7 +65,6 @@ namespace NicheFilms.API.Controllers
                 var total = baseQuery.Count();
 
                 var results = baseQuery
-                    .OrderBy(m => m.Title)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .AsNoTracking()
