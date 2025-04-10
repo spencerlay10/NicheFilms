@@ -1,0 +1,104 @@
+/* Form container styles */
+.form-container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #2f2f2f;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  /* Grid layout for the form */
+  .movie-form {
+    display: grid;
+    gap: 15px;
+  }
+  
+  /* Form group (for each input and label) */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .input,
+  .select {
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #444;
+    color: white;
+  }
+  
+  /* Genres dropdown with checkboxes */
+  .custom-dropdown {
+    position: relative;
+  }
+  
+  .dropdown-input {
+    width: 100%;
+    padding: 10px;
+    background-color: #444;
+    color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .genre-dropdown {
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #444;
+    color: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  
+  .genre-dropdown.show {
+    display: block;
+  }
+  
+  .genre-checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .genre-checkbox {
+    margin-right: 10px;
+  }
+  
+  /* Button styling */
+  .submit-btn {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Hover effect for inputs and selects */
+  .input:focus,
+  .select:focus {
+    border-color: #007bff;
+  }
+  
