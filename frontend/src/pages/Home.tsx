@@ -14,23 +14,49 @@ interface Movie {
   ratingCount: number;
 }
 
+// Define FAQ interface
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
+  // Add state to track which FAQ is open (null means none are open)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   const features = [
-    'Cancel or switch plans anytime',
-    'A safe place just for kids',
+    'Unite with other niche viewers',
+    'Enjoy personal recommendations',
     'Watch on your favorite devices',
     'Stories tailored to your taste'
   ];
 
-  const faqs = [
-    'What is CineNiche?',
-    'How much does CineNiche cost?',
-    'Where can I watch?',
-    'How do I cancel?',
-    'What can I watch on CineNiche?',
-    'Is CineNiche good for kids?'
+  const faqs: FAQ[] = [
+    {
+      question: 'What is CineNiche\'s niche?',
+      answer: 'We specialize in independent films, documentaries, international movies, and cult classics – all personalized to your unique taste.'
+    },
+    {
+      question: 'How much does CineNiche cost?',
+      answer: 'CineNiche plans start at $5.97 per month. No extra costs, no contracts, cancel anytime.'
+    },
+    {
+      question: 'Where can I watch?',
+      answer: 'Watch anywhere, anytime. Sign in with your CineNiche account to watch instantly on the web from your personal computer or on any internet-connected device with the CineNiche app, including smart TVs, smartphones, tablets, streaming media players and game consoles.'
+    },
+    {
+      question: 'How do I cancel?',
+      answer: 'CineNiche is flexible. There are no pesky contracts and no commitments. You can easily cancel your account online in two clicks. There are no cancellation fees – start or stop your account anytime.'
+    },
+    {
+      question: 'How can I discover new content on CineNiche?',
+      answer: 'CineNiche has an extensive library of international films, documentaries, cult classics, indies, and more. Our algorithm learns from your viewing habits to recommend content that matches your unique taste.'
+    },
+    {
+      question: 'Is CineNiche good for kids?',
+      answer: 'The Kids experience is included in your membership to give parents control while kids enjoy family-friendly content. Kids profiles feature PIN-protected parental controls that let you restrict the maturity rating of content kids can watch and block specific titles you don\'t want kids to see.'
+    }
   ];
 
   // 🔁 Dynamic Phrase Rotation
@@ -43,6 +69,11 @@ const Home = () => {
 
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [fade, setFade] = useState(true);
+
+  // Function to toggle FAQ open/close
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -84,22 +115,20 @@ const Home = () => {
       {/* Hero Section */}
       <div className="hero">
         <div className="hero-content">
-        <h1 className="hero-title">
-          <span className="static-text">Find your next</span>
-          <span className="dynamic-wrapper">
-            <span className={`dynamic-word ${fade ? 'fade-in' : 'fade-out'}`}>
-              &nbsp;{phrases[phraseIndex]}
+          <h1 className="hero-title">
+            <span className="static-text">Find your next</span>
+            <span className="dynamic-wrapper">
+              <span className={`dynamic-word ${fade ? 'fade-in' : 'fade-out'}`}>
+                &nbsp;{phrases[phraseIndex]}
+              </span>
             </span>
-          </span>
-        </h1>
-
+          </h1>
 
           <h2>Starts at $5.97. Cancel anytime.</h2>
-          <p>Ready to watch? Enter your email to create or restart your membership.</p>
+          <p>We're lucky you found us. Ready to explore?</p>
           <div className="hero-input">
-            <input type="email" placeholder="Email address" />
-            <Link to="/createAccount" className="get-started-btn">
-              Get Started →
+            <Link to="/createAccount" className="get-started-btn" style={{ padding: '1rem 2rem', fontSize: '1.25rem' }}>
+              Dive in →
             </Link>
           </div>
         </div>
@@ -138,17 +167,25 @@ const Home = () => {
       {/* FAQ Section */}
       <div className="faq">
         <h2>Frequently Asked Questions</h2>
-        {faqs.map((question, i) => (
-          <div key={i} className="faq-item">
-            <p>{question}</p>
-            <span>+</span>
+        {faqs.map((faq, i) => (
+          <div key={i} className="faq-container">
+            <div className="faq-item" onClick={() => toggleFaq(i)}>
+              <p>{faq.question}</p>
+              <div className={`faq-icon ${openFaqIndex === i ? 'open' : ''}`}></div>
+            </div>
+            <div className={`faq-answer ${openFaqIndex === i ? 'open' : ''}`}>
+              <div className="faq-answer-content">
+                <p>{faq.answer}</p>
+              </div>
+            </div>
           </div>
         ))}
-        <div className="hero-input" style={{ marginTop: '2rem' }}>
-          <p style={{ marginBottom: '0.5rem' }}>
+
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <p style={{ marginBottom: '1rem' }}>
             Ready to watch? Enter your email to create or restart your membership.
           </p>
-          <div className="hero-input">
+          <div className="hero-input" style={{ justifyContent: 'center' }}>
             <input type="email" placeholder="Email address" />
             <Link to="/createAccount" className="get-started-btn">
               Get Started →
