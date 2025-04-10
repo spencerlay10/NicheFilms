@@ -82,12 +82,13 @@ app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> s
     return Results.Ok(new { message = "Logout successful" });
 }).RequireAuthorization();
 
+// ✅ /me route that returns gen_id
 app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal user, ApplicationDbContext db) =>
 {
     var currentUser = await userManager.GetUserAsync(user);
     if (currentUser == null) return Results.Unauthorized();
 
-    // Look up gen_id from the database (assuming IdentityUser.Id matches the user table's id)
+    // Pull gen_id manually using EF.Property
     var genId = await db.Users
         .Where(u => u.Id == currentUser.Id)
         .Select(u => EF.Property<string>(u, "gen_id"))
@@ -95,19 +96,6 @@ app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal 
 
     return Results.Ok(new {
         genId,
-        email = currentUser.Email
-    });
-}).RequireAuthorization();
-
-
-// Get current user's ID and email after login
-app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal user) =>
-{
-    var currentUser = await userManager.GetUserAsync(user);
-    if (currentUser == null) return Results.Unauthorized();
-
-    return Results.Ok(new {
-        userId = currentUser.Id,
         email = currentUser.Email
     });
 }).RequireAuthorization();
