@@ -292,3 +292,37 @@
     width: auto;
     display: block;
   }
+
+  
+  .phrase-container {
+    white-space: nowrap;
+    font-size: 2.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    font-weight: bold;
+  }
+  
+  .dynamic-wrapper {
+    display: inline-flex;
+    min-width: 220px;
+    max-width: 100%;
+    overflow: visible; /* allow full content to show */
+    position: relative;
+  }
+  
+  
+  .dynamic-word {
+    transition: opacity 0.3s ease-in-out;
+    color: #8e3bfc;
+    white-space: nowrap;
+  }
+  
+  .fade-in {
+    opacity: 1;
+  }
+  
+  .fade-out {
+    opacity: 0;
+  }
+  
