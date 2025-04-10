@@ -6,6 +6,7 @@ import logo from "../assets/CNICHE.png";
 import { Movie } from "../types/Movie";
 import { fetchMovies } from "../api/MovieAPI";
 import { FaSearch } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
 interface HeaderProps {
   username: string;
@@ -133,7 +134,12 @@ const Header = ({ username, userId }: HeaderProps) => {
           onMouseLeave={() => setDropdownOpen(false)}
         >
           <span className="username">{username}</span>
-          <div className="user-icon">👤</div>
+          <div
+            className="user-icon"
+            style={{ color: "#8e3bfd", fontSize: "20px", marginTop: "7px" }}
+          >
+            <FaUser />
+          </div>
 
           {isDropdownOpen && (
             <div className="dropdown-menu">
