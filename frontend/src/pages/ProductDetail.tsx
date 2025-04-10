@@ -47,7 +47,7 @@ const ProductDetail: React.FC = () => {
 
   return (
     <>
-      <Header username="Rex" />
+      <Header username="Rex" userId={numericUserId} />
       <div
         style={{
           padding: "40px",
