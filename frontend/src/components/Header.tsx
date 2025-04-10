@@ -137,7 +137,6 @@ const Header = ({ username, userId }: HeaderProps) => {
 
           {isDropdownOpen && (
             <div className="dropdown-menu">
-              <a href="/account-settings">Account Settings</a>
               <Logout>Logout</Logout>
             </div>
           )}
