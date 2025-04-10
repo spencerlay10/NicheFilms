@@ -158,10 +158,13 @@ const Admin: React.FC = () => {
                   <td style={tdStyle}>{movie.genres}</td>
                   <td style={tdStyle}>{typeof movie.averageRating === "number" ? movie.averageRating.toFixed(1) : "N/A"}</td>
                   <td style={tdStyle}>{movie.ratingCount}</td>
-                  <td style={tdStyle}>
-                    <button style={editBtnStyle} onClick={() => navigate(`/admin/edit/${movie.showId}`)}>Edit</button>
-                    <button style={deleteBtnStyle} onClick={() => handleDelete(movie.showId, movie.title)}>Delete</button>
+                  <td style={{ ...tdStyle, textAlign: "center" }}>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                      <button style={editBtnStyle} onClick={() => navigate(`/admin/edit/${movie.showId}`)}>Edit</button>
+                      <button style={deleteBtnStyle} onClick={() => handleDelete(movie.showId, movie.title)}>Delete</button>
+                    </div>
                   </td>
+
                 </tr>
               ))}
             </tbody>
@@ -169,9 +172,21 @@ const Admin: React.FC = () => {
         </div>
 
         <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
-          <button disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Previous</button>
-          <span>Page {page} of {totalPages}</span>
-          <button disabled={page === totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Next</button>
+        <button
+  disabled={page === 1}
+  onClick={() => setPage((p) => Math.max(1, p - 1))}
+  style={navBtnStyle}
+>
+  Previous
+</button>
+<span>Page {page} of {totalPages}</span>
+<button
+  disabled={page === totalPages}
+  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+  style={navBtnStyle}
+>
+  Next
+</button>
 
           <label style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             Show:
@@ -242,5 +257,22 @@ const deleteBtnStyle = {
   borderRadius: "4px",
   cursor: "pointer",
 };
+
+const navBtnStyle = {
+  padding: "10px 20px",
+  backgroundColor: "#007BFF",
+  color: "#fff",
+  border: "none",
+  borderRadius: "4px",
+  cursor: "pointer",
+  minWidth: "90px",
+  opacity: 1,
+  transition: "opacity 0.3s ease",
+  disabled: {
+    opacity: 0.6,
+    cursor: "not-allowed",
+  },
+};
+
 
 export default Admin;
