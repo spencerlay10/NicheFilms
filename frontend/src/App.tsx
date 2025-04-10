@@ -18,7 +18,7 @@ function App() {
         <Route path="/createAccount" element={<CreateAccount />} />
         <Route path="/login" element={<Login />} />
         <Route path="/movies/:userId" element={<Movie />} />
-        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/privacy/:userId" element={<Privacy />} />
         <Route path="/productDetail/:userId/:showId" element={<ProductDetail />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/add" element={<MovieForm />} />
