@@ -25,30 +25,17 @@ const CreateAccount: React.FC = () => {
   };
 
   const updatePasswordStrength = (pwd: string) => {
-    const hasUpper = /[A-Z]/.test(pwd);
-    const hasLower = /[a-z]/.test(pwd);
-    const hasNumber = /\d/.test(pwd);
-    const hasSpecial = /[!@#$%^&*]/.test(pwd);
-    const isLong = pwd.length >= 8;
-
-    const score = [hasUpper, hasLower, hasNumber, hasSpecial, isLong].filter(
-      Boolean
-    ).length;
-
-    if (score <= 2) setPasswordStrength("Weak");
-    else if (score === 3 || score === 4) setPasswordStrength("Moderate");
-    else if (score === 5) setPasswordStrength("Strong");
-    else setPasswordStrength("");
+    if (pwd.length < 8) {
+      setPasswordStrength("Weak");
+    } else if (pwd.length <= 12) {
+      setPasswordStrength("Moderate");
+    } else {
+      setPasswordStrength("Strong");
+    }
   };
 
   const isPasswordStrong = (pwd: string) => {
-    return (
-      pwd.length >= 8 &&
-      /[A-Z]/.test(pwd) &&
-      /[a-z]/.test(pwd) &&
-      /\d/.test(pwd) &&
-      /[!@#$%^&*]/.test(pwd)
-    );
+    return pwd.length > 12;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -62,9 +49,7 @@ const CreateAccount: React.FC = () => {
     } else if (password !== confirmPassword) {
       setError("Passwords do not match.");
     } else if (!isPasswordStrong(password)) {
-      setError(
-        "Password must be at least 8 characters and include uppercase, lowercase, number, and special character."
-      );
+      setError("Password must be more than 12 characters.");
     } else {
       setError("");
       setSuccess("");
