@@ -1,11 +1,21 @@
 import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import { Link } from 'react-router-dom';
+import './Home.css';
+import logo from '../assets/CNICHE.png';
+import Footer_Privacy_Policy_Homepage from "../components/Footer_Privacy_Policy_Homepage";
+
 
 const Privacy: React.FC = () => {
   return (
     <>
-      <Header username="Rex" />
+      <div className="home font-sans">
+        {/* Top Nav */}
+        <div className="top-nav">
+          <div className="logo"><img src={logo} alt="App Logo" className="logo-image" /></div>
+          <div className="nav-actions">
+            <Link to="/login" className="sign-in-btn">Sign In</Link>
+          </div>
+        </div>
 
       <div
         style={{
@@ -202,8 +212,8 @@ const Privacy: React.FC = () => {
           </p>
         </div>
       </div>
-
-      <Footer />
+    </div>
+      <Footer_Privacy_Policy_Homepage />
     </>
   );
 };

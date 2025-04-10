@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
-import Footer from '../components/Footer';
 import logo from '../assets/CNICHE.png';
 import { API_BASE_URL } from '../api/config';
+import Footer_Privacy_Policy_Homepage from '../components/Footer_Privacy_Policy_Homepage';
 
 // Define the Movie interface based on backend response
 interface Movie {
@@ -194,7 +194,7 @@ const Home = () => {
       </div>
 
       {/* Footer */}
-      <Footer />
+      <Footer_Privacy_Policy_Homepage />
     </div>
   );
 };
