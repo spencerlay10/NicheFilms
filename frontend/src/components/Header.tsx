@@ -16,13 +16,12 @@ const Header = ({ username }: HeaderProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [allMovies, setAllMovies] = useState<Movie[]>([]);
   const [filteredResults, setFilteredResults] = useState<Movie[]>([]);
-  const [skip] = useState(0);
-  const [take] = useState(100);
+
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchMovies(skip, take)
+    fetchMovies()
       .then((data) => setAllMovies(data || []))
       .catch((err) => console.error('Error loading movie list:', err));
   }, [skip, take]);
