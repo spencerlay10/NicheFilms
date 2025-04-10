@@ -47,7 +47,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")  // Allow only localhost:3000
+        policy.WithOrigins("http://localhost:3000", "https://gray-tree-00d24831e.6.azurestaticapps.net")  // Allow only localhost:3000
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();  // Allow credentials like cookies or headers
