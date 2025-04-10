@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NicheFilms.API.Data;
-using NicheFilms.API.Services; // 👈 Make sure your CustomUserClaimsPrincipalFactory lives here
+using NicheFilms.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,10 +29,10 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.ClaimsIdentity.UserNameClaimType = ClaimTypes.Email;
 });
 
-// ✅ CRUCIAL: This fixes ClaimsPrincipal not populating email
+// Fix ClaimsPrincipal not populating email
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, CustomUserClaimsPrincipalFactory>();
 
-// Cookie setup — not strictly required for AddIdentityApiEndpoints but doesn't hurt
+// Cookie setup
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
@@ -47,10 +47,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "https://gray-tree-00d24831e.6.azurestaticapps.net")
-            .AllowCredentials()
+        policy.WithOrigins("http://localhost:3000")  // Allow only localhost:3000
+            .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowAnyHeader();
+            .AllowCredentials();  // Allow credentials like cookies or headers
     });
 });
 
@@ -58,21 +58,25 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Middleware
+// Swagger for development
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// CORS handling (Ensure this is set before Routing)
 app.UseCors("AllowFrontend");
+
+app.UseHttpsRedirection();
+app.UseRouting();
 app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Endpoint routing
 app.MapControllers();
-app.MapIdentityApi<IdentityUser>(); // Map default Identity API endpoints
+app.MapIdentityApi<IdentityUser>();
 
 // Logout endpoint
 app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> signInManager) =>
@@ -82,22 +86,19 @@ app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> s
     return Results.Ok(new { message = "Logout successful" });
 }).RequireAuthorization();
 
-// ✅ /me route that returns gen_id
+// /me route that returns gen_id
 app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal user, ApplicationDbContext db) =>
 {
     var currentUser = await userManager.GetUserAsync(user);
     if (currentUser == null) return Results.Unauthorized();
 
-    // Pull gen_id manually using EF.Property
     var genId = await db.Users
         .Where(u => u.Id == currentUser.Id)
         .Select(u => EF.Property<string>(u, "gen_id"))
         .FirstOrDefaultAsync();
 
-    return Results.Ok(new {
-        genId,
-        email = currentUser.Email
-    });
+    return Results.Ok(new { genId, email = currentUser.Email });
 }).RequireAuthorization();
 
 app.Run();
+

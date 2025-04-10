@@ -31,49 +31,55 @@ namespace NicheFilms.API.Controllers
         }
 
         // GET: api/product/recommended/{showId}
-            [HttpGet("recommended/{showId}")]
-            public IActionResult GetRecommendedMovies(string showId)
+        [HttpGet("recommended/{showId}")]
+        public IActionResult GetRecommendedMovies(string showId)
+        {
+            var hybridRec = _context.HybridRecommendations.FirstOrDefault(r => r.ShowId == showId);
+
+            if (hybridRec == null)
             {
-                var hybridRec = _context.HybridRecommendations.FirstOrDefault(r => r.ShowId == showId);
-
-                if (hybridRec == null)
-                {
-                    return NotFound("No recommendations found.");
-                }
-
-                // Extract recommendation IDs and remove nulls
-                var recIds = new List<string?>
-                {
-                    hybridRec.Rec1,
-                    hybridRec.Rec2,
-                    hybridRec.Rec3,
-                    hybridRec.Rec4,
-                    hybridRec.Rec5
-                }.Where(id => !string.IsNullOrEmpty(id)).ToList();
-
-                var recommendedMovies = _context.MoviesTitles
-                    .Where(m => recIds.Contains(m.ShowId))
-                    .ToList();
-
-                return Ok(recommendedMovies);
-            }
-            
-            [HttpGet("rating/{userId}/{showId}")]
-            public IActionResult GetMovieRating(int userId, string showId)
-            {
-                var rating = _context.MoviesRatings.Find(userId, showId);
-                if (rating == null)
-                {
-                    return NotFound("Rating not found.");
-                }
-
-                // Only return the rating value
-                return Ok(new { rating = rating.Rating });
+                return NotFound("No recommendations found.");
             }
 
-            // PUT: api/product/rating/{userId}/{showId}
+            // Extract recommendation IDs and remove nulls
+            var recIds = new List<string?>
+            {
+                hybridRec.Rec1,
+                hybridRec.Rec2,
+                hybridRec.Rec3,
+                hybridRec.Rec4,
+                hybridRec.Rec5,
+                hybridRec.Rec6,
+                hybridRec.Rec7,
+                hybridRec.Rec8,
+                hybridRec.Rec9,
+                hybridRec.Rec10
+            }.Where(id => !string.IsNullOrEmpty(id)).ToList();
+
+            var recommendedMovies = _context.MoviesTitles
+                .Where(m => recIds.Contains(m.ShowId))
+                .ToList();
+
+            return Ok(recommendedMovies);
+        }
+
+        // GET: api/product/rating/{userId}/{showId}
+        [HttpGet("rating/{userId}/{showId}")]
+        public IActionResult GetMovieRating(int userId, string showId)
+        {
+            var rating = _context.MoviesRatings.Find(userId, showId);
+            if (rating == null)
+            {
+                return NotFound("Rating not found.");
+            }
+
+            // Only return the rating value
+            return Ok(new { rating = rating.Rating });
+        }
+
+        // PUT: api/product/rating/{userId}/{showId}
         [HttpPut("rating/{userId}/{showId}")]
-        public async Task<IActionResult> UpdateMovieRating(int userId, string showId, [FromBody] MovieRating updatedRating)
+        public async Task<IActionResult> UpdateMovieRating(int userId, string showId, [FromBody] MoviesRating updatedRating)
         {
             if (updatedRating == null || updatedRating.Rating < 0 || updatedRating.Rating > 5)
             {
@@ -85,7 +91,7 @@ namespace NicheFilms.API.Controllers
             if (rating == null)
             {
                 // Optionally create a new rating if not found
-                var newRating = new MovieRating
+                var newRating = new MoviesRating
                 {
                     UserId = userId,
                     ShowId = showId,
@@ -98,16 +104,10 @@ namespace NicheFilms.API.Controllers
             }
 
             // Update the existing rating
-                rating.Rating = updatedRating.Rating;
-                await _context.SaveChangesAsync();
+            rating.Rating = updatedRating.Rating;
+            await _context.SaveChangesAsync();
 
-                return Ok(new { message = "Rating updated." });
+            return Ok(new { message = "Rating updated." });
         }
-
-        
-
-
-
     }
-
 }

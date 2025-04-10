@@ -22,9 +22,7 @@ namespace NicheFilms.API.Controllers
         [HttpGet]
         public IActionResult GetAllMovies()
         {
-            var movies = _context.MoviesTitles
-                .OrderBy(m => m.Title)
-                .ToList();
+            var movies = _context.MoviesTitles.ToList();
 
             return Ok(movies);
 }
