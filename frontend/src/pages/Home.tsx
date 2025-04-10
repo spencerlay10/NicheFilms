@@ -5,7 +5,6 @@ import Footer from '../components/Footer';
 import logo from '../assets/CNICHE.png';
 import { API_BASE_URL } from '../api/config';
 
-
 // Define the Movie interface based on backend response
 interface Movie {
   showId: string;
@@ -34,10 +33,33 @@ const Home = () => {
     'Is CineNiche good for kids?'
   ];
 
+  // 🔁 Dynamic Phrase Rotation
+  const phrases = [
+    'international masterpiece',
+    'cult classic',
+    'documentary',
+    'independent film'
+  ];
+
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setPhraseIndex((prev) => (prev + 1) % phrases.length);
+        setFade(true);
+      }, 300); // timing must match CSS fade-out duration
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const fetchTrendingMovies = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/Home/top-rated`); // Update with your real API base URL
+        const response = await fetch(`${API_BASE_URL}/Home/top-rated`);
         if (!response.ok) throw new Error('Failed to fetch trending movies');
         const data = await response.json();
         setTrendingMovies(data);
@@ -62,8 +84,17 @@ const Home = () => {
       {/* Hero Section */}
       <div className="hero">
         <div className="hero-content">
-          <h1>Unlimited movies, TV shows, and more</h1>
-          <h2>Starts at $7.99. Cancel anytime.</h2>
+        <h1 className="hero-title">
+          <span className="static-text">Find your next</span>
+          <span className="dynamic-wrapper">
+            <span className={`dynamic-word ${fade ? 'fade-in' : 'fade-out'}`}>
+              &nbsp;{phrases[phraseIndex]}
+            </span>
+          </span>
+        </h1>
+
+
+          <h2>Starts at $5.97. Cancel anytime.</h2>
           <p>Ready to watch? Enter your email to create or restart your membership.</p>
           <div className="hero-input">
             <input type="email" placeholder="Email address" />
