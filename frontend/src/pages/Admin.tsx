@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 // import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { API_BASE_URL } from "../api/config";
+import Header from "../components/Header";
+import Header_admin from "../components/Header_admin";
 
 interface Movie {
   showId: string;
@@ -111,6 +113,8 @@ const Admin: React.FC = () => {
         fontFamily: "Arial, sans-serif",
       }}
     >
+      <Header_admin  />
+
       <main style={{ padding: "40px", paddingTop: "100px", color: "#000" }}>
         <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#444" }}>
           Add/Edit Movies

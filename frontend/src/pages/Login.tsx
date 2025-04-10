@@ -6,8 +6,9 @@ import { API_BASE_URL } from "../api/config";
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [rememberMe, setRememberMe] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [hoveredSignIn, setHoveredSignIn] = useState<boolean>(false);  // State for Sign In button hover
+  const [hoveredBack, setHoveredBack] = useState<boolean>(false);  // State for Back button hover
 
   const navigate = useNavigate();
 
@@ -20,9 +21,7 @@ const Login = () => {
       return;
     }
 
-    const loginUrl = rememberMe
-      ? `${API_BASE_URL}/login?useCookies=true`
-      : `${API_BASE_URL}/login?useSessionCookies=true`;
+    const loginUrl = `${API_BASE_URL}/login`;
 
     try {
       const response = await fetch(loginUrl, {
@@ -62,6 +61,33 @@ const Login = () => {
     }
   };
 
+  // Sign In button hover style
+  const signInButtonStyle = {
+    width: "100%",
+    padding: "12px",
+    backgroundColor: hoveredSignIn ? "#ffffff" : "#8E3BFC",  // White background when hovered, purple when not
+    color: hoveredSignIn ? "#8E3BFC" : "#fff", // Purple text when hovered, white when not
+    fontWeight: "bold",
+    border: "1px solid #8E3BFC",  // Border to match the color
+    borderRadius: "4px",
+    marginBottom: "20px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",  // Smooth transition for background and text color
+  };
+
+  // Back button hover style
+  const backButtonStyle = {
+    marginTop: "20px",
+    width: "100%",
+    padding: "12px",
+    backgroundColor: hoveredBack ? "#ffffff" : "#444",  // White background when hovered, dark when not
+    color: hoveredBack ? "#444" : "#fff",  // Dark text when hovered, white when not
+    border: "1px solid #444",  // Border to match the color
+    borderRadius: "4px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",  // Smooth transition for background and text color
+  };
+
   return (
     <div
       style={{
@@ -95,9 +121,9 @@ const Login = () => {
         style={{
           position: "relative",
           backgroundColor: "rgba(0,0,0,0.75)",
-          padding: "60px 68px 40px",
+          padding: "80px 88px 50px",  // Increased padding for a larger box
           borderRadius: "6px",
-          width: "320px",
+          width: "400px",  // Increased width
           zIndex: 1,
           boxShadow: "0 0 15px rgba(0,0,0,0.4)",
           marginBottom: "60px",
@@ -113,8 +139,8 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
             style={{
               width: "100%",
-              padding: "10px",
-              marginBottom: "10px",
+              padding: "12px",  // Increased padding
+              marginBottom: "12px",  // Increased space between inputs
               backgroundColor: "#333",
               border: "none",
               borderRadius: "4px",
@@ -129,8 +155,8 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             style={{
               width: "100%",
-              padding: "10px",
-              marginBottom: "15px",
+              padding: "12px",  // Increased padding
+              marginBottom: "20px",  // Increased space between inputs
               backgroundColor: "#333",
               border: "none",
               borderRadius: "4px",
@@ -139,36 +165,12 @@ const Login = () => {
           />
           <button
             type="submit"
-            style={{
-              width: "100%",
-              padding: "10px",
-              backgroundColor: "#8E3BFC",
-              color: "#fff",
-              fontWeight: "bold",
-              border: "none",
-              borderRadius: "4px",
-              marginBottom: "15px",
-              cursor: "pointer",
-            }}
+            style={signInButtonStyle}  // Apply the hover effect for Sign In button
+            onMouseEnter={() => setHoveredSignIn(true)}  // Set hover state to true for Sign In button
+            onMouseLeave={() => setHoveredSignIn(false)}  // Set hover state to false for Sign In button
           >
             Sign In
           </button>
-
-          <label
-            style={{
-              fontSize: "0.85rem",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              style={{ marginRight: "8px" }}
-            />
-            Remember me
-          </label>
 
           {error && (
             <p
@@ -185,16 +187,9 @@ const Login = () => {
 
         <button
           onClick={() => navigate("/")}
-          style={{
-            marginTop: "20px",
-            width: "100%",
-            padding: "10px",
-            backgroundColor: "#444",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
+          style={backButtonStyle}  // Apply the hover effect for Back button
+          onMouseEnter={() => setHoveredBack(true)}  // Set hover state to true for Back button
+          onMouseLeave={() => setHoveredBack(false)}  // Set hover state to false for Back button
         >
           ← Back
         </button>

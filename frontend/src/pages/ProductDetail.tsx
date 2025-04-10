@@ -83,7 +83,7 @@ const ProductDetail: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <Header username="Rex" userId={numericUserId} />
+      <Header username="" userId={numericUserId} />
       <div
         style={{
           padding: "40px",

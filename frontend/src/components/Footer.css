@@ -1,9 +1,36 @@
+/* Regular footer styling */
+.footer {
+  background-color: #141414;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* When the page is the login page, apply a fixed position */
+.fixed-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Footer grid links styling */
 .footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-    max-width: 600px;
-    margin: 0 auto 1.5rem;
-    text-align: center;
-  }
-  
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.footer-grid a,
+.footer-grid Link {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-grid a:hover,
+.footer-grid Link:hover {
+  color: #007bff;
+}

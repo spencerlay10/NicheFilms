@@ -1,16 +1,11 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const Footer = () => {
-  const location = useLocation();  // Get the current location (page URL)
-
-  // Check if the current page is the login page
-  const isLoginPage = location.pathname === '/login';
-
   return (
-    <footer className={`footer ${isLoginPage ? 'fixed-footer' : ''}`}>
+    <footer className="footer">
       <div className="footer-grid">
-        <Link to="/privacy">Privacy</Link>
+        <Link to="/privacypolicy">Privacy</Link>
         <a href="#">Terms of Use</a>
         <a href="#">Cookie Preferences</a>
         <Link to="/login">Login</Link>
