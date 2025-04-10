@@ -24,7 +24,7 @@ const Header = ({ username }: HeaderProps) => {
     fetchMovies()
       .then((data) => setAllMovies(data || []))
       .catch((err) => console.error('Error loading movie list:', err));
-  }, [skip, take]);
+  }, []);
 
   useEffect(() => {
     const filtered = allMovies.filter((movie) =>
