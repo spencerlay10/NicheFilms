@@ -3,9 +3,9 @@ import { Movie } from "../types/Movie";
 import { API_BASE_URL } from "./config";
 import { RatingResponse } from "../types/Rating";
 
-export const fetchMovies = async (): Promise<Movie[]> => {
+export const fetchMovies = async (skip: number, take: number): Promise<Movie[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/movie`, {
+    const response = await fetch(`${API_BASE_URL}/movie?skip=${skip}&take=${take}`, {
       credentials: "include", // 👈 Must include this for auth
     });
     if (!response.ok) throw new Error("Failed to fetch movies");
@@ -16,6 +16,7 @@ export const fetchMovies = async (): Promise<Movie[]> => {
     throw error;
   }
 };
+
 
 // 🎬 Fetch main movie by showId
 export const fetchMainMovie = async (showId: string): Promise<Movie | null> => {
