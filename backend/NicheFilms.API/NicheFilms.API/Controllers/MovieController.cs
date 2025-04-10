@@ -8,7 +8,7 @@ using System.Text.Json;
 namespace NicheFilms.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class MovieController : ControllerBase
     {
         private readonly NicheFilmsDbContext _context;
