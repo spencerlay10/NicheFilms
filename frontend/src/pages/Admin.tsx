@@ -55,7 +55,7 @@ const Admin: React.FC = () => {
         }
         const data = await res.json();
         setMovies(data.movies);
-        setTotalMovies(data.totalMovies); // Assuming the API returns total movies count
+        setTotalMovies(data.total); // Assuming the API returns total movies count
       } catch (error) {
         console.error("Fetch error:", error);
       }
@@ -212,22 +212,28 @@ const Admin: React.FC = () => {
                   </td>
                   <td style={tdStyle}>{movie.ratingCount}</td>
                   <td style={{ ...tdStyle, textAlign: "center" }}>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
-                      <button
-                      style={editBtnStyle}
-                      onClick={() => navigate(`/admin/edit/${movie.showId}`)}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
                     >
-                      Edit
-                    </button>
                       <button
-                      style={deleteBtnStyle}
-                      onClick={() => handleDelete(movie.showId, movie.title)}
-                    >
-                      Delete
-                    </button>
+                        style={editBtnStyle}
+                        onClick={() => navigate(`/admin/edit/${movie.showId}`)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        style={deleteBtnStyle}
+                        onClick={() => handleDelete(movie.showId, movie.title)}
+                      >
+                        Delete
+                      </button>
                     </div>
                   </td>
-
                 </tr>
               ))}
             </tbody>
@@ -362,6 +368,5 @@ const navBtnStyle = {
     cursor: "not-allowed",
   },
 };
-
 
 export default Admin;
