@@ -13,38 +13,18 @@ const Movie: React.FC = () => {
   const numericUserId = parseInt(userId || "1");
 
   const [movies, setMovies] = useState<MovieType[]>([]);
-  const [skip, setSkip] = useState(0);
-  const take = 100;
-
   const [recs, setRecs] = useState<RecommenderRow | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [rowsVisible, setRowsVisible] = useState(1);
   const [animatedRows, setAnimatedRows] = useState<number[]>([]);
-  const [hasMoreMovies, setHasMoreMovies] = useState(true);
 
   const navigate = useNavigate();
   const moviesPerRow = 5;
 
-  const loadMoreMovies = () => {
-    if (!hasMoreMovies) return;
-
-    fetchMovies(skip, take)
-      .then((newMovies) => {
-        if (newMovies.length === 0) {
-          setHasMoreMovies(false);
-          return;
-        }
-        setMovies((prev) => [...prev, ...newMovies]);
-        setSkip((prev) => prev + take);
-      })
-      .catch((err) => {
-        console.error("Failed to load movies:", err);
-        setHasMoreMovies(false);
-      });
-  };
-
   useEffect(() => {
-    loadMoreMovies(); // load initial chunk
+    fetchMovies()
+      .then((data) => setMovies(data || []))
+      .catch((err) => console.error("Failed to load movies:", err));
 
     fetchRecommenderRows(numericUserId)
       .then(setRecs)
@@ -71,9 +51,7 @@ const Movie: React.FC = () => {
       const docHeight = document.documentElement.scrollHeight;
 
       if (scrollY + windowHeight >= docHeight - 50) {
-        loadMoreMovies();
         setRowsVisible((prev) => {
-          // const totalRows = Math.ceil(filteredMovies.length / moviesPerRow);
           const next = prev + 1;
           if (!animatedRows.includes(next - 1)) {
             setAnimatedRows((prevAnimated) => [...prevAnimated, next - 1]);
@@ -85,7 +63,7 @@ const Movie: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [animatedRows, filteredMovies, hasMoreMovies]);
+  }, [animatedRows, filteredMovies]);
 
   return (
     <div
@@ -244,3 +222,4 @@ const Movie: React.FC = () => {
 };
 
 export default Movie;
+
