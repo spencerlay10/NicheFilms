@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 
-const WEB_URL =
-  "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net";
+const WEB_URL = "http://localhost:5050";
+// "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -54,7 +54,7 @@ const Login = () => {
         const user = await meResponse.json();
         console.log("User info:", user);
 
-        const userId = user.genId;
+        const userId = user.id;
         navigate(`/movies/${userId}`);
       } else {
         throw new Error("Could not fetch user info.");
