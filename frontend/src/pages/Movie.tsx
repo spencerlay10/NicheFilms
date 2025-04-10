@@ -100,7 +100,7 @@ const Movie: React.FC = () => {
         }
       `}</style>
 
-      <Header username="Rex" />
+      <Header username="Rex" userId={numericUserId} />
 
       {recs && (
         <>
