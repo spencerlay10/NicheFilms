@@ -25,7 +25,7 @@ const Admin: React.FC = () => {
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const [totalMovies, setTotalMovies] = useState(8000); // You can replace with a real value
+  const [totalMovies, setTotalMovies] = useState(8000);
   const [goToPage, setGoToPage] = useState(1);
 
   const totalPages = Math.ceil(totalMovies / pageSize);
@@ -97,8 +97,6 @@ const Admin: React.FC = () => {
         fontFamily: "Arial, sans-serif",
       }}
     >
-      {/* <Header username="Spencer" userId={numericUserId}/> */}
-
       <main style={{ padding: "40px", paddingTop: "100px", color: "#000" }}>
         <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#444" }}>
           Add/Edit Movies
@@ -253,6 +251,11 @@ const Admin: React.FC = () => {
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
+            style={{
+              ...navBtnStyle,
+              opacity: page === 1 ? 0.5 : 1,
+              cursor: page === 1 ? "not-allowed" : "pointer",
+            }}
           >
             Previous
           </button>
@@ -262,6 +265,11 @@ const Admin: React.FC = () => {
           <button
             disabled={page === totalPages}
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            style={{
+              ...navBtnStyle,
+              opacity: page === totalPages ? 0.5 : 1,
+              cursor: page === totalPages ? "not-allowed" : "pointer",
+            }}
           >
             Next
           </button>
@@ -323,7 +331,6 @@ const Admin: React.FC = () => {
           </label>
         </div>
       </main>
-
       <Footer />
     </div>
   );
@@ -335,7 +342,6 @@ const tdStyle = {
 };
 
 const editBtnStyle = {
-  marginRight: "10px",
   padding: "6px 12px",
   backgroundColor: "#333",
   color: "#fff",
@@ -363,10 +369,6 @@ const navBtnStyle = {
   minWidth: "90px",
   opacity: 1,
   transition: "opacity 0.3s ease",
-  disabled: {
-    opacity: 0.6,
-    cursor: "not-allowed",
-  },
 };
 
 export default Admin;
