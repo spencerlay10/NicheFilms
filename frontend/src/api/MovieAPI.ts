@@ -1,14 +1,12 @@
 import { RecommenderRow } from "../types/RecommenderRows";
 import { Movie } from "../types/Movie";
+import { API_BASE_URL } from "./config";
 import { RatingResponse } from "../types/Rating";
 
-const API_BASE = "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/api";
-
-// 📽 Fetch all movies
-export const fetchMovies = async (): Promise<Movie[]> => {
+export const fetchMovies = async (skip: number, take: number): Promise<Movie[]> => {
   try {
-    const response = await fetch(`${API_BASE}/movie`, {
-      credentials: "include", // 👈 Include cookies/session
+    const response = await fetch(`${API_BASE_URL}/movie?skip=${skip}&take=${take}`, {
+      credentials: "include", // 👈 Must include this for auth
     });
     if (!response.ok) throw new Error("Failed to fetch movies");
     const data: Movie[] = await response.json();
@@ -19,12 +17,15 @@ export const fetchMovies = async (): Promise<Movie[]> => {
   }
 };
 
+
 // 🎬 Fetch main movie by showId
 export const fetchMainMovie = async (showId: string): Promise<Movie | null> => {
   try {
-    const response = await fetch(`${API_BASE}/product/main/${showId}`, {
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/product/main/${showId}`, {
+        credentials: "include", // 👈 Must include this for auth
+      }
+    );
     if (!response.ok) throw new Error("Failed to fetch main movie");
     const data: Movie = await response.json();
     return data;
@@ -39,7 +40,7 @@ export const fetchRecommendedMovies = async (
   showId: string
 ): Promise<Movie[]> => {
   try {
-    const response = await fetch(`${API_BASE}/product/recommended/${showId}`, {
+    const response = await fetch(`${API_BASE_URL}/product/recommended/${showId}`, {
       credentials: "include",
     });
     if (!response.ok) throw new Error("Failed to fetch recommendations");
@@ -56,7 +57,7 @@ export const fetchRecommenderRows = async (
   userId: number
 ): Promise<RecommenderRow | null> => {
   try {
-    const response = await fetch(`${API_BASE}/recommenders/${userId}`, {
+    const response = await fetch(`${API_BASE_URL}/recommenders/${userId}`, {
       credentials: "include",
     });
     if (!response.ok) throw new Error("Failed to fetch user recommendations");
@@ -74,7 +75,7 @@ export const fetchMovieRating = async (
   showId: string
 ): Promise<number> => {
   try {
-    const response = await fetch(`${API_BASE}/product/rating/${userId}/${showId}`, {
+    const response = await fetch(`${API_BASE_URL}/product/rating/${userId}/${showId}`, {
       credentials: "include",
     });
     if (!response.ok) throw new Error("Failed to fetch rating");
@@ -94,7 +95,7 @@ export const updateMovieRating = async (
 ): Promise<void> => {
   try {
     const response = await fetch(
-      `${API_BASE}/product/rating/${userId}/${showId}`,
+      `${API_BASE_URL}/product/rating/${userId}/${showId}`,
       {
         method: "PUT",
         headers: {

@@ -57,35 +57,6 @@ namespace NicheFilms.API.Controllers
 
             return Ok(recommendedMovies);
         }
-
-
-        [HttpPut("rating/{userId}/{showId}")]
-public IActionResult UpdateMovieRating(int userId, string showId, [FromBody] MoviesRating updatedRating)
-{
-    var existingRating = _context.MoviesRatings.Find(userId, showId);
-
-    if (existingRating == null)
-    {
-        // Create a new rating
-        var newRating = new MoviesRating
-        {
-            UserId = userId,
-            ShowId = showId,
-            Rating = updatedRating.Rating
-        };
-
-        _context.MoviesRatings.Add(newRating);
-        _context.SaveChanges();
-        return Ok(newRating);
-    }
-
-    // Update existing rating
-    existingRating.Rating = updatedRating.Rating;
-    _context.SaveChanges();
-    return Ok(existingRating);
-}
-
-
         
         [HttpGet("rating/{userId}/{showId}")]
         public IActionResult GetMovieRating(int userId, string showId)
@@ -99,8 +70,7 @@ public IActionResult UpdateMovieRating(int userId, string showId, [FromBody] Mov
             // Only return the rating value
             return Ok(new { rating = rating.Rating });
         }
-
-
+        
 
 
 

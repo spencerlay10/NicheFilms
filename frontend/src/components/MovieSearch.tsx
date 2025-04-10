@@ -10,9 +10,11 @@ const MovieSearch: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [filtered, setFiltered] = useState<Movie[]>([]);
   const navigate = useNavigate();
+  const [skip] = useState(0);
+  const [take] = useState(100);
 
   useEffect(() => {
-    fetchMovies().then(setMovies).catch(console.error);
+    fetchMovies(skip, take).then(setMovies).catch(console.error);
   }, []);
 
   useEffect(() => {

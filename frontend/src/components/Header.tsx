@@ -16,13 +16,16 @@ const Header = ({ username }: HeaderProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [allMovies, setAllMovies] = useState<Movie[]>([]);
   const [filteredResults, setFilteredResults] = useState<Movie[]>([]);
+  const [skip] = useState(0);
+  const [take] = useState(100);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchMovies()
+    fetchMovies(skip, take)
       .then((data) => setAllMovies(data || []))
-      .catch((err) => console.error("Error loading movie list:", err));
-  }, []);
+      .catch((err) => console.error('Error loading movie list:', err));
+  }, [skip, take]);
 
   useEffect(() => {
     const filtered = allMovies.filter((movie) =>
@@ -30,10 +33,6 @@ const Header = ({ username }: HeaderProps) => {
     );
     setFilteredResults(filtered);
   }, [searchTerm, allMovies]);
-
-  // const handleLogout = () => {
-  //   navigate('/');
-  // };
 
   const handleSearchClick = () => {
     setSearchVisible(true);
@@ -52,7 +51,6 @@ const Header = ({ username }: HeaderProps) => {
       </Link>
 
       <div className="header-right" style={{ position: 'relative' }}>
-        {/* 🔍 Search */}
         <div className="search-container" style={{ position: 'relative' }}>
           {searchVisible ? (
             <div>
@@ -70,7 +68,6 @@ const Header = ({ username }: HeaderProps) => {
                   width: '200px',
                 }}
               />
-              {/* ⬇️ Results Dropdown */}
               {searchTerm && filteredResults.length > 0 && (
                 <ul
                   style={{
@@ -123,7 +120,6 @@ const Header = ({ username }: HeaderProps) => {
           )}
         </div>
 
-        {/* 👤 Account Dropdown */}
         <div
           className="account-section"
           onMouseEnter={() => setDropdownOpen(true)}
