@@ -127,3 +127,54 @@ const CreateAccount: React.FC = () => {
       <div
         style={{
           position: 'relative',
+          zIndex: 1,
+          maxWidth: '400px',
+          width: '100%',
+          padding: '2rem',
+          backgroundColor: 'rgba(0,0,0,0.8)',
+          borderRadius: '8px',
+        }}
+      >
+        <h1>Create Your Account</h1>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+            placeholder="Email"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+            placeholder="Password"
+            required
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={handleChange}
+            placeholder="Confirm Password"
+            required
+          />
+          {password && (
+            <p>Password strength: <strong>{passwordStrength}</strong></p>
+          )}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {success && <p style={{ color: 'lime' }}>{success}</p>}
+          <button type="submit" disabled={loading}>
+            {loading ? 'Creating...' : 'Create Account'}
+          </button>
+        </form>
+      </div>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default CreateAccount;
