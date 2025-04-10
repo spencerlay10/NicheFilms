@@ -5,21 +5,52 @@ import Footer from '../components/Footer';
 const CreateAccount: React.FC = () => {
   const navigate = useNavigate();
 
-  // Form state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === 'email') setEmail(value);
-    if (name === 'password') setPassword(value);
+    if (name === 'password') {
+      setPassword(value);
+      updatePasswordStrength(value);
+    }
     if (name === 'confirmPassword') setConfirmPassword(value);
+  };
+
+  const updatePasswordStrength = (pwd: string) => {
+    const hasUpper = /[A-Z]/.test(pwd);
+    const hasLower = /[a-z]/.test(pwd);
+    const hasNumber = /\d/.test(pwd);
+    const hasSpecial = /[!@#$%^&*]/.test(pwd);
+    const isLong = pwd.length >= 8;
+
+    const score = [hasUpper, hasLower, hasNumber, hasSpecial, isLong].filter(Boolean).length;
+
+    if (score <= 2) setPasswordStrength('Weak');
+    else if (score === 3 || score === 4) setPasswordStrength('Moderate');
+    else if (score === 5) setPasswordStrength('Strong');
+    else setPasswordStrength('');
+  };
+
+  const isPasswordStrong = (pwd: string) => {
+    return (
+      pwd.length >= 8 &&
+      /[A-Z]/.test(pwd) &&
+      /[a-z]/.test(pwd) &&
+      /\d/.test(pwd) &&
+      /[!@#$%^&*]/.test(pwd)
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
 
     if (!email || !password || !confirmPassword) {
       setError('Please fill in all fields.');
@@ -27,23 +58,39 @@ const CreateAccount: React.FC = () => {
       setError('Please enter a valid email address.');
     } else if (password !== confirmPassword) {
       setError('Passwords do not match.');
+    } else if (!isPasswordStrong(password)) {
+      setError(
+        'Password must be at least 8 characters and include uppercase, lowercase, number, and special character.'
+      );
     } else {
       setError('');
+      setSuccess('');
+      setLoading(true);
       try {
-        const response = await fetch('https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        });
+        const response = await fetch(
+          'https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/register',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+          }
+        );
 
         if (response.ok) {
-          navigate('/login');
+          setSuccess('Account created successfully! Redirecting to login...');
+          setEmail('');
+          setPassword('');
+          setConfirmPassword('');
+          setPasswordStrength('');
+          setTimeout(() => navigate('/login'), 2000);
         } else {
           setError('Error registering. Try a different email.');
         }
       } catch (err) {
         console.error(err);
         setError('Error registering. Please try again later.');
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -65,7 +112,6 @@ const CreateAccount: React.FC = () => {
         paddingBottom: '80px',
       }}
     >
-      {/* Overlay */}
       <div
         style={{
           position: 'absolute',
@@ -78,133 +124,6 @@ const CreateAccount: React.FC = () => {
         }}
       />
 
-      {/* Create Account Box */}
       <div
         style={{
           position: 'relative',
-          backgroundColor: 'rgba(0,0,0,0.75)',
-          padding: '60px 68px 40px',
-          borderRadius: '6px',
-          width: '320px',
-          zIndex: 1,
-          boxShadow: '0 0 15px rgba(0,0,0,0.4)',
-          marginBottom: '60px',
-        }}
-      >
-        <h1 style={{ marginBottom: '25px' }}>Create Account</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={email}
-            onChange={handleChange}
-            required
-            style={{
-              width: '100%',
-              padding: '10px',
-              marginBottom: '10px',
-              backgroundColor: '#333',
-              border: 'none',
-              borderRadius: '4px',
-              color: '#fff',
-            }}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={password}
-            onChange={handleChange}
-            required
-            style={{
-              width: '100%',
-              padding: '10px',
-              marginBottom: '10px',
-              backgroundColor: '#333',
-              border: 'none',
-              borderRadius: '4px',
-              color: '#fff',
-            }}
-          />
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={handleChange}
-            required
-            style={{
-              width: '100%',
-              padding: '10px',
-              marginBottom: '15px',
-              backgroundColor: '#333',
-              border: 'none',
-              borderRadius: '4px',
-              color: '#fff',
-            }}
-          />
-          <button
-            type="submit"
-            style={{
-              width: '100%',
-              padding: '10px',
-              backgroundColor: '#8E3BFC',
-              color: '#fff',
-              fontWeight: 'bold',
-              border: 'none',
-              borderRadius: '4px',
-              marginBottom: '15px',
-              cursor: 'pointer',
-            }}
-          >
-            Sign Up
-          </button>
-
-          {error && (
-            <p style={{ color: '#e87c03', marginBottom: '15px' }}>{error}</p>
-          )}
-
-          <div style={{ fontSize: '0.9rem', marginBottom: '10px' }}>
-            Already have an account?{' '}
-            <a
-              href="/login"
-              style={{
-                color: '#fff',
-                fontWeight: 'bold',
-                textDecoration: 'none',
-              }}
-            >
-              Sign in now
-            </a>
-            .
-          </div>
-
-          {/* Back to Home Button */}
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-            style={{
-              width: '100%',
-              padding: '10px',
-              backgroundColor: '#444',
-              color: '#fff',
-              border: '1px solid #666',
-              borderRadius: '4px',
-              cursor: 'pointer',
-            }}
-          >
-            ← Back
-          </button>
-        </form>
-      </div>
-
-      {/* Footer */}
-      <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-        <Footer />
-      </div>
-    </div>
-  );
-};
-
-export default CreateAccount;

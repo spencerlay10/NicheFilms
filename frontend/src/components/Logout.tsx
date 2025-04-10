@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
 
 const Logout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -19,6 +21,8 @@ const Logout = ({ children }: { children: React.ReactNode }) => {
       if (response.ok) {
         // Optional: Clear frontend auth state here if you have context/state
         // Example: setAuthUser(null)
+
+        Cookies.remove('.AspNetCore.Identity.Application', { path: '/' });
 
         navigate('/login', { replace: true }); // ensure clean history stack
       } else {
