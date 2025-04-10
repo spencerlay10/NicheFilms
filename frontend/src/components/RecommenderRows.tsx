@@ -7,9 +7,16 @@ type Props = {
   showIds: string[];
   movies: Movie[];
   cardSize: "large" | "small";
+  userId: number;
 };
 
-const RecommenderRows: React.FC<Props> = ({ title, showIds, movies, cardSize }) => {
+const RecommenderRows: React.FC<Props> = ({
+  title,
+  showIds,
+  movies,
+  cardSize,
+  userId,
+}) => {
   const navigate = useNavigate();
 
   const matchedMovies = movies.filter((movie) =>
@@ -28,15 +35,15 @@ const RecommenderRows: React.FC<Props> = ({ title, showIds, movies, cardSize }) 
           overflowX: "auto",
           padding: "20px",
           gap: "16px",
-          scrollbarWidth: "none",         // Firefox
-          msOverflowStyle: "none",        // IE/Edge
+          scrollbarWidth: "none", // Firefox
+          msOverflowStyle: "none", // IE/Edge
         }}
         className="hide-scrollbar"
       >
         {matchedMovies.map((movie) => (
           <div
             key={movie.showId}
-            onClick={() => navigate(`/productDetail/${movie.showId}`)}
+            onClick={() => navigate(`/productDetail/${userId}/${movie.showId}`)}
             style={{
               flex: "0 0 auto",
               width: widthMap[cardSize],
@@ -50,7 +57,9 @@ const RecommenderRows: React.FC<Props> = ({ title, showIds, movies, cardSize }) 
               cursor: "pointer",
               transition: "transform 0.2s ease-in-out",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.transform = "scale(1.05)")
+            }
             onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
             <div
