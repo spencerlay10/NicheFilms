@@ -73,7 +73,7 @@ const Movie: React.FC = () => {
       if (scrollY + windowHeight >= docHeight - 50) {
         loadMoreMovies();
         setRowsVisible((prev) => {
-          const totalRows = Math.ceil(filteredMovies.length / moviesPerRow);
+          // const totalRows = Math.ceil(filteredMovies.length / moviesPerRow);
           const next = prev + 1;
           if (!animatedRows.includes(next - 1)) {
             setAnimatedRows((prevAnimated) => [...prevAnimated, next - 1]);
