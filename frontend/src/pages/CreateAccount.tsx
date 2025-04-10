@@ -69,15 +69,11 @@ const CreateAccount: React.FC = () => {
       setSuccess("");
       setLoading(true);
       try {
-        const response = await fetch(
-          // 'https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/register'
-          "http://localhost:5050/register",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-          }
-        );
+        const response = await fetch("http://localhost:5050/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
 
         if (response.ok) {
           setSuccess("Account created successfully! Redirecting to login...");
@@ -101,88 +97,114 @@ const CreateAccount: React.FC = () => {
   return (
     <div
       style={{
-        backgroundImage: `url('https://assets.nflxext.com/ffe/siteui/vlv3/52b3d4d0-5eb6-42e6-9427-5025a5fa98d8/00dfecba-3ff3-4d1e-a9e8-fb281bb33f4b/US-en-20240401-popsignuptwoweeks-perspective_alpha_website_medium.jpg')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundColor: "#141414",
         minHeight: "100vh",
-        position: "relative",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
-        color: "#fff",
+        justifyContent: "space-between",
         fontFamily: "Arial, sans-serif",
-        paddingTop: "60px",
-        paddingBottom: "80px",
       }}
     >
-      <div
+      <main
         style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          height: "100%",
-          width: "100%",
-          backgroundColor: "rgba(0,0,0,0.6)",
-          zIndex: 0,
-        }}
-      />
-
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: "400px",
-          width: "100%",
-          padding: "2rem",
-          backgroundColor: "rgba(0,0,0,0.8)",
-          borderRadius: "8px",
+          flexGrow: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "60px 20px",
         }}
       >
-        <h1>Create Your Account</h1>
-        <form
-          onSubmit={handleSubmit}
-          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+        <div
+          style={{
+            backgroundColor: "#1f1f1f",
+            padding: "2rem",
+            borderRadius: "10px",
+            width: "100%",
+            maxWidth: "400px",
+            boxShadow: "0 0 12px rgba(0,0,0,0.6)",
+            color: "#fff",
+          }}
         >
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={handleChange}
-            placeholder="Email"
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={handleChange}
-            placeholder="Password"
-            required
-          />
-          <input
-            type="password"
-            name="confirmPassword"
-            value={confirmPassword}
-            onChange={handleChange}
-            placeholder="Confirm Password"
-            required
-          />
-          {password && (
-            <p>
-              Password strength: <strong>{passwordStrength}</strong>
-            </p>
-          )}
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          {success && <p style={{ color: "lime" }}>{success}</p>}
-          <button type="submit" disabled={loading}>
-            {loading ? "Creating..." : "Create Account"}
-          </button>
-        </form>
-      </div>
+          <h2
+            style={{
+              textAlign: "center",
+              fontSize: "1.8rem",
+              marginBottom: "1.5rem",
+            }}
+          >
+            Create Your Account
+          </h2>
+
+          <form
+            onSubmit={handleSubmit}
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          >
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleChange}
+              placeholder="Email"
+              required
+              style={inputStyle}
+            />
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={handleChange}
+              placeholder="Password"
+              required
+              style={inputStyle}
+            />
+            <input
+              type="password"
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirm Password"
+              required
+              style={inputStyle}
+            />
+
+            {password && (
+              <p style={{ fontSize: "0.9rem", color: "#bbb" }}>
+                Password strength: <strong>{passwordStrength}</strong>
+              </p>
+            )}
+
+            {error && <p style={{ color: "#ff6b6b" }}>{error}</p>}
+            {success && <p style={{ color: "#4caf50" }}>{success}</p>}
+
+            <button type="submit" disabled={loading} style={buttonStyle}>
+              {loading ? "Creating..." : "Create Account"}
+            </button>
+          </form>
+        </div>
+      </main>
 
       <Footer />
     </div>
   );
+};
+
+const inputStyle: React.CSSProperties = {
+  padding: "10px",
+  borderRadius: "4px",
+  border: "1px solid #444",
+  backgroundColor: "#2c2c2c",
+  color: "#fff",
+  fontSize: "1rem",
+};
+
+const buttonStyle: React.CSSProperties = {
+  padding: "10px",
+  backgroundColor: "#e50914",
+  color: "#fff",
+  border: "none",
+  borderRadius: "4px",
+  fontSize: "1rem",
+  cursor: "pointer",
 };
 
 export default CreateAccount;
