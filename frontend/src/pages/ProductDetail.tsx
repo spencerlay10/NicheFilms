@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-// import AuthorizeView from "../components/AuthorizeView";
 import {
   fetchMainMovie,
   fetchRecommendedMovies,
@@ -10,7 +9,6 @@ import {
   updateMovieRating,
 } from "../api/MovieAPI";
 import { Movie as MovieType } from "../types/Movie";
-// import AuthorizeView from "../components/AuthorizeView";
 
 const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState(0);
@@ -48,7 +46,6 @@ const ProductDetail: React.FC = () => {
     return <div style={{ color: "white", padding: "40px" }}>Loading...</div>;
 
   return (
-   // <AuthorizeView>
     <>
       <Header username="Rex" />
       <div
@@ -109,7 +106,15 @@ const ProductDetail: React.FC = () => {
 
         {/* Recommended Section */}
         <h2 style={{ marginBottom: "20px" }}>Recommended Movies</h2>
-        <div style={{ display: "flex", gap: "20px", overflowX: "auto" }}>
+        <div
+          className="hide-scrollbar"
+          style={{
+            display: "flex",
+            gap: "20px",
+            overflowX: "auto",
+            paddingBottom: "10px",
+          }}
+        >
           {recommended.map((movie, index) => (
             <div key={index} style={{ textAlign: "center" }}>
               <img
@@ -131,8 +136,18 @@ const ProductDetail: React.FC = () => {
 
         <Footer />
       </div>
+
+      {/* Scrollbar Hider Styles */}
+      <style>{`
+        .hide-scrollbar {
+          scrollbar-width: none;         /* Firefox */
+          -ms-overflow-style: none;      /* IE 10+ */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;                 /* Chrome, Safari, Opera */
+        }
+      `}</style>
     </>
-   // </AuthorizeView>
   );
 };
 

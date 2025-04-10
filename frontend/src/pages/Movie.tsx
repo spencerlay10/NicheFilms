@@ -107,37 +107,66 @@ const Movie: React.FC = () => {
           <RecommenderRows
             title="For You"
             showIds={extractIds(
-              "rec1", "rec2", "rec3", "rec4", "rec5",
-              "rec6", "rec7", "rec8", "rec9", "rec10",
-              "rec11", "rec12", "rec13", "rec14", "rec15",
-              "rec16", "rec17", "rec18", "rec19", "rec20"
+              "rec1",
+              "rec2",
+              "rec3",
+              "rec4",
+              "rec5",
+              "rec6",
+              "rec7",
+              "rec8",
+              "rec9",
+              "rec10",
+              "rec11",
+              "rec12",
+              "rec13",
+              "rec14",
+              "rec15",
+              "rec16",
+              "rec17",
+              "rec18",
+              "rec19",
+              "rec20"
             )}
             movies={movies}
             cardSize="large"
+            userId={numericUserId} // ✅ passed
           />
           <RecommenderRows
             title="Movies We Think You'll Like"
             showIds={extractIds(
-              ...Array.from({ length: 20 }, (_, i) => `movieRec${i + 1}`) as (keyof RecommenderRow)[]
+              ...(Array.from(
+                { length: 20 },
+                (_, i) => `movieRec${i + 1}`
+              ) as (keyof RecommenderRow)[])
             )}
             movies={movies}
             cardSize="small"
+            userId={numericUserId}
           />
           <RecommenderRows
             title="Shows We Think You'll Like"
             showIds={extractIds(
-              ...Array.from({ length: 20 }, (_, i) => `tvRec${i + 1}`) as (keyof RecommenderRow)[]
+              ...(Array.from(
+                { length: 20 },
+                (_, i) => `tvRec${i + 1}`
+              ) as (keyof RecommenderRow)[])
             )}
             movies={movies}
             cardSize="small"
+            userId={numericUserId}
           />
           <RecommenderRows
             title="Niche Content You'll Love"
             showIds={extractIds(
-              ...Array.from({ length: 20 }, (_, i) => `nicheRec${i + 1}`) as (keyof RecommenderRow)[]
+              ...(Array.from(
+                { length: 20 },
+                (_, i) => `nicheRec${i + 1}`
+              ) as (keyof RecommenderRow)[])
             )}
             movies={movies}
             cardSize="small"
+            userId={numericUserId}
           />
         </>
       )}
@@ -152,7 +181,9 @@ const Movie: React.FC = () => {
 
         <div style={{ marginTop: "30px" }}>
           {filteredMovies.length === 0 && (
-            <p style={{ color: "#ccc", textAlign: "center", marginTop: "30px" }}>
+            <p
+              style={{ color: "#ccc", textAlign: "center", marginTop: "30px" }}
+            >
               No movies match your selected genres.
             </p>
           )}
@@ -179,7 +210,11 @@ const Movie: React.FC = () => {
                   <div
                     key={index}
                     className="hover-expand"
-                    onClick={() => navigate(`/productDetail/${numericUserId}/${movie.showId}`)}
+                    onClick={() =>
+                      navigate(
+                        `/productDetail/${numericUserId}/${movie.showId}`
+                      )
+                    }
                     style={{
                       width: "200px",
                       height: "300px",
@@ -222,4 +257,3 @@ const Movie: React.FC = () => {
 };
 
 export default Movie;
-
