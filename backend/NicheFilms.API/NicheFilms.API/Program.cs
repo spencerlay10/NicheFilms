@@ -18,9 +18,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<NicheFilmsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NicheFilmsDb")));
 
-// Identity with minimal endpoints
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+// // Identity with minimal endpoints
+// builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+//     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Required to add the Email claim for user
 builder.Services.Configure<IdentityOptions>(options =>
