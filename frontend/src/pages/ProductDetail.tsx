@@ -201,12 +201,6 @@ const ProductDetail: React.FC = () => {
           <p><strong>Director:</strong> {mainMovie.director}</p>
           <p><strong>Cast:</strong> {mainMovie.cast}</p>
           <p><strong>Country:</strong> {mainMovie.country}</p>
-
-          {/* Average Rating and Number of Ratings */}
-          <div style={{ marginTop: "20px" }}>
-            <p><strong>Average Rating:</strong> {mainMovie.averageRating ? mainMovie.averageRating.toFixed(1) : "N/A"}</p>
-            <p><strong>Number of Ratings:</strong> {mainMovie.ratingCount || "N/A"}</p>
-          </div>
         </div>
 
         {/* Add space between details and recommended section */}
