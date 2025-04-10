@@ -82,26 +82,20 @@ app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> s
     return Results.Ok(new { message = "Logout successful" });
 }).RequireAuthorization();
 
-// Auth check endpoint for frontend
-app.MapGet("/pingauth", (ClaimsPrincipal user) =>
-{
-    if (!user.Identity?.IsAuthenticated ?? false)
-    {
-        return Results.Unauthorized();
-    }
-
-    var email = user.FindFirstValue(ClaimTypes.Email) ?? "unknown@example.com";
-    return Results.Json(new { email });
-}).RequireAuthorization();
-
-// Get current user's ID and email after login
-app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal user) =>
+// ✅ /me route that returns gen_id
+app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal user, ApplicationDbContext db) =>
 {
     var currentUser = await userManager.GetUserAsync(user);
     if (currentUser == null) return Results.Unauthorized();
 
+    // Pull gen_id manually using EF.Property
+    var genId = await db.Users
+        .Where(u => u.Id == currentUser.Id)
+        .Select(u => EF.Property<string>(u, "gen_id"))
+        .FirstOrDefaultAsync();
+
     return Results.Ok(new {
-        userId = currentUser.Id,
+        genId,
         email = currentUser.Email
     });
 }).RequireAuthorization();

@@ -3,10 +3,10 @@ import { Movie } from "../types/Movie";
 import { API_BASE_URL } from "./config";
 import { RatingResponse } from "../types/Rating";
 
-export const fetchMovies = async (skip: number, take: number): Promise<Movie[]> => {
+export const fetchMovies = async (): Promise<Movie[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/movie?skip=${skip}&take=${take}`, {
-      credentials: "include", // 👈 Must include this for auth
+    const response = await fetch(`${API_BASE_URL}/movie`, {
+      credentials: "include", // 👈 Still include cookies/session
     });
     if (!response.ok) throw new Error("Failed to fetch movies");
     const data: Movie[] = await response.json();
@@ -16,6 +16,7 @@ export const fetchMovies = async (skip: number, take: number): Promise<Movie[]> 
     throw error;
   }
 };
+
 
 
 // 🎬 Fetch main movie by showId

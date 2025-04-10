@@ -16,17 +16,19 @@ namespace NicheFilms.API.Controllers
             _context = context;
         }
 
-        // GET: api/movie
-       [HttpGet]
-        public IActionResult GetAllMovies([FromQuery] int skip = 0, [FromQuery] int take = 100)
-            {
+                    // GET: api/movie
+                // GET: api/movie
+            // Returns all movies (no pagination)
+        [HttpGet]
+        public IActionResult GetAllMovies()
+        {
             var movies = _context.MoviesTitles
-                .Skip(skip)
-                .Take(take)
+                .OrderBy(m => m.Title)
                 .ToList();
 
             return Ok(movies);
-            }
+}
+
 
         [HttpGet("admin")]
         public IActionResult GetPagedMovies([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
