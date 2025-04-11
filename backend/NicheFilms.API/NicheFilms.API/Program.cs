@@ -23,7 +23,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// ✅ Register default authentication scheme
+// Register default authentication scheme
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
@@ -84,7 +84,7 @@ app.UseAuthorization();
 // API endpoints
 app.MapControllers();
 
-// ✅ Login endpoint
+// Login endpoint
 app.MapPost("/login", async (
     SignInManager<IdentityUser> signInManager,
     UserManager<IdentityUser> userManager,
@@ -101,6 +101,29 @@ app.MapPost("/login", async (
         return Results.Json(new { message = "Invalid credentials." }, statusCode: 401);
 
     return Results.Ok(new { message = "Login successful." });
+});
+
+// Register endpoint
+app.MapPost("/register", async (
+    UserManager<IdentityUser> userManager,
+    HttpContext context,
+    RegisterRequest register
+) =>
+{
+    var user = new IdentityUser
+    {
+        UserName = register.Email,
+        Email = register.Email
+    };
+
+    var result = await userManager.CreateAsync(user, register.Password);
+    if (!result.Succeeded)
+    {
+        var errors = result.Errors.Select(e => e.Description);
+        return Results.Json(new { message = "Registration failed", errors }, statusCode: 400);
+    }
+
+    return Results.Ok(new { message = "Registration successful" });
 });
 
 // Logout endpoint
@@ -120,7 +143,7 @@ app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal 
     return Results.Ok(new { id = currentUser.Id, email = currentUser.Email });
 }).RequireAuthorization();
 
-// ✅ Pingauth route
+// Pingauth route
 app.MapGet("/pingauth", (HttpContext context, ClaimsPrincipal user) =>
 {
     Console.WriteLine($"User authenticated? {user.Identity?.IsAuthenticated}");
@@ -139,8 +162,6 @@ app.MapGet("/pingauth", (HttpContext context, ClaimsPrincipal user) =>
 
 app.Run();
 
-// DTO used for login
+// DTOs
 public record LoginRequest(string Email, string Password);
-
-
-
+public record RegisterRequest(string Email, string Password);
