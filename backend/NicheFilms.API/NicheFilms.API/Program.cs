@@ -185,6 +185,7 @@ app.MapGet("/pingauth", (HttpContext context, ClaimsPrincipal user) =>
 // 🔐 Example of RBAC-protected route
 app.MapGet("/admin-stuff", () => Results.Ok("You are an admin!"))
    .RequireAuthorization(new AuthorizeAttribute { Roles = "Admin" });
+   
 
 app.Run();
 
