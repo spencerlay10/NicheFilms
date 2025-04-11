@@ -21,7 +21,8 @@ const Login = () => {
       return;
     }
 
-    const loginUrl = `${API_BASE_URL}/login`;
+    // const loginUrl = `${API_BASE_URL}/login`;
+    const loginUrl = `${API_BASE_URL}/login?useCookies=true&useSessionCookies=false`;
 
     try {
       const response = await fetch(loginUrl, {
