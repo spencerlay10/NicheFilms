@@ -39,6 +39,7 @@ namespace NicheFilms.API.Controllers
             // Filter and order movies above average rating count
             var topRatedMovies = ratingGroups
                 .Where(r => r.RatingCount > averageRatingCount)
+                .OrderByDescending(r => r.RatingCount)
                 .OrderByDescending(r => r.AverageRating)
                 .Take(20)
                 .Join(
