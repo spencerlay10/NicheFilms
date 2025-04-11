@@ -99,9 +99,26 @@ app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal 
     var currentUser = await userManager.GetUserAsync(user);
     if (currentUser == null) return Results.Unauthorized();
 
-    return Results.Ok(new { id = currentUser.Id, email = currentUser.Email });
+    var roles = await userManager.GetRolesAsync(currentUser);
+    return Results.Ok(new { id = currentUser.Id, email = currentUser.Email, roles });
 }).RequireAuthorization();
 
+
+app.MapGet("/pingauth", (HttpContext context, ClaimsPrincipal user) =>
+{
+    Console.WriteLine($"User authenticated? {user.Identity?.IsAuthenticated}");
+
+    if (!user.Identity?.IsAuthenticated ?? false)
+    {
+        Console.WriteLine("Unauthorized request to /pingauth");
+        return Results.Unauthorized();
+    }
+
+    var email = user.FindFirstValue(ClaimTypes.Email) ?? "unknown@example.com";
+    Console.WriteLine($"Authenticated User Email: {email}");
+
+    return Results.Json(new { email = email });
+}).RequireAuthorization();
 
 app.Run();
 
