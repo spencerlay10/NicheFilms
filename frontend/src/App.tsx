@@ -9,7 +9,7 @@ import Admin from "./pages/Admin";
 import CookieConsent from "react-cookie-consent";
 import MovieForm from "./pages/MovieForm";
 import Privacy_home_page from "./pages/Privacy_home_page";
-import AuthorizeView from "./components/AuthorizeView";
+// import AuthorizeView from "./components/AuthorizeView";
 import { AuthProvider } from "./context/AuthContext";
 import AdminRoute from "./routes/AdminRoute";
 
