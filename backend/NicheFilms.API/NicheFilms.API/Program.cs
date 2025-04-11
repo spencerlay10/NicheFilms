@@ -151,9 +151,19 @@ app.MapPost("/register", async (
 app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> signInManager) =>
 {
     await signInManager.SignOutAsync();
-    context.Response.Cookies.Delete(".AspNetCore.Identity.Application");
+    
+    // Ensure cookies are deleted with correct settings
+    context.Response.Cookies.Delete(".AspNetCore.Identity.Application", new CookieOptions
+    {
+        HttpOnly = true,
+        Secure = true, // Ensure this matches your app's secure setting
+        SameSite = SameSiteMode.None, // Ensure this matches the SameSite setting used during cookie creation
+        Path = "/" // Ensure path matches the path the cookie was created with
+    });
+    
     return Results.Ok(new { message = "Logout successful" });
 }).RequireAuthorization();
+
 
 // 👤 Me
 app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal user) =>
