@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
+// Logs out the user, resets the cookie with logout API
 
 const Logout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();

@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../api/config';
 
+// This is a Movie List with relevant information 
+//pulls data for each movie 
+
 interface Movie {
   showId: string;
   title: string;

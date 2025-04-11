@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
 
+// This Privacy page requires an id coming from the logged in perspective
 const Privacy: React.FC = () => {
   // Pass userId dynamically from context, cookies, or another source
    // Set this dynamically if needed

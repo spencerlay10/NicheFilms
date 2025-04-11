@@ -2,6 +2,8 @@ import React from "react";
 import { Movie } from "../types/Movie";
 import { useNavigate } from "react-router-dom";
 
+// Returns the recommendations from the database and gives clickable
+
 type Props = {
   title: string;
   showIds: string[];

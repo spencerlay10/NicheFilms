@@ -6,7 +6,7 @@ import Footer_Privacy_Policy_Homepage from "../components/Footer_Privacy_Policy_
 import { useNavigate } from "react-router-dom";
 
 
-
+// Different privacy page for the home doesn't need a userId
 const Privacy: React.FC = () => {
   const navigate = useNavigate();
 

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { GENRES } from "../constants/Genres";
 
+// Filters by all Genres
+// Pulls from the constants folder and lists categories
 type Props = {
   selectedGenres: string[];
   onChange: (genres: string[]) => void;

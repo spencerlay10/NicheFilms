@@ -3,6 +3,8 @@ import { Navigate } from 'react-router-dom';
 
 const UserContext = createContext<User | null>(null);
 
+// Makes sure the user is authorized before letting them into the view
+
 interface User {
   email: string;
 }
