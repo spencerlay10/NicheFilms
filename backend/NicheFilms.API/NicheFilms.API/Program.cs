@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NicheFilms.API.Data;
@@ -6,7 +7,7 @@ using NicheFilms.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -18,12 +19,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<NicheFilmsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NicheFilmsDb")));
 
-// Identity setup
+// Identity setup with roles ✅
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// Register default authentication scheme
+// Authentication cookie scheme
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
@@ -31,17 +32,17 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
 });
 
-// Add email claim support
+// Claims
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
     options.ClaimsIdentity.UserNameClaimType = ClaimTypes.Email;
 });
 
-// Custom claims principal factory
+// Fix email not appearing in ClaimsPrincipal
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, CustomUserClaimsPrincipalFactory>();
 
-// Cookie setup
+// Cookie settings
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
@@ -51,7 +52,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/login";
 });
 
-// CORS for React frontend
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -63,17 +64,31 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Auth & Email
+// Auth
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IEmailSender<IdentityUser>, NoOpEmailSender<IdentityUser>>();
 
 var app = builder.Build();
 
-// Swagger for development
+// Optional: seed roles (Admin, Customer) on startup ✅
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    string[] roles = new[] { "Admin", "Customer" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
+
+// Middleware
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// Middleware pipeline
 app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
 app.UseRouting();
@@ -81,10 +96,9 @@ app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// API endpoints
 app.MapControllers();
 
-// Login endpoint
+// 🔐 Login
 app.MapPost("/login", async (
     SignInManager<IdentityUser> signInManager,
     UserManager<IdentityUser> userManager,
@@ -103,9 +117,10 @@ app.MapPost("/login", async (
     return Results.Ok(new { message = "Login successful." });
 });
 
-// Register endpoint
+// 🆕 Register (optionally add role)
 app.MapPost("/register", async (
     UserManager<IdentityUser> userManager,
+    RoleManager<IdentityRole> roleManager,
     HttpContext context,
     RegisterRequest register
 ) =>
@@ -123,10 +138,16 @@ app.MapPost("/register", async (
         return Results.Json(new { message = "Registration failed", errors }, statusCode: 400);
     }
 
+    // Optionally assign role after registration (default role)
+    if (await roleManager.RoleExistsAsync("Customer"))
+    {
+        await userManager.AddToRoleAsync(user, "Customer");
+    }
+
     return Results.Ok(new { message = "Registration successful" });
 });
 
-// Logout endpoint
+// 🚪 Logout
 app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> signInManager) =>
 {
     await signInManager.SignOutAsync();
@@ -134,16 +155,17 @@ app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> s
     return Results.Ok(new { message = "Logout successful" });
 }).RequireAuthorization();
 
-// /me route to return logged-in user info
+// 👤 Me
 app.MapGet("/me", async (UserManager<IdentityUser> userManager, ClaimsPrincipal user) =>
 {
     var currentUser = await userManager.GetUserAsync(user);
     if (currentUser == null) return Results.Unauthorized();
 
-    return Results.Ok(new { id = currentUser.Id, email = currentUser.Email });
+    var roles = await userManager.GetRolesAsync(currentUser);
+    return Results.Ok(new { id = currentUser.Id, email = currentUser.Email, roles });
 }).RequireAuthorization();
 
-// Pingauth route
+// 🛠️ Auth ping
 app.MapGet("/pingauth", (HttpContext context, ClaimsPrincipal user) =>
 {
     Console.WriteLine($"User authenticated? {user.Identity?.IsAuthenticated}");
@@ -159,6 +181,10 @@ app.MapGet("/pingauth", (HttpContext context, ClaimsPrincipal user) =>
 
     return Results.Json(new { email });
 }).RequireAuthorization();
+
+// 🔐 Example of RBAC-protected route
+app.MapGet("/admin-stuff", () => Results.Ok("You are an admin!"))
+   .RequireAuthorization(new AuthorizeAttribute { Roles = "Admin" });
 
 app.Run();
 
