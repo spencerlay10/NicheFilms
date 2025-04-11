@@ -9,21 +9,67 @@ import Admin from "./pages/Admin";
 import CookieConsent from "react-cookie-consent";
 import MovieForm from "./pages/MovieForm";
 import Privacy_home_page from "./pages/Privacy_home_page";
+import AuthorizeView from "./components/AuthorizeView";
 
 function App() {
   return (
     <div>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/createAccount" element={<CreateAccount />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/movies/:userId" element={<Movie />} />
-        <Route path="/privacy/:userId" element={<Privacy />} />
-        <Route path="/productDetail/:userId/:showId" element={<ProductDetail />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/admin/add" element={<MovieForm />} />
-        <Route path="/admin/edit/:id" element={<MovieForm />} />
         <Route path="/privacypolicy" element={<Privacy_home_page />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/movies/:userId"
+          element={
+            <AuthorizeView>
+              <Movie />
+            </AuthorizeView>
+          }
+        />
+        <Route
+          path="/privacy/:userId"
+          element={
+            <AuthorizeView>
+              <Privacy />
+            </AuthorizeView>
+          }
+        />
+        <Route
+          path="/productDetail/:userId/:showId"
+          element={
+            <AuthorizeView>
+              <ProductDetail />
+            </AuthorizeView>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <AuthorizeView>
+              <Admin />
+            </AuthorizeView>
+          }
+        />
+        <Route
+          path="/admin/add"
+          element={
+            <AuthorizeView>
+              <MovieForm />
+            </AuthorizeView>
+          }
+        />
+        <Route
+          path="/admin/edit/:id"
+          element={
+            <AuthorizeView>
+              <MovieForm />
+            </AuthorizeView>
+          }
+        />
       </Routes>
 
       {/* GDPR Cookie Consent Banner */}
@@ -50,16 +96,14 @@ function App() {
         enableDeclineButton
         onAccept={() => {
           console.log("User accepted cookies");
-          // You could initialize analytics or other tracking here
         }}
         onDecline={() => {
           console.log("User declined cookies");
-          // Skip initializing tracking scripts
         }}
       >
         We use cookies to enhance your experience. You can read more in our{" "}
         <a
-          href="/privacy"
+          href="/privacypolicy"
           style={{
             textDecoration: "underline",
             color: "white",
