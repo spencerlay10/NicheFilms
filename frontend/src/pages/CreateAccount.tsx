@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import { API_BASE_URL } from "../api/config";
+import Cookies from "js-cookie";
 
 const CreateAccount: React.FC = () => {
   const navigate = useNavigate();
@@ -23,37 +25,33 @@ const CreateAccount: React.FC = () => {
     if (name === "confirmPassword") setConfirmPassword(value);
   };
 
+  // Checks if password is greater than 12
   const updatePasswordStrength = (pwd: string) => {
-    const hasUpper = /[A-Z]/.test(pwd);
-    const hasLower = /[a-z]/.test(pwd);
-    const hasNumber = /\d/.test(pwd);
-    const hasSpecial = /[!@#$%^&*]/.test(pwd);
-    const isLong = pwd.length >= 8;
-
-    const score = [hasUpper, hasLower, hasNumber, hasSpecial, isLong].filter(
-      Boolean
-    ).length;
-
-    if (score <= 2) setPasswordStrength("Weak");
-    else if (score === 3 || score === 4) setPasswordStrength("Moderate");
-    else if (score === 5) setPasswordStrength("Strong");
-    else setPasswordStrength("");
+    if (pwd.length < 8) {
+      setPasswordStrength("Weak");
+    } else if (pwd.length <= 12) {
+      setPasswordStrength("Moderate");
+    } else {
+      setPasswordStrength("Strong");
+    }
   };
 
   const isPasswordStrong = (pwd: string) => {
-    return (
-      pwd.length >= 8 &&
-      /[A-Z]/.test(pwd) &&
-      /[a-z]/.test(pwd) &&
-      /\d/.test(pwd) &&
-      /[!@#$%^&*]/.test(pwd)
-    );
+    return pwd.length > 12;
   };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
-
+  
+    // ✅ Block if user hasn't accepted cookies
+    const consent = Cookies.get("gdprConsent");
+    if (consent !== "true") {
+      setError("Please accept cookies to create an account.");
+      return;
+    }
+  
     if (!email || !password || !confirmPassword) {
       setError("Please fill in all fields.");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -61,20 +59,18 @@ const CreateAccount: React.FC = () => {
     } else if (password !== confirmPassword) {
       setError("Passwords do not match.");
     } else if (!isPasswordStrong(password)) {
-      setError(
-        "Password must be at least 8 characters and include uppercase, lowercase, number, and special character."
-      );
+      setError("Password must be more than 12 characters.");
     } else {
       setError("");
       setSuccess("");
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:5050/register", {
+        const response = await fetch(`${API_BASE_URL}/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
-
+        // On succesful login
         if (response.ok) {
           setSuccess("Account created successfully! Redirecting to login...");
           setEmail("");
@@ -93,6 +89,7 @@ const CreateAccount: React.FC = () => {
       }
     }
   };
+  
 
   return (
     <div
@@ -199,7 +196,7 @@ const inputStyle: React.CSSProperties = {
 
 const buttonStyle: React.CSSProperties = {
   padding: "10px",
-  backgroundColor: "#e50914",
+  backgroundColor: " #8e3bfc",
   color: "#fff",
   border: "none",
   borderRadius: "4px",

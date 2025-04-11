@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import Logout from "./Logout";
 import logo from "../assets/CNICHE.png";
 import { Movie } from "../types/Movie";
 import { fetchMovies } from "../api/MovieAPI";
+import { FaSearch, FaUser } from "react-icons/fa";
 
 interface HeaderProps {
   username: string;
   userId: number;
 }
+
+// Header that can be displayed once logged in
 
 const Header = ({ username, userId }: HeaderProps) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -43,6 +46,10 @@ const Header = ({ username, userId }: HeaderProps) => {
     navigate(`/productDetail/${userId}/${movieId}`);
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+  };
+
   return (
     <header className="header">
       <div
@@ -54,6 +61,7 @@ const Header = ({ username, userId }: HeaderProps) => {
       </div>
 
       <div className="header-right" style={{ position: "relative" }}>
+        {/* Search Box */}
         <div className="search-container" style={{ position: "relative" }}>
           {searchVisible ? (
             <div>
@@ -114,29 +122,65 @@ const Header = ({ username, userId }: HeaderProps) => {
                 color: "#fff",
                 fontSize: "18px",
                 cursor: "pointer",
-                marginRight: "16px",
+                marginRight: "0px",
+                padding: "4px",
+                position: "relative",
+                top: "3px",
               }}
               title="Search"
             >
-              🔍
+              <FaSearch />
             </button>
           )}
         </div>
 
+        {/* User Info & Click-to-Toggle Dropdown */}
         <div
           className="account-section"
-          onMouseEnter={() => setDropdownOpen(true)}
-          onMouseLeave={() => setDropdownOpen(false)}
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
         >
-          <span className="username">{username}</span>
-          <div className="user-icon">👤</div>
-
-          {isDropdownOpen && (
-            <div className="dropdown-menu">
-              <a href="/account-settings">Account Settings</a>
-              <Logout>Logout</Logout>
+          <span
+            className="username"
+            style={{
+              marginTop: "5px", // Adjust this value as needed
+              display: "inline-block",
+            }}
+          >
+            {username}
+          </span>
+          <div style={{ position: "relative" }}>
+            <div
+              className="user-icon"
+              onClick={toggleDropdown}
+              style={{
+                color: "#8e3bfd",
+                fontSize: "20px",
+                marginTop: "7px",
+                cursor: "pointer",
+              }}
+            >
+              <FaUser />
             </div>
-          )}
+
+            {isDropdownOpen && (
+              <div
+                className="dropdown-menu"
+                style={{
+                  position: "absolute",
+                  top: "40px",
+                  right: "5px",
+                  backgroundColor: "#1a1a1a", // dark background
+                  color: "#f0f0f0", // light text
+                  padding: "8px 12px",
+                  borderRadius: "4px",
+                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.6)",
+                  zIndex: 1000,
+                }}
+              >
+                <Logout>Logout</Logout>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
-import Footer from '../components/Footer';
 import logo from '../assets/CNICHE.png';
 import { API_BASE_URL } from '../api/config';
+import Footer_Privacy_Policy_Homepage from '../components/Footer_Privacy_Policy_Homepage';
 
 // Define the Movie interface based on backend response
 interface Movie {
@@ -183,10 +183,9 @@ const Home = () => {
 
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
           <p style={{ marginBottom: '1rem' }}>
-            Ready to watch? Enter your email to create or restart your membership.
+            Ready to watch? Create or restart your membership.
           </p>
           <div className="hero-input" style={{ justifyContent: 'center' }}>
-            <input type="email" placeholder="Email address" />
             <Link to="/createAccount" className="get-started-btn">
               Get Started →
             </Link>
@@ -195,7 +194,7 @@ const Home = () => {
       </div>
 
       {/* Footer */}
-      <Footer />
+      <Footer_Privacy_Policy_Homepage />
     </div>
   );
 };

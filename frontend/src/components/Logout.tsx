@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
+import { API_BASE_URL } from '../api/config';
 
 const Logout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const Logout = ({ children }: { children: React.ReactNode }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/logout', {
+      const response = await fetch(`${API_BASE_URL}/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -22,9 +22,10 @@ const Logout = ({ children }: { children: React.ReactNode }) => {
         // Optional: Clear frontend auth state here if you have context/state
         // Example: setAuthUser(null)
 
-        Cookies.remove('.AspNetCore.Identity.Application', { path: '/' });
+        // Ensure the cookie is cleared with the correct options
+        Cookies.remove('.AspNetCore.Identity.Application', { path: '/', sameSite: 'None', secure: true });
 
-        navigate('/login', { replace: true }); // ensure clean history stack
+        navigate('/login', { replace: true }); // Ensure clean history stack
       } else {
         console.error('Logout failed:', response.status);
         navigate('/login', { replace: true }); // Still route back

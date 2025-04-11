@@ -15,11 +15,13 @@ const Movie: React.FC = () => {
   const [movies, setMovies] = useState<MovieType[]>([]);
   const [recs, setRecs] = useState<RecommenderRow | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [rowsVisible, setRowsVisible] = useState(1);
+  const [moviesPerRow, setMoviesPerRow] = useState(6); // Default number of movies per row
+  const [rowsVisible, setRowsVisible] = useState(1); // How many rows are visible based on window resize
   const [animatedRows, setAnimatedRows] = useState<number[]>([]);
 
   const navigate = useNavigate();
-  const moviesPerRow = 5;
+
+  // Get all movies
 
   useEffect(() => {
     fetchMovies()
@@ -30,6 +32,34 @@ const Movie: React.FC = () => {
       .then(setRecs)
       .catch((err) => console.error("Failed to load recommendations:", err));
   }, [numericUserId]);
+
+  // Calculate how many movies can fit per row based on the window width
+  const calculateMoviesPerRow = () => {
+    const windowWidth = window.innerWidth;
+
+    if (windowWidth >= 1200) {
+      setMoviesPerRow(6); // 6 movies per row for large screens
+    } else if (windowWidth >= 1000) {
+      setMoviesPerRow(5); // 5 movies per row for medium-large screens
+    } else if (windowWidth >= 800) {
+      setMoviesPerRow(4); // 4 movies per row for medium screens
+    } else if (windowWidth >= 600) {
+      setMoviesPerRow(3); // 3 movies per row for small screens
+    } else if (windowWidth >= 400) {
+      setMoviesPerRow(2); // 2 movies per row for extra small screens
+    } else {
+      setMoviesPerRow(1); // 1 movie per row for very small screens
+    }
+  };
+
+  useEffect(() => {
+    calculateMoviesPerRow(); // Set the initial number of movies per row
+    window.addEventListener("resize", calculateMoviesPerRow); // Listen for window resize events
+
+    return () => {
+      window.removeEventListener("resize", calculateMoviesPerRow); // Cleanup the event listener
+    };
+  }, []);
 
   const extractIds = (...keys: (keyof RecommenderRow)[]): string[] => {
     if (!recs) return [];
@@ -44,6 +74,10 @@ const Movie: React.FC = () => {
       )
     : movies;
 
+  // Calculate the total number of rows based on filtered movies and movies per row
+  const totalRows = Math.ceil(filteredMovies.length / moviesPerRow);
+
+  // Dynamically show rows when the user scrolls
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -53,7 +87,7 @@ const Movie: React.FC = () => {
       if (scrollY + windowHeight >= docHeight - 50) {
         setRowsVisible((prev) => {
           const next = prev + 1;
-          if (!animatedRows.includes(next - 1)) {
+          if (next <= totalRows && !animatedRows.includes(next - 1)) {
             setAnimatedRows((prevAnimated) => [...prevAnimated, next - 1]);
           }
           return next;
@@ -63,7 +97,7 @@ const Movie: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [animatedRows, filteredMovies]);
+  }, [animatedRows, filteredMovies, totalRows]);
 
   return (
     <div
@@ -72,6 +106,7 @@ const Movie: React.FC = () => {
         minHeight: "100vh",
         fontFamily: "Arial, sans-serif",
         paddingTop: "80px",
+        paddingBottom: "100px", // Add padding at the bottom to ensure content is not hidden behind footer
         color: "#fff",
       }}
     >
@@ -100,7 +135,7 @@ const Movie: React.FC = () => {
         }
       `}</style>
 
-      <Header username="Rex" userId={numericUserId} />
+      <Header username="Welcome" userId={numericUserId} />
 
       {recs && (
         <>
@@ -202,7 +237,7 @@ const Movie: React.FC = () => {
                   display: "flex",
                   gap: "20px",
                   flexWrap: "wrap",
-                  justifyContent: "flex-start",
+                  justifyContent: "center", // Centering the row
                   marginBottom: "20px",
                 }}
               >

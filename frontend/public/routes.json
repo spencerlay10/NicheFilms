@@ -1,7 +1,7 @@
 {
   "routes": [
     {
-      "route": "/*",
+      "route": "/privacy*",
       "serve": "/index.html",
       "statusCode": 200
     }

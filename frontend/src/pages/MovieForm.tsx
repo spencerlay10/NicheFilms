@@ -4,11 +4,13 @@ import { GENRES } from '../constants/Genres';
 import { API_BASE_URL } from '../api/config';
 import './MovieForm.css';
 
+//Movie Form for CRUD functionality
 const MovieForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const isEdit = !!id;
 
+  // Sets an empty movie
   const [movie, setMovie] = useState({
     title: '',
     releaseYear: 2024,
@@ -48,7 +50,7 @@ const MovieForm = () => {
     if (type === 'checkbox' && e.target instanceof HTMLInputElement) {
       setMovie((prevState) => ({
         ...prevState,
-        [name]: e.target.checked,
+        [name]: (e.target as HTMLInputElement).checked,
       }));
     } else if (type === 'select-multiple' && e.target instanceof HTMLSelectElement) {
       const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
@@ -66,6 +68,8 @@ const MovieForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    //Sends new data to the database
 
     const method = isEdit ? 'PUT' : 'POST';
     const url = isEdit ? `${API_BASE_URL}/movie/${id}` : `${API_BASE_URL}/movie`;

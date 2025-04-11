@@ -6,7 +6,7 @@ using NicheFilms.API.Models;
 namespace NicheFilms.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ProductController : ControllerBase
     {
         private readonly NicheFilmsDbContext _context;

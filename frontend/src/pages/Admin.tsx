@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { API_BASE_URL } from "../api/config";
+import Header_admin from "../components/Header_admin";
 
 interface Movie {
   showId: string;
@@ -16,7 +17,10 @@ interface Movie {
   ratingCount: number;
 }
 
+
 const Admin: React.FC = () => {
+  const { userId } = useParams();
+  const numericUserId = parseInt(userId || "1");
   const navigate = useNavigate();
 
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -27,6 +31,9 @@ const Admin: React.FC = () => {
   const [pageSize, setPageSize] = useState(5);
   const [totalMovies, setTotalMovies] = useState(8000);
   const [goToPage, setGoToPage] = useState(1);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [movieToDelete, setMovieToDelete] = useState<Movie | null>(null);
 
   const totalPages = Math.ceil(totalMovies / pageSize);
 
@@ -55,25 +62,29 @@ const Admin: React.FC = () => {
         }
         const data = await res.json();
         setMovies(data.movies);
-        setTotalMovies(data.total); // Assuming the API returns total movies count
+        setTotalMovies(data.total);
       } catch (error) {
         console.error("Fetch error:", error);
       }
     };
 
+    //Display movie rows based on parameters
+
     fetchMovies();
   }, [debouncedSearchTerm, categoryFilter, page, pageSize]);
 
-  const handleDelete = async (showId: string, title: string) => {
-    if (!window.confirm(`Are you sure you want to delete "${title}"?`)) return;
+  const confirmDelete = async () => {
+    if (!movieToDelete) return;
 
     try {
-      const res = await fetch(`${API_BASE_URL}/movie/${showId}`, {
+      const res = await fetch(`${API_BASE_URL}/movie/${movieToDelete.showId}`, {
         method: "DELETE",
       });
 
       if (res.ok) {
-        setMovies((prev) => prev.filter((m) => m.showId !== showId));
+        setMovies((prev) =>
+          prev.filter((m) => m.showId !== movieToDelete.showId)
+        );
       } else {
         const errorText = await res.text();
         console.error("Failed to delete movie:", res.status, errorText);
@@ -81,7 +92,18 @@ const Admin: React.FC = () => {
       }
     } catch (error) {
       console.error("Error deleting movie:", error);
+    } finally {
+      setShowDeleteModal(false);
+      setMovieToDelete(null);
     }
+  };
+
+  // Delete Button
+
+  const openDeleteModal = (movie: Movie) => {
+    console.log("Deleting:", movie);
+    setMovieToDelete(movie);
+    setShowDeleteModal(true);
   };
 
   const uniqueCategories = [
@@ -97,6 +119,8 @@ const Admin: React.FC = () => {
         fontFamily: "Arial, sans-serif",
       }}
     >
+      <Header_admin userId={numericUserId} username={""} />
+
       <main style={{ padding: "40px", paddingTop: "100px", color: "#000" }}>
         <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#444" }}>
           Add/Edit Movies
@@ -226,7 +250,7 @@ const Admin: React.FC = () => {
                       </button>
                       <button
                         style={deleteBtnStyle}
-                        onClick={() => handleDelete(movie.showId, movie.title)}
+                        onClick={() => openDeleteModal(movie)}
                       >
                         Delete
                       </button>
@@ -331,6 +355,84 @@ const Admin: React.FC = () => {
           </label>
         </div>
       </main>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0,0,0,0.6)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#fff",
+              color: "#000",
+              padding: "20px",
+              borderRadius: "8px",
+              width: "90%",
+              maxWidth: "400px",
+              minHeight: "160px",
+              textAlign: "center",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              <h3 style={{ marginBottom: "16px" }}>Confirm Delete</h3>
+              <p>
+                Are you sure you want to delete{" "}
+                <strong>"{movieToDelete?.title ?? "this movie"}"</strong>?
+              </p>
+            </div>
+
+            <div
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "space-around",
+              }}
+            >
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                style={{
+                  padding: "8px 16px",
+                  backgroundColor: "#ccc",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                style={{
+                  padding: "8px 16px",
+                  backgroundColor: "#aa0000",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

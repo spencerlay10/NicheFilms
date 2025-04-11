@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import {
@@ -10,6 +10,27 @@ import {
 } from "../api/MovieAPI";
 import { Movie as MovieType } from "../types/Movie";
 
+// Error Boundary to catch runtime errors
+class ErrorBoundary extends React.Component<{ children: React.ReactNode }> {
+  state = { hasError: false, errorInfo: null };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: any, errorInfo: any) {
+    this.setState({ errorInfo });
+    console.error(error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong. Please try again later.</h1>;
+    }
+    return this.props.children;
+  }
+}
+
 const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
@@ -18,18 +39,23 @@ const ProductDetail: React.FC = () => {
 
   const { userId, showId } = useParams<{ userId: string; showId: string }>();
   const numericUserId = parseInt(userId || "0", 10);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!showId || isNaN(numericUserId)) return;
 
     const loadMovieData = async () => {
-      const main = await fetchMainMovie(showId);
-      const recs = await fetchRecommendedMovies(showId);
-      const userRating = await fetchMovieRating(numericUserId, showId);
+      try {
+        const main = await fetchMainMovie(showId);
+        const recs = await fetchRecommendedMovies(showId);
+        const userRating = await fetchMovieRating(numericUserId, showId);
 
-      setMainMovie(main);
-      setRecommended(recs);
-      setRating(userRating);
+        setMainMovie(main);
+        setRecommended(recs);
+        setRating(userRating);
+      } catch (error) {
+        console.error("Error fetching movie data:", error);
+      }
     };
 
     loadMovieData();
@@ -42,12 +68,22 @@ const ProductDetail: React.FC = () => {
     }
   };
 
+  const handlePlayClick = () => {
+    // Placeholder for play functionality
+    console.log("Play movie button clicked");
+  };
+
+  const handleMovieClick = (showId: string) => {
+    // Navigate to the movie/show details page
+    navigate(`/productDetail/${numericUserId}/${showId}`);
+  };
+
   if (!mainMovie)
     return <div style={{ color: "white", padding: "40px" }}>Loading...</div>;
 
   return (
-    <>
-      <Header username="Rex" userId={numericUserId} />
+    <ErrorBoundary>
+      <Header username="" userId={numericUserId} />
       <div
         style={{
           padding: "40px",
@@ -71,14 +107,22 @@ const ProductDetail: React.FC = () => {
             }}
           />
           <div>
-            <h1 style={{ marginBottom: "20px" }}>{mainMovie.title}</h1>
+            <h1 style={{ marginBottom: "10px" }}>{mainMovie.title}</h1>
+
+            {/* MPAA Rating, Duration, and Year */}
+            <div style={{ fontSize: "1rem", color: "#ccc", marginBottom: "10px" }}>
+              <span>{mainMovie.rating} | </span>
+              <span>{mainMovie.duration} | </span>
+              <span>{mainMovie.releaseYear}</span>
+            </div>
+
             <p style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>
               {mainMovie.description}
             </p>
 
             {/* ⭐ Star Rating Section */}
             <div style={{ marginTop: "20px" }}>
-              <strong>Rate this movie:</strong>
+              <strong>Rate this {mainMovie.type === "movie" ? "movie" : "show"}:</strong>
               <div style={{ fontSize: "1.5rem", marginTop: "10px" }}>
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
@@ -101,11 +145,69 @@ const ProductDetail: React.FC = () => {
                 </span>
               </div>
             </div>
+
+            {/* Play Movie Button */}
+            <button
+              onClick={handlePlayClick}
+              style={{
+                marginTop: "20px",
+                padding: "10px 20px",
+                backgroundColor: "#007BFF",
+                color: "white",
+                borderRadius: "6px",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "1.1rem",
+                transition: "background-color 0.3s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#0056b3")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#007BFF")}
+            >
+              Play Movie
+            </button>
+
+            {/* Categories (Genres) */}
+            <div
+              style={{
+                marginTop: "20px",
+                fontSize: "1rem",
+                color: "#ccc",
+                display: "flex",
+                gap: "10px",
+                flexWrap: "wrap",
+              }}
+            >
+              {mainMovie.genres && mainMovie.genres.split(", ").map((genre, index) => (
+                <span
+                  key={index}
+                  style={{
+                    padding: "5px 10px",
+                    backgroundColor: "#444",
+                    borderRadius: "4px",
+                    fontWeight: "500",
+                    fontSize: "0.9rem",
+                  }}
+                >
+                  {genre}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
+        {/* Movie Details */}
+        <div style={{ marginTop: "30px" }}>
+          <h2>Details</h2>
+          <p><strong>Director:</strong> {mainMovie.director}</p>
+          <p><strong>Cast:</strong> {mainMovie.cast}</p>
+          <p><strong>Country:</strong> {mainMovie.country}</p>
+        </div>
+
+        {/* Add space between details and recommended section */}
+        <div style={{ marginTop: "50px" }}></div>
+
         {/* Recommended Section */}
-        <h2 style={{ marginBottom: "20px" }}>Recommended Movies</h2>
+        <h2 style={{ marginBottom: "20px" }}>You May Also Like</h2>
         <div
           className="hide-scrollbar"
           style={{
@@ -125,7 +227,9 @@ const ProductDetail: React.FC = () => {
                   height: "220px",
                   borderRadius: "4px",
                   marginBottom: "10px",
+                  cursor: "pointer",
                 }}
+                onClick={() => handleMovieClick(movie.showId)}
               />
               <div style={{ fontSize: "0.9rem", color: "#ccc" }}>
                 {movie.title}
@@ -147,7 +251,7 @@ const ProductDetail: React.FC = () => {
           display: none;                 /* Chrome, Safari, Opera */
         }
       `}</style>
-    </>
+    </ErrorBoundary>
   );
 };
 

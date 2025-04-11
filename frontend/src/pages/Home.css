@@ -188,6 +188,7 @@
     overflow-x: auto;
     gap: 1rem;
     padding-bottom: 1rem;
+    scrollbar-width: none;
   }
   
   .trending-carousel img {
@@ -195,6 +196,10 @@
     width: 160px;
     height: 240px;
     object-fit: cover;
+  }
+
+  .trending-carousel::-webkit-scrollbar {
+    display: none; /* WebKit-based browsers */
   }
   
   /* FAQ Section */

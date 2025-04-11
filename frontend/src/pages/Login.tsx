@@ -1,31 +1,47 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
-
-const WEB_URL = "http://localhost:5050";
-// "https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net";
+import { API_BASE_URL } from "../api/config";
+import Footer_Privacy_Policy_Homepage from "../components/Footer_Privacy_Policy_Homepage";
+import { useAuth } from "../context/AuthContext";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [rememberMe, setRememberMe] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [hoveredSignIn, setHoveredSignIn] = useState<boolean>(false);
+  const [hoveredBack, setHoveredBack] = useState<boolean>(false);
+
+  const [loginAttempts, setLoginAttempts] = useState<number>(0); // 🔐 Track login attempts
+  const [isLocked, setIsLocked] = useState<boolean>(false); // 🔐 Lock state
 
   const navigate = useNavigate();
+  const { refreshUser } = useAuth();
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
+  
+    // ✅ Require cookie consent before logging in
+    const consent = Cookies.get("gdprConsent");
+    if (consent !== "true") {
+      setError("Please accept cookies to log in.");
+      return;
+    }
+  
     if (!email || !password) {
       setError("Please fill in all fields.");
       return;
     }
 
-    const loginUrl = rememberMe
-      ? `${WEB_URL}/login?useCookies=true`
-      : `${WEB_URL}/login?useSessionCookies=true`;
+    if (isLocked) {
+      setError("Too many failed attempts. Try again in 30 seconds."); // 🔐 Lock message
+      return;
+    }
 
+    const loginUrl = `${API_BASE_URL}/login?useCookies=true&useSessionCookies=false`;
+  
     try {
       const response = await fetch(loginUrl, {
         method: "POST",
@@ -33,35 +49,79 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
+  
       let data = null;
       const contentLength = response.headers.get("content-length");
       if (contentLength && parseInt(contentLength, 10) > 0) {
         data = await response.json();
       }
-
+  
       if (!response.ok) {
+        setLoginAttempts((prev) => prev + 1); // 🔐 Increment attempts
+
+        if (loginAttempts + 1 >= 5) {
+          setIsLocked(true);
+          setTimeout(() => {
+            setLoginAttempts(0);
+            setIsLocked(false);
+          }, 30 * 1000); // 🔐 30 second cooldown
+        }
+
         throw new Error(data?.message || "Invalid email or password.");
       }
-
-      // ✅ Fetch current user info
-      const meResponse = await fetch(`${WEB_URL}/me`, {
-        method: "GET",
-        credentials: "include",
-      });
-
-      if (meResponse.ok) {
-        const user = await meResponse.json();
-        console.log("User info:", user);
-
-        const userId = user.id;
-        navigate(`/movies/${userId}`);
-      } else {
-        throw new Error("Could not fetch user info.");
-      }
+  
+      await refreshUser(); // ✅ Update AuthContext
+  
+      setTimeout(async () => {
+        const meResponse = await fetch(`${API_BASE_URL}/me`, {
+          method: "GET",
+          credentials: "include",
+        });
+  
+        if (meResponse.ok) {
+          const user = await meResponse.json();
+          console.log("🔁 Fallback fetched user info:", user);
+  
+          const userId = user.id;
+  
+          if (user.roles?.includes("Administrator")) {
+            navigate("/admin");
+          } else {
+            navigate(`/movies/${userId}`);
+          }
+        } else {
+          throw new Error("Could not fetch user info.");
+        }
+      }, 100);
     } catch (error: any) {
       setError(error.message || "Error logging in.");
     }
+  };
+  
+
+  const signInButtonStyle = {
+    width: "100%",
+    padding: "12px",
+    backgroundColor: hoveredSignIn ? "#ffffff" : "#8E3BFC",
+    color: hoveredSignIn ? "#8E3BFC" : "#fff",
+    fontWeight: "bold",
+    border: "1px solid #8E3BFC",
+    borderRadius: "4px",
+    marginBottom: "20px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
+  };
+
+  const backButtonStyle = {
+    marginTop: "20px",
+    width: "100%",
+    padding: "12px",
+    backgroundColor: hoveredBack ? "#ffffff" : "#444",
+    color: hoveredBack ? "#444" : "#fff",
+    border: "1px solid #444",
+    borderRadius: "4px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
   };
 
   return (
@@ -97,9 +157,9 @@ const Login = () => {
         style={{
           position: "relative",
           backgroundColor: "rgba(0,0,0,0.75)",
-          padding: "60px 68px 40px",
+          padding: "80px 88px 50px",
           borderRadius: "6px",
-          width: "320px",
+          width: "400px",
           zIndex: 1,
           boxShadow: "0 0 15px rgba(0,0,0,0.4)",
           marginBottom: "60px",
@@ -115,8 +175,8 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
             style={{
               width: "100%",
-              padding: "10px",
-              marginBottom: "10px",
+              padding: "12px",
+              marginBottom: "12px",
               backgroundColor: "#333",
               border: "none",
               borderRadius: "4px",
@@ -131,8 +191,8 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             style={{
               width: "100%",
-              padding: "10px",
-              marginBottom: "15px",
+              padding: "12px",
+              marginBottom: "20px",
               backgroundColor: "#333",
               border: "none",
               borderRadius: "4px",
@@ -141,36 +201,12 @@ const Login = () => {
           />
           <button
             type="submit"
-            style={{
-              width: "100%",
-              padding: "10px",
-              backgroundColor: "#8E3BFC",
-              color: "#fff",
-              fontWeight: "bold",
-              border: "none",
-              borderRadius: "4px",
-              marginBottom: "15px",
-              cursor: "pointer",
-            }}
+            style={signInButtonStyle}
+            onMouseEnter={() => setHoveredSignIn(true)}
+            onMouseLeave={() => setHoveredSignIn(false)}
           >
             Sign In
           </button>
-
-          <label
-            style={{
-              fontSize: "0.85rem",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              style={{ marginRight: "8px" }}
-            />
-            Remember me
-          </label>
 
           {error && (
             <p
@@ -187,23 +223,16 @@ const Login = () => {
 
         <button
           onClick={() => navigate("/")}
-          style={{
-            marginTop: "20px",
-            width: "100%",
-            padding: "10px",
-            backgroundColor: "#444",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
+          style={backButtonStyle}
+          onMouseEnter={() => setHoveredBack(true)}
+          onMouseLeave={() => setHoveredBack(false)}
         >
           ← Back
         </button>
       </div>
 
       <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
-        <Footer />
+        <Footer_Privacy_Policy_Homepage />
       </div>
     </div>
   );

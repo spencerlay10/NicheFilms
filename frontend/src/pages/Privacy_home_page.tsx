@@ -1,20 +1,31 @@
 import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { useParams } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import './Home.css';
+import logo from '../assets/CNICHE.png';
+import Footer_Privacy_Policy_Homepage from "../components/Footer_Privacy_Policy_Homepage";
+import { useNavigate } from "react-router-dom";
 
-// This Privacy page requires an id coming from the logged in perspective
+
+// Different privacy page for the home doesn't need a userId
 const Privacy: React.FC = () => {
-  // Pass userId dynamically from context, cookies, or another source
-   // Set this dynamically if needed
-
-  const { userId } = useParams();
-  const numericUserId = parseInt(userId || "1");
+  const navigate = useNavigate();
 
   return (
     <>
-      {/* Passing userId dynamically to Header */}
-      <Header username="" userId={numericUserId} />
+      <div className="home font-sans">
+        {/* Top Nav */}
+        <div className="top-nav">
+        <div
+        className="logo"
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate(`/`)}
+      >
+        <img src={logo} alt="App Logo" className="logo-image" />
+      </div>
+          <div className="nav-actions">
+            <Link to="/login" className="sign-in-btn">Sign In</Link>
+          </div>
+        </div>
 
       <div
         style={{
@@ -211,8 +222,8 @@ const Privacy: React.FC = () => {
           </p>
         </div>
       </div>
-
-      <Footer />
+    </div>
+      <Footer_Privacy_Policy_Homepage />
     </>
   );
 };
