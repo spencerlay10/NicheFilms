@@ -28,25 +28,25 @@ function App() {
           <Route
             path="/movies/:userId"
             element={
-              <AuthorizeView>
-                <Movie />
-              </AuthorizeView>
+              // <AuthorizeView>
+              <Movie />
+              // </AuthorizeView>
             }
           />
           <Route
             path="/privacy/:userId"
             element={
-              <AuthorizeView>
-                <Privacy />
-              </AuthorizeView>
+              // <AuthorizeView>
+              <Privacy />
+              // </AuthorizeView>
             }
           />
           <Route
             path="/productDetail/:userId/:showId"
             element={
-              <AuthorizeView>
-                <ProductDetail />
-              </AuthorizeView>
+              // <AuthorizeView>
+              <ProductDetail />
+              // </AuthorizeView>
             }
           />
 
