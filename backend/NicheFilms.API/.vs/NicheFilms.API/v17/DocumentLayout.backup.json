@@ -42,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,18 +58,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProductController.cs",
-              "DocumentMoniker": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\AAA_Intex_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\Controllers\\ProductController.cs",
-              "RelativeDocumentMoniker": "NicheFilms.API\\Controllers\\ProductController.cs",
-              "ToolTip": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\AAA_Intex_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\Controllers\\ProductController.cs",
-              "RelativeToolTip": "NicheFilms.API\\Controllers\\ProductController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-09T03:28:43.873Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "MovieController.cs",
               "DocumentMoniker": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\AAA_Intex_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\Controllers\\MovieController.cs",
@@ -79,6 +67,31 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-09T03:28:06.449Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\AAA_Intex_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\appsettings.json",
+              "RelativeDocumentMoniker": "NicheFilms.API\\appsettings.json",
+              "ToolTip": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\AAA_Intex_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\appsettings.json",
+              "RelativeToolTip": "NicheFilms.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-07T23:34:47.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\AAA_Intex_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "NicheFilms.API\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\AAA_Intex_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "NicheFilms.API\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-09T03:28:43.873Z"
             },
             {
               "$type": "Document",
@@ -115,19 +128,6 @@
               "ViewState": "AgIAABEAAAAAAAAAAAAAwBMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-08T02:49:28.366Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\AAA_Intex_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\appsettings.json",
-              "RelativeDocumentMoniker": "NicheFilms.API\\appsettings.json",
-              "ToolTip": "C:\\Users\\trexo\\OneDrive - Brigham Young University\\Desktop\\AAA_Intex_II\\NicheFilms\\backend\\NicheFilms.API\\NicheFilms.API\\appsettings.json",
-              "RelativeToolTip": "NicheFilms.API\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-04-07T23:34:47.418Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
