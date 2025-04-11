@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace NicheFilms.API.Models;
 
+// Represents a user's movie and TV show recommendations, including multiple recommendations for each category
 public partial class UserRecommendation
 {
     public int? UserId { get; set; }

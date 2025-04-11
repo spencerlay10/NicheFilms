@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using NicheFilms.API.Models;
 
+// Liason between the azure deployed database and the application
 namespace NicheFilms.API.Data
 {
     public partial class NicheFilmsDbContext : DbContext

@@ -5,6 +5,8 @@ using NicheFilms.API.Data;
 using NicheFilms.API.Models;
 using System.Text.Json;
 
+
+// Controller for managing movies
 namespace NicheFilms.API.Controllers
 {
     [ApiController]
@@ -24,7 +26,7 @@ namespace NicheFilms.API.Controllers
             return Guid.NewGuid().ToString("N")[..12]; // 12-char lowercase hex
         }
 
-        // GET: api/movie
+        // GET: /movie --> Gets all movies
         [HttpGet]
         public IActionResult GetAllMovies()
         {
@@ -40,7 +42,7 @@ namespace NicheFilms.API.Controllers
             }
         }
 
-        // GET: api/movie/admin
+        // GET: /movie/admin --> Gets paginated movies for admin and allows for search and filter
         [HttpGet("admin")]
         public IActionResult GetPagedMovies(
             [FromQuery] int page = 1,
@@ -94,7 +96,7 @@ namespace NicheFilms.API.Controllers
             }
         }
 
-        // GET: api/movie/{id}
+        // GET: /movie/{id} --> Gets a movie by ID
         [HttpGet("{id}")]
         public IActionResult GetMovieById(string id)
         {
@@ -113,7 +115,7 @@ namespace NicheFilms.API.Controllers
             }
         }
 
-        // POST: api/movie
+        // POST: /movie --> Adds a new movie
         [HttpPost]
         public IActionResult AddMovie([FromBody] MoviesTitle movie)
         {
@@ -148,7 +150,7 @@ namespace NicheFilms.API.Controllers
             }
         }
 
-        // PUT: api/movie/{id}
+        // PUT: /movie/{id} --> Updates an existing movie
         [HttpPut("{id}")]
         public IActionResult UpdateMovie(string id, [FromBody] MoviesTitle updatedMovie)
         {
@@ -176,7 +178,7 @@ namespace NicheFilms.API.Controllers
             }
         }
 
-        // DELETE: api/movie/{id}
+        // DELETE: /movie/{id} --> Deletes a movie by ID
         [HttpDelete("{id}")]
         public IActionResult DeleteMovie(string id)
         {

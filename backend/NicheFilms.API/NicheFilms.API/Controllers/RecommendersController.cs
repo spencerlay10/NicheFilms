@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NicheFilms.API.Data;
 using NicheFilms.API.Models;
 
+// Controller for retrieving movie recommendations
 namespace NicheFilms.API.Controllers
 {
     [ApiController]
@@ -16,7 +17,7 @@ namespace NicheFilms.API.Controllers
             _context = context;
         }
 
-        // GET: api/recommenders/{userId}
+        // GET: /recommenders/{userId} --> Gets recommendations for a specific user
         [HttpGet("{userId}")]
         public IActionResult GetUserRecommendations(int userId)
         {

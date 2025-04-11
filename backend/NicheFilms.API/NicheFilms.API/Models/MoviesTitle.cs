@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NicheFilms.API.Models;
 
+// Represents a movie or show with various attributes such as title, director, cast, country, release year, rating, duration, description, genres, and poster URL
 public partial class MoviesTitle
 
 {

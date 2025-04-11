@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace NicheFilms.API.Models;
 
+
+// Represents a hybrid recommendation for movies, including multiple recommendations for a specific show ID
 public partial class HybridRecommendation
 {
     public string? ShowId { get; set; }
