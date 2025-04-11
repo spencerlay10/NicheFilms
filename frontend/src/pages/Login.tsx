@@ -50,10 +50,16 @@ const Login = () => {
       if (meResponse.ok) {
         const user = await meResponse.json();
         console.log("User info:", user);
-
+      
         const userId = user.id;
-        navigate(`/movies/${userId}`);
-      } else {
+      
+        if (user.roles?.includes("Administrator")) {
+          navigate("/admin");
+        } else {
+          navigate(`/movies/${userId}`);
+        }
+      }
+       else {
         throw new Error("Could not fetch user info.");
       }
     } catch (error: any) {
