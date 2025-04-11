@@ -18,6 +18,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<NicheFilmsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NicheFilmsDb")));
 
+
+// New code for RBAC
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
@@ -59,6 +61,9 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddSingleton<IEmailSender<IdentityUser>, NoOpEmailSender<IdentityUser>>();
+
 
 var app = builder.Build();
 

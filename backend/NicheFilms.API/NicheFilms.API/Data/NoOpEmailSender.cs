@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace RootkitAuth.API.Data;
+namespace NicheFilms.API.Data;
 
 public class NoOpEmailSender<TUser> : IEmailSender<TUser> where TUser : class
 {
