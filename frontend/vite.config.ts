@@ -7,6 +7,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,  // Make sure this matches the port you want your dev server to run on
+    
+    // CSP Headers
     headers: {
       'Content-Security-Policy': `
         default-src 'self'; 
