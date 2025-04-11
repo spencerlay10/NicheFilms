@@ -74,12 +74,13 @@ app.UseSwaggerUI();
 
 // CORS handling (Ensure this is set before Routing)
 app.UseCors("AllowFrontend");
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCookiePolicy();
-app.UseAuthentication();
-app.UseAuthorization();
+
+
 
 // Endpoint routing
 app.MapControllers();
