@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { API_BASE_URL } from '../api/config';
 
+// Logs out the user, resets the cookie with logout API
 
 const Logout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();

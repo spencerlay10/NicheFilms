@@ -4,6 +4,8 @@ import { API_BASE_URL } from '../api/config';
 
 const UserContext = createContext<User | null>(null);
 
+// Makes sure the user is authorized before letting them into the view
+
 interface User {
   email: string;
 }

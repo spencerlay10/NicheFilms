@@ -4,12 +4,17 @@ import { API_BASE_URL } from "../api/config";
 import Footer_Privacy_Policy_Homepage from "../components/Footer_Privacy_Policy_Homepage";
 import { useAuth } from "../context/AuthContext";
 
+// Login is set up and routes with the userId
+
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [hoveredSignIn, setHoveredSignIn] = useState<boolean>(false);
   const [hoveredBack, setHoveredBack] = useState<boolean>(false);
+
+  const [loginAttempts, setLoginAttempts] = useState<number>(0); // 🔐 Track login attempts
+  const [isLocked, setIsLocked] = useState<boolean>(false); // 🔐 Lock state
 
   const navigate = useNavigate();
   const { refreshUser } = useAuth();
@@ -20,6 +25,11 @@ const Login = () => {
 
     if (!email || !password) {
       setError("Please fill in all fields.");
+      return;
+    }
+
+    if (isLocked) {
+      setError("Too many failed attempts. Try again in 30 seconds."); // 🔐 Lock message
       return;
     }
 
@@ -40,13 +50,21 @@ const Login = () => {
       }
 
       if (!response.ok) {
+        setLoginAttempts((prev) => prev + 1); // 🔐 Increment attempts
+
+        if (loginAttempts + 1 >= 5) {
+          setIsLocked(true);
+          setTimeout(() => {
+            setLoginAttempts(0);
+            setIsLocked(false);
+          }, 30 * 1000); // 🔐 30 second cooldown
+        }
+
         throw new Error(data?.message || "Invalid email or password.");
       }
 
-      // ✅ Refresh the AuthContext so that AdminRoute has correct user
       await refreshUser();
 
-      // 🕐 Wait a tick before navigating to ensure AuthContext updates
       setTimeout(async () => {
         const meResponse = await fetch(`${API_BASE_URL}/me`, {
           method: "GET",
@@ -55,8 +73,6 @@ const Login = () => {
 
         if (meResponse.ok) {
           const user = await meResponse.json();
-          console.log("🔁 Fallback fetched user info:", user);
-
           const userId = user.id;
 
           if (user.roles?.includes("Administrator")) {
@@ -67,7 +83,7 @@ const Login = () => {
         } else {
           throw new Error("Could not fetch user info.");
         }
-      }, 100); // allow time for context to update
+      }, 100);
     } catch (error: any) {
       setError(error.message || "Error logging in.");
     }

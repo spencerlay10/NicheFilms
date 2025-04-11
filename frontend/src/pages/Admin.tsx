@@ -17,6 +17,7 @@ interface Movie {
   ratingCount: number;
 }
 
+
 const Admin: React.FC = () => {
   const { userId } = useParams();
   const numericUserId = parseInt(userId || "1");
@@ -67,6 +68,8 @@ const Admin: React.FC = () => {
       }
     };
 
+    //Display movie rows based on parameters
+
     fetchMovies();
   }, [debouncedSearchTerm, categoryFilter, page, pageSize]);
 
@@ -94,6 +97,8 @@ const Admin: React.FC = () => {
       setMovieToDelete(null);
     }
   };
+
+  // Delete Button
 
   const openDeleteModal = (movie: Movie) => {
     console.log("Deleting:", movie);
