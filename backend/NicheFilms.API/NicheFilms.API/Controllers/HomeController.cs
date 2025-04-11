@@ -4,6 +4,7 @@ using NicheFilms.API.Data;
 using NicheFilms.API.Models;
 namespace NicheFilms.API.Controllers
 {
+    // Controller for the home page
     [ApiController]
     [Route("[controller]")]
     public class HomeController : ControllerBase
@@ -13,7 +14,7 @@ namespace NicheFilms.API.Controllers
         {
             _context = context;
         }
-        // GET: api/Home
+        // GET: /Home --> Gets the top 20 movies based on average rating
         [HttpGet("top-rated")]
         public IActionResult GetTopRatedMovies()
         {
@@ -56,6 +57,7 @@ namespace NicheFilms.API.Controllers
                 )
                 .ToList();
 
+            // Check if any top-rated movies were found
             if (topRatedMovies.Count == 0)
             {
                 return NotFound("No top-rated movies found.");

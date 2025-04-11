@@ -2,6 +2,7 @@
 
 namespace NicheFilms.API.Models;
 
+// Represents a user's rating for a specific movie or show
 public partial class MoviesRating
 {
     [Key]

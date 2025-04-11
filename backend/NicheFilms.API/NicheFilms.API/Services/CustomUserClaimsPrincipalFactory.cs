@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace NicheFilms.API.Services;
 
+// Custom ClaimsPrincipalFactory to add additional claims to the user principal
 public class CustomUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<IdentityUser>
 {
     public CustomUserClaimsPrincipalFactory(

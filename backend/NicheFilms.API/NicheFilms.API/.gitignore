@@ -1,4 +1,6 @@
-﻿bin/
+﻿# Ignore unnecessary/sensitive files and folders in the NicheFilms.API project
+
+bin/
 obj/
 
 .vs/

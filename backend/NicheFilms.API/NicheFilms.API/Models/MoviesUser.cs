@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace NicheFilms.API.Models;
 
+// Represents a user in the movie recommendation system, including personal information and subscription status for various streaming services
 public partial class MoviesUser
 {
     public int UserId { get; set; }

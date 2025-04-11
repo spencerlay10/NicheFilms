@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 
+// Needed for the IEmailSender interface
+
 namespace NicheFilms.API.Data;
 
 public class NoOpEmailSender<TUser> : IEmailSender<TUser> where TUser : class

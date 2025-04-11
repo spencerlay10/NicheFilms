@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NicheFilms.API.Data;
 using NicheFilms.API.Models;
 
+// Controller for managing/importing movie data and ratings. Also for getting recommendations.
 namespace NicheFilms.API.Controllers
 {
     [ApiController]
@@ -16,7 +17,7 @@ namespace NicheFilms.API.Controllers
             _context = context;
         }
 
-        // GET: api/product/main/{showId}
+        // GET: /product/main/{showId} --> Gets the main movie details
         [HttpGet("main/{showId}")]
         public IActionResult GetMainMovie(string showId)
         {
@@ -30,7 +31,7 @@ namespace NicheFilms.API.Controllers
             return Ok(movie);
         }
 
-        // GET: api/product/recommended/{showId}
+        // GET: /product/recommended/{showId} --> Gets recommended movies based on the showId
         [HttpGet("recommended/{showId}")]
         public IActionResult GetRecommendedMovies(string showId)
         {
@@ -63,7 +64,7 @@ namespace NicheFilms.API.Controllers
             return Ok(recommendedMovies);
         }
 
-        // GET: api/product/rating/{userId}/{showId}
+        // GET: /product/rating/{userId}/{showId} --> Gets the rating for a specific movie by a user
         [HttpGet("rating/{userId}/{showId}")]
         public IActionResult GetMovieRating(int userId, string showId)
         {
@@ -77,7 +78,7 @@ namespace NicheFilms.API.Controllers
             return Ok(new { rating = rating.Rating });
         }
 
-        // PUT: api/product/rating/{userId}/{showId}
+        // PUT: /product/rating/{userId}/{showId}  --> Updates the rating for a specific movie by a user
         [HttpPut("rating/{userId}/{showId}")]
         public async Task<IActionResult> UpdateMovieRating(int userId, string showId, [FromBody] MoviesRating updatedRating)
         {
