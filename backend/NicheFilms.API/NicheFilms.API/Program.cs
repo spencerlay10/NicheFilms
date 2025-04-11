@@ -68,11 +68,9 @@ builder.Services.AddSingleton<IEmailSender<IdentityUser>, NoOpEmailSender<Identi
 var app = builder.Build();
 
 // Swagger for development
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 // CORS handling (Ensure this is set before Routing)
 app.UseCors("AllowFrontend");
