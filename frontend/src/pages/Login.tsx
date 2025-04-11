@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../api/config";
 import Footer_Privacy_Policy_Homepage from "../components/Footer_Privacy_Policy_Homepage";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -11,6 +12,7 @@ const Login = () => {
   const [hoveredBack, setHoveredBack] = useState<boolean>(false);
 
   const navigate = useNavigate();
+  const { refreshUser } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +23,6 @@ const Login = () => {
       return;
     }
 
-    // const loginUrl = `${API_BASE_URL}/identity/account/login`;
     const loginUrl = `${API_BASE_URL}/login?useCookies=true&useSessionCookies=false`;
 
     try {
@@ -42,7 +43,10 @@ const Login = () => {
         throw new Error(data?.message || "Invalid email or password.");
       }
 
-      // ✅ Fetch current user info
+      // ✅ Refresh context with latest user info
+      await refreshUser();
+
+      // ✅ You can skip this fetch if you want to just use context.user instead
       const meResponse = await fetch(`${API_BASE_URL}/me`, {
         method: "GET",
         credentials: "include",
@@ -51,16 +55,15 @@ const Login = () => {
       if (meResponse.ok) {
         const user = await meResponse.json();
         console.log("User info:", user);
-      
+
         const userId = user.id;
-      
+
         if (user.roles?.includes("Administrator")) {
           navigate("/admin");
         } else {
           navigate(`/movies/${userId}`);
         }
-      }
-       else {
+      } else {
         throw new Error("Could not fetch user info.");
       }
     } catch (error: any) {
