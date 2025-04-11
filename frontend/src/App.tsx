@@ -79,46 +79,34 @@ function App() {
 
         {/* GDPR Cookie Consent Banner */}
         <CookieConsent
-          location="bottom"
-          buttonText="I accept"
-          declineButtonText="Decline"
-          cookieName="gdprConsent"
-          style={{ background: "#2B373B" }}
-          buttonStyle={{
-            backgroundColor: "#8E3BFC",
-            color: "white",
-            fontSize: "13px",
-            borderRadius: "5px",
-            padding: "10px 20px",
-          }}
-          declineButtonStyle={{
-            backgroundColor: "white",
-            color: "black",
-            fontSize: "13px",
-            borderRadius: "5px",
-            padding: "10px 20px",
-          }}
-          enableDeclineButton
-          onAccept={() => {
-            console.log("User accepted cookies");
-          }}
-          onDecline={() => {
-            console.log("User declined cookies");
-          }}
-        >
-          We use cookies to enhance your experience. You can read more in our{" "}
-          <a
-            href="/privacypolicy"
-            style={{
-              textDecoration: "underline",
-              color: "white",
-              fontWeight: "bold",
-            }}
-          >
-            Privacy Policy
-          </a>
-          .
-        </CookieConsent>
+  location="bottom"
+  buttonText="Accept"
+  cookieName="gdprConsent"
+  style={{ background: "#2B373B" }}
+      buttonStyle={{
+        backgroundColor: "#8E3BFC",
+        color: "white",
+        fontSize: "13px",
+        borderRadius: "5px",
+        padding: "10px 20px",
+      }}
+      onAccept={() => {
+        console.log("User accepted cookies");
+      }}
+    >
+      We use cookies to enhance your experience. You can read more in our{" "}
+      <a
+        href="/privacypolicy"
+        style={{
+          textDecoration: "underline",
+          color: "white",
+          fontWeight: "bold",
+        }}
+      >
+        Privacy Policy
+      </a>
+      .
+    </CookieConsent>
       </div>
     </AuthProvider>
   );
