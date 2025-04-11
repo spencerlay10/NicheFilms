@@ -35,8 +35,16 @@ builder.Services.AddAuthentication(options =>
 // Claims
 builder.Services.Configure<IdentityOptions>(options =>
 {
+    // Claims setup (keep this!)
     options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
     options.ClaimsIdentity.UserNameClaimType = ClaimTypes.Email;
+
+    // Password policy: only enforce length
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 12;
 });
 
 // Fix email not appearing in ClaimsPrincipal
