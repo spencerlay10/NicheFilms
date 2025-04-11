@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { API_BASE_URL } from "../api/config";
+import Cookies from "js-cookie";
 
 const CreateAccount: React.FC = () => {
   const navigate = useNavigate();
@@ -38,10 +39,18 @@ const CreateAccount: React.FC = () => {
     return pwd.length > 12;
   };
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
-
+  
+    // ✅ Block if user hasn't accepted cookies
+    const consent = Cookies.get("gdprConsent");
+    if (consent !== "true") {
+      setError("Please accept cookies to create an account.");
+      return;
+    }
+  
     if (!email || !password || !confirmPassword) {
       setError("Please fill in all fields.");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -60,7 +69,7 @@ const CreateAccount: React.FC = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
-
+  
         if (response.ok) {
           setSuccess("Account created successfully! Redirecting to login...");
           setEmail("");
@@ -79,6 +88,7 @@ const CreateAccount: React.FC = () => {
       }
     }
   };
+  
 
   return (
     <div

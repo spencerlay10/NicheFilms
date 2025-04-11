@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../api/config";
 import Footer_Privacy_Policy_Homepage from "../components/Footer_Privacy_Policy_Homepage";
 import { useAuth } from "../context/AuthContext";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -14,17 +15,25 @@ const Login = () => {
   const navigate = useNavigate();
   const { refreshUser } = useAuth();
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
+  
+    // ✅ Require cookie consent before logging in
+    const consent = Cookies.get("gdprConsent");
+    if (consent !== "true") {
+      setError("Please accept cookies to log in.");
+      return;
+    }
+  
     if (!email || !password) {
       setError("Please fill in all fields.");
       return;
     }
-
+  
     const loginUrl = `${API_BASE_URL}/login?useCookies=true&useSessionCookies=false`;
-
+  
     try {
       const response = await fetch(loginUrl, {
         method: "POST",
@@ -32,33 +41,31 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
+  
       let data = null;
       const contentLength = response.headers.get("content-length");
       if (contentLength && parseInt(contentLength, 10) > 0) {
         data = await response.json();
       }
-
+  
       if (!response.ok) {
         throw new Error(data?.message || "Invalid email or password.");
       }
-
-      // ✅ Refresh the AuthContext so that AdminRoute has correct user
-      await refreshUser();
-
-      // 🕐 Wait a tick before navigating to ensure AuthContext updates
+  
+      await refreshUser(); // ✅ Update AuthContext
+  
       setTimeout(async () => {
         const meResponse = await fetch(`${API_BASE_URL}/me`, {
           method: "GET",
           credentials: "include",
         });
-
+  
         if (meResponse.ok) {
           const user = await meResponse.json();
           console.log("🔁 Fallback fetched user info:", user);
-
+  
           const userId = user.id;
-
+  
           if (user.roles?.includes("Administrator")) {
             navigate("/admin");
           } else {
@@ -67,11 +74,12 @@ const Login = () => {
         } else {
           throw new Error("Could not fetch user info.");
         }
-      }, 100); // allow time for context to update
+      }, 100);
     } catch (error: any) {
       setError(error.message || "Error logging in.");
     }
   };
+  
 
   const signInButtonStyle = {
     width: "100%",
