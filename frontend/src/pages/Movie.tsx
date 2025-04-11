@@ -21,6 +21,8 @@ const Movie: React.FC = () => {
 
   const navigate = useNavigate();
 
+  // Get all movies
+
   useEffect(() => {
     fetchMovies()
       .then((data) => setMovies(data || []))

@@ -12,6 +12,9 @@ const Login = () => {
   const [hoveredSignIn, setHoveredSignIn] = useState<boolean>(false);
   const [hoveredBack, setHoveredBack] = useState<boolean>(false);
 
+  const [loginAttempts, setLoginAttempts] = useState<number>(0); // 🔐 Track login attempts
+  const [isLocked, setIsLocked] = useState<boolean>(false); // 🔐 Lock state
+
   const navigate = useNavigate();
   const { refreshUser } = useAuth();
 
@@ -31,7 +34,12 @@ const Login = () => {
       setError("Please fill in all fields.");
       return;
     }
-  
+
+    if (isLocked) {
+      setError("Too many failed attempts. Try again in 30 seconds."); // 🔐 Lock message
+      return;
+    }
+
     const loginUrl = `${API_BASE_URL}/login?useCookies=true&useSessionCookies=false`;
   
     try {
@@ -49,6 +57,16 @@ const Login = () => {
       }
   
       if (!response.ok) {
+        setLoginAttempts((prev) => prev + 1); // 🔐 Increment attempts
+
+        if (loginAttempts + 1 >= 5) {
+          setIsLocked(true);
+          setTimeout(() => {
+            setLoginAttempts(0);
+            setIsLocked(false);
+          }, 30 * 1000); // 🔐 30 second cooldown
+        }
+
         throw new Error(data?.message || "Invalid email or password.");
       }
   

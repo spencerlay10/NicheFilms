@@ -4,6 +4,7 @@ import { Movie } from "../types/Movie";
 import { fetchMovies } from "../api/MovieAPI";
 import { Search } from "lucide-react";
 
+//Search component to search all movies in a search bar based on letters
 const MovieSearch: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,6 +12,7 @@ const MovieSearch: React.FC = () => {
   const [filtered, setFiltered] = useState<Movie[]>([]);
   const navigate = useNavigate();
 
+  //Fetches all movies
   useEffect(() => {
     fetchMovies().then(setMovies).catch(console.error);
   }, []);

@@ -4,10 +4,12 @@ import "./Header.css";
 import Logout from "./Logout";
 import logo from "../assets/CNICHE.png";
 
+// A different Header for the admin page. This one includes a button that routes back to the main Movie view.
 interface HeaderProps {
   username: string;
   userId: number;
 }
+
 
 const Header = ({ username, userId }: HeaderProps) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);

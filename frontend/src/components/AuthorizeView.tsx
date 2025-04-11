@@ -1,7 +1,10 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { API_BASE_URL } from '../api/config';
 
 const UserContext = createContext<User | null>(null);
+
+// Makes sure the user is authorized before letting them into the view
 
 interface User {
   email: string;
@@ -43,7 +46,7 @@ function AuthorizeView(props: { children: React.ReactNode }) {
       }
     }
 
-    fetchWithRetry('https://nichemovies-backend-byaza8g5hffjezf4.eastus-01.azurewebsites.net/pingauth', {
+    fetchWithRetry(`${API_BASE_URL}/pingauth`, {
       method: 'GET',
       credentials: 'include',
     });

@@ -25,6 +25,7 @@ const CreateAccount: React.FC = () => {
     if (name === "confirmPassword") setConfirmPassword(value);
   };
 
+  // Checks if password is greater than 12
   const updatePasswordStrength = (pwd: string) => {
     if (pwd.length < 8) {
       setPasswordStrength("Weak");
@@ -69,7 +70,7 @@ const CreateAccount: React.FC = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
-  
+        // On succesful login
         if (response.ok) {
           setSuccess("Account created successfully! Redirecting to login...");
           setEmail("");

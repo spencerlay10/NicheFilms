@@ -12,6 +12,8 @@ interface HeaderProps {
   userId: number;
 }
 
+// Header that can be displayed once logged in
+
 const Header = ({ username, userId }: HeaderProps) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
