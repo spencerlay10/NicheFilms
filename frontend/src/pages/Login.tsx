@@ -43,29 +43,31 @@ const Login = () => {
         throw new Error(data?.message || "Invalid email or password.");
       }
 
-      // ✅ Refresh context with latest user info
+      // ✅ Refresh the AuthContext so that AdminRoute has correct user
       await refreshUser();
 
-      // ✅ You can skip this fetch if you want to just use context.user instead
-      const meResponse = await fetch(`${API_BASE_URL}/me`, {
-        method: "GET",
-        credentials: "include",
-      });
+      // 🕐 Wait a tick before navigating to ensure AuthContext updates
+      setTimeout(async () => {
+        const meResponse = await fetch(`${API_BASE_URL}/me`, {
+          method: "GET",
+          credentials: "include",
+        });
 
-      if (meResponse.ok) {
-        const user = await meResponse.json();
-        console.log("User info:", user);
+        if (meResponse.ok) {
+          const user = await meResponse.json();
+          console.log("🔁 Fallback fetched user info:", user);
 
-        const userId = user.id;
+          const userId = user.id;
 
-        if (user.roles?.includes("Administrator")) {
-          navigate("/admin");
+          if (user.roles?.includes("Administrator")) {
+            navigate("/admin");
+          } else {
+            navigate(`/movies/${userId}`);
+          }
         } else {
-          navigate(`/movies/${userId}`);
+          throw new Error("Could not fetch user info.");
         }
-      } else {
-        throw new Error("Could not fetch user info.");
-      }
+      }, 100); // allow time for context to update
     } catch (error: any) {
       setError(error.message || "Error logging in.");
     }
